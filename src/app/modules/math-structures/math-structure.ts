@@ -1,7 +1,7 @@
-abstract class MathStructure{
+abstract class MathStruct{
     abstract toTex(): string;
-    abstract isEqual(other: MathStructure): boolean;
-    abstract copy(): MathStructure
+    abstract isEqual(other: MathStruct): boolean;
+    abstract copy(): MathStruct
 }
 
-abstract class Multiplier extends MathStructure {}
+abstract class Multiplier extends MathStruct {}

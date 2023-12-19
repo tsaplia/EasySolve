@@ -1,4 +1,4 @@
-class Func extends MathStructure {
+class Func extends Multiplier {
     name: string;
     content: Expression;
     constructor(name: string, content: Expression) {

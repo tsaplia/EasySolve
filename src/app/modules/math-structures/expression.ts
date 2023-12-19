@@ -52,7 +52,7 @@ class Expression extends Multiplier{
         return modified;
     }
 
-    static wrap(struct: MathStructure, sign: '+' | '-' = "+"): Expression {
+    static wrap(struct: Multiplier | Term, sign: '+' | '-' = "+"): Expression {
         if (struct instanceof Term) {
             return new Expression([struct]);
         }

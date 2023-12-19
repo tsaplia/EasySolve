@@ -1,4 +1,4 @@
-class Exponent extends MathStructure {
+class Exponent extends Multiplier {
     base: Multiplier
     exponent: Expression
     constructor(base: Multiplier, exponent: Expression) {
@@ -34,7 +34,7 @@ class Exponent extends MathStructure {
         return new Exponent(this.base.copy(), this.exponent.copy());
     }
 
-    static getExponent(structure: MathStructure): [MathStructure, Expression] {
+    static getExponent(structure: Multiplier): [Multiplier, Expression] {
         if (structure instanceof Exponent) {
             return [structure.base, structure.exponent];
         }

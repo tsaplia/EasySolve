@@ -1,4 +1,4 @@
-class Frac extends MathStructure {
+class Frac extends Multiplier {
     numerator: Term;
     denomerator: Term;
     constructor(numerator: Term, denomerator: Term) {

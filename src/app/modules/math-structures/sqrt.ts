@@ -1,4 +1,4 @@
-class Sqrt extends MathStructure {
+class Sqrt extends Multiplier {
     content: Multiplier;
     root: Expression
     constructor(content: Multiplier, root: Expression = Expression.wrap(new Num(2))) {
