@@ -1,4 +1,4 @@
-class Formula extends MathStructure {
+class Formula extends MathStruct {
     equalityParts: Expression[];
     constructor(equalityParts:Expression[]) {
         super();
@@ -17,7 +17,7 @@ class Formula extends MathStructure {
         return new Formula(this.equalityParts.map((part) => part.copy()));
     }
 
-    isEqual(other: MathStructure): boolean {
+    isEqual(other: MathStruct): boolean {
         if (!(other instanceof Formula)) return false;
         if (this.equalityParts.length != other.equalityParts.length) return false;
 

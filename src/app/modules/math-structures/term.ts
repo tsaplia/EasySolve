@@ -1,4 +1,4 @@
-class Term extends MathStructure {
+class Term extends MathStruct {
     sign: "+" | "-";
     content: Multiplier[];
     constructor(content: Multiplier[], sign: '+' | '-' = '+') {

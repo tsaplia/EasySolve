@@ -1,4 +1,4 @@
-class Num extends MathStructure {
+class Num extends Multiplier {
     value: number;
     constructor(number: number | string) {
         super();
