@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
 import { FormsModule } from '@angular/forms';
-// import { AlertModule } from 'ngx-bootstrap'
 
 @NgModule({
   declarations: [
@@ -15,8 +14,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    // AlertModule.forRoot(),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,19 +1,5 @@
 // !!: move to another file
-const availibleLetters = [
-    "alpha", "nu", "beta", "xi", "Xi", "gamma", "Gamma", "delta", "Delta", "pi", "Pi", "epsilon", "rho", "varrho",
-    "zeta", "sigma", "Sigma", "eta", "tau", "theta", "Theta", "upsilon", "Upsilon", "iota", "phi", "Phi", "kappa",
-    "chi", "lambda", "Lambda", "psi", "Psi", "mu", "omega", "Omega",
-];
-
-const availibleMathFunc = {
-    "sin": Math.sin, 
-    "cos":Math.cos, 
-    "tan": Math.tan, 
-    "cot": (num: number)=>1/Math.tan(num),
-    "arcsin": Math.asin, 
-    "arccos":Math.acos, 
-    "arctan":Math.atan
-}
+import { availibleLetters, availibleMathFunc } from "../../configs/config";
 
 class IterStr {
     str: string;
