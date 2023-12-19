@@ -1,0 +1,16 @@
+@import "bootstrap";
+
+.btn-row > button {
+  margin: 0px 10px;
+  font-family: monospace;
+}
+#body {
+  min-height: 200px;
+  font-family: monospace;
+}
+#body > input{
+  border: none;
+  background: transparent;
+  outline: 0;
+  @extend .w-100
+}

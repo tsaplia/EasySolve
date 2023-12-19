@@ -1,0 +1,21 @@
+<div class="h-100">
+  <div class="h-100 d-flex justify-content-center bg-light">
+    <div class="col-8"> 
+      <div class="w-100 mt-5" id="head">
+        <div class="btn-row" id="btn-row">
+          <button type="button" class="btn btn-primary">Work with actions</button>
+          <button type="button" class="btn btn-primary">Clear</button>
+          <button type="button" class="btn btn-primary">Dictionary</button>
+        </div>
+      </div>
+      <div class="w-100 mt-3 rounded bg-white p-3" id="body">
+        Start here! <br>
+        <ng-container>
+          <input type="text" [(ngModel)]="text">
+
+        </ng-container>
+        {{text}}
+      </div>
+    </div>
+  </div>
+</div>
