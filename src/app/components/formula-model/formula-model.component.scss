@@ -1,0 +1,35 @@
+@import "bootstrap";
+
+.all {
+ width: 100vh;
+ @extend .bg-light;
+}
+
+.head {
+  padding: 10px 0px 0px 30px;
+  //background-color:#dbdbdb;
+  @extend .bg-primary;
+  color: white;
+  font-family: monospace;
+}
+
+.body {
+  @extend .mt-4;
+  @extend .p-2;
+}
+
+.finput {
+  width: 100%;
+
+  font-family: monospace;
+  font-size: 22px;
+
+  border: none;
+  border-bottom: 2px solid #777777;
+  background: transparent;
+  outline: 0;
+}
+
+.finput:focus {
+  background-color: #0d6dfd10;
+}
