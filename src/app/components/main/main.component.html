@@ -1,37 +1,27 @@
-<!-- <script>
-  const mqConfig = {
-    subSubsRequireOperand: true,
-    maxDepth: 4,
-    autoOperatorNames: Object.keys(avai)
-  }
-
-</script> -->
-
-<!-- <script type="text/x-mathjax-config">
-  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-</script>
-<script type="text/javascript" async
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
-</script> -->
 <div class="h-100">
   <div class="h-100 d-flex justify-content-center bg-light">
     <div class="col-8"> 
       <div class="w-100 mt-5" id="head">
         <div class="btn-row" id="btn-row">
-          <button type="button" class="btn btn-primary" (click)="OpenAddFunction()">Add furmula</button>
-          <button type="button" class="btn btn-primary">Clear</button>
+          <button type="button" class="btn btn-primary" (click)="openAddFunction()">Add furmula</button>
+          <button type="button" class="btn btn-primary" (click)="clear()">Clear</button>
           <button type="button" class="btn btn-primary">Dictionary</button>
         </div>
       </div>
       <div class="w-100 mt-3 rounded bg-white p-3" id="body">
         Start here! <br>
-        <ng-container>
-          <input type="text" [(ngModel)]="text">
-
-        </ng-container>
-        {{text}}
+        <div #render>
+          <ng-container *ngFor="let line of  lines; index as i">
+            <div [id]="i">
+              {{line}}
+            </div>
+          </ng-container>
+        </div>
         <br>
-        \(px^2 + qx + r = 0\)
+        <div>
+          \(px^2 + qx + r = 0\)
+        </div>
+
       </div>
     </div>
   </div>
