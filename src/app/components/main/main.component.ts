@@ -16,30 +16,58 @@ export class MainComponent implements OnInit {
   @ViewChild("render") qqq: ElementRef;
   //@ViewChild("math-field") mathFieldSpan: ElementRef;
   
-  text: string = "";
+  text: string = "$$ px^2 + qx + r = 0 $$";
   lines: string[] = [];
   mathField: any;
+
+  selectionFlag: boolean = false;
   
-  constructor(private dialog: MatDialog, private renderer: Renderer2, private cdRef: ChangeDetectorRef, private MQ: MathQuillService) {}
+  constructor(private dialog: MatDialog, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    //this.mathField = this.MQ.createMathField(document.getElementById("math-field") as HTMLSpanElement);
-    //mathField.latex() - get input latex
-    //MathJax.typeset([document.getElementById("render")]);
   }
   
   openAddFunction() {
     var formulaDialog = this.dialog.open(FormulaModelComponent);
     formulaDialog.afterClosed().subscribe(resp => {
-      if(!resp) return;
+      if(!resp || resp.formula == '$$') return;
       this.lines.push(resp.formula);
       this.cdRef.detectChanges();
       MathJax.typeset([document.getElementById((this.lines.length-1).toString())]);
+      MathJax.typeset([document.getElementById("test")]);
     });
   }
 
   clear() {
     this.lines = [];
     this.cdRef.detectChanges();
+  }
+
+  log(text: any) {
+    if(!this.selectionFlag) return;
+    else {
+    //  console.log(text);
+     if(text.srcElement.localName != "mjx-math")
+      text.srcElement.style.backgroundColor = "#bcf3fa" 
+    }
+     // if(text.type == 'mouseover')
+    //   text.srcElement.style.backgroundColor = "#bcf3fa"
+    // else
+    //   text.srcElement.style.backgroundColor = ""
+    
+    
+    
+      this.cdRef.detectChanges
+
+
+    // console.log(text.srcElement.style.backgroundColor);
+  }
+
+  click(text: any) {
+    if(text == 'mousedown') {
+      this.selectionFlag = true;
+    }
+    else this.selectionFlag = false;
+    console.log(text)
   }
 }

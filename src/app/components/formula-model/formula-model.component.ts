@@ -14,7 +14,6 @@ export class FormulaModelComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<FormulaModelComponent>, private MQ: MathQuillService) {}
   
   ngOnInit(): void {
-    console.log(document.getElementById("math-field") )
     this.mathField = this.MQ.createMathField(document.getElementById("math-field") as HTMLSpanElement);
   }
 
