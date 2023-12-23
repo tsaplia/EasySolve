@@ -1,0 +1,78 @@
+[33mcommit a2672cdca1e75cc2bd2537d40206276735d35fd1[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: TeaDuke <maxchernx@gmail.com>
+Date:   Sat Dec 23 15:49:28 2023 +0200
+
+    Mathjax work, array of formulas
+
+[33mcommit a7fff8d2a83bacb580971145c0aebae8e22222ca[m
+Author: TeaDuke <maxchernx@gmail.com>
+Date:   Sat Dec 23 14:06:09 2023 +0200
+
+    Add mathjax
+
+[33mcommit 9c5ff6b603aab04f7ef1d87ae4a7f8f67ad9d947[m
+Author: TeaDuke <maxchernx@gmail.com>
+Date:   Fri Dec 22 19:06:24 2023 +0200
+
+    Add formula modal window, mathjax is bullshit
+
+[33mcommit f53c77a95ea6db1538dd760e421485f63148fb35[m
+Author: TeaDuke <maxchernx@gmail.com>
+Date:   Tue Dec 19 19:37:27 2023 +0200
+
+    Add MathJax for real
+
+[33mcommit 1507e10d808996a37ef281909bbe11e8186ad35e[m
+Author: TeaDuke <maxchernx@gmail.com>
+Date:   Tue Dec 19 18:49:44 2023 +0200
+
+    Add mathjax
+
+[33mcommit ab26b9ce9e4c308c3fbf0958b7bbbaa76af02d39[m
+Merge: 7209097 d55f97a
+Author: TeaDuke <maxchernx@gmail.com>
+Date:   Tue Dec 19 18:37:45 2023 +0200
+
+    Merge branch 'main' of https://github.com/tsaplia/EasySolve
+
+[33mcommit 72090975e278c06ef5fcb040b25f3688be588850[m
+Author: TeaDuke <maxchernx@gmail.com>
+Date:   Tue Dec 19 18:37:41 2023 +0200
+
+    Add  config
+
+[33mcommit d55f97ae42315c06c954ef73a72f360b15619e7c[m
+Author: tsaplia <yunnakheifets@gmail.com>
+Date:   Tue Dec 19 17:16:53 2023 +0100
+
+    Fixed bug  with MathStructure class
+
+[33mcommit f010c016feade1402b85b1568ef6a9670167e235[m
+Author: tsaplia <yunnakheifets@gmail.com>
+Date:   Tue Dec 19 15:36:46 2023 +0100
+
+    Added math structure
+
+[33mcommit 142c011932769f57e3616c3821bced5b4ddfee40[m
+Author: TeaDuke <maxchernx@gmail.com>
+Date:   Tue Dec 19 15:31:01 2023 +0200
+
+    Start do design for app, add new font
+
+[33mcommit 6a0c1989edffc2af1dc3f12fb2101e82312383bb[m
+Author: TeaDuke <maxchernx@gmail.com>
+Date:   Tue Dec 19 11:46:51 2023 +0200
+
+    test commit
+
+[33mcommit 6df4b9fda8ee31443db2e70387709df42dc799ea[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: TeaDuke <maxchernx@gmail.com>
+Date:   Tue Dec 19 11:44:57 2023 +0200
+
+    Add folders
+
+[33mcommit 6e98c9afe32ea03b6242d96a61a40969821d9082[m
+Author: TeaDuke <maxchernx@gmail.com>
+Date:   Mon Dec 18 19:10:42 2023 +0200
+
+    initial commit

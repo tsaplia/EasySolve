@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild 
 import { MatDialog } from "@angular/material/dialog";
 import { FormulaModelComponent } from "../formula-model/formula-model.component";
 import { timeInterval } from "rxjs";
+import { MathQuillService } from "src/app/services/mathquill.service";
 
 declare let MathJax: any;
 
@@ -13,13 +14,17 @@ declare let MathJax: any;
 })
 export class MainComponent implements OnInit {
   @ViewChild("render") qqq: ElementRef;
+  //@ViewChild("math-field") mathFieldSpan: ElementRef;
   
   text: string = "";
   lines: string[] = [];
+  mathField: any;
   
-  constructor(private dialog: MatDialog, private renderer: Renderer2, private cdRef: ChangeDetectorRef) {}
+  constructor(private dialog: MatDialog, private renderer: Renderer2, private cdRef: ChangeDetectorRef, private MQ: MathQuillService) {}
 
   ngOnInit(): void {
+    //this.mathField = this.MQ.createMathField(document.getElementById("math-field") as HTMLSpanElement);
+    //mathField.latex() - get input latex
     //MathJax.typeset([document.getElementById("render")]);
   }
   
