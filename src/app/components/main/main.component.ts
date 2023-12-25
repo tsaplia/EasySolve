@@ -21,6 +21,7 @@ export class MainComponent implements OnInit {
   mathField: any;
 
   selectionFlag: boolean = false;
+  clearFlag: boolean = false;
   
   constructor(private dialog: MatDialog, private cdRef: ChangeDetectorRef) {}
 
@@ -43,31 +44,35 @@ export class MainComponent implements OnInit {
     this.cdRef.detectChanges();
   }
 
-  log(text: any) {
-    if(!this.selectionFlag) return;
-    else {
-    //  console.log(text);
-     if(text.srcElement.localName != "mjx-math")
-      text.srcElement.style.backgroundColor = "#bcf3fa" 
+  selection(text: any) {
+    if((!this.selectionFlag && !this.clearFlag) || (this.selectionFlag && this.clearFlag)) return;
+
+    if(this.selectionFlag) {
+      if(text.srcElement.localName != "mjx-math" && text.srcElement.localName != "div")
+        text.srcElement.style.backgroundColor = "#bcf3fa"; 
     }
-     // if(text.type == 'mouseover')
-    //   text.srcElement.style.backgroundColor = "#bcf3fa"
-    // else
-    //   text.srcElement.style.backgroundColor = ""
-    
-    
-    
-      this.cdRef.detectChanges
-
-
-    // console.log(text.srcElement.style.backgroundColor);
+    else {
+      text.srcElement.style.backgroundColor = "";
+    }
   }
 
-  click(text: any) {
-    if(text == 'mousedown') {
-      this.selectionFlag = true;
+  clickSelection(text: any) {
+    if(text.type == 'mousedown') {
+      if(text.which == 1) {
+        this.selectionFlag = true;
+        if(text.srcElement.localName != "mjx-math" && text.srcElement.localName != "div")
+          text.srcElement.style.backgroundColor = "#bcf3fa"; 
+      }
+      else { // must be which = 3 (rightClick)
+        this.clearFlag = true;
+        text.srcElement.style.backgroundColor = "";
+      }
     }
-    else this.selectionFlag = false;
-    console.log(text)
+    else {
+      if(text.which == 1)
+        this.selectionFlag = false;
+      else // must be which = 3 (rightClick)
+        this.clearFlag = false;
+    }
   }
 }
