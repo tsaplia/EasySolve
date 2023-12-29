@@ -22,6 +22,7 @@ export class MainComponent implements OnInit {
 
   selectionFlag: boolean = false;
   clearFlag: boolean = false;
+  dictionaryFlag: boolean = false;
   
   constructor(private dialog: MatDialog, private cdRef: ChangeDetectorRef) {}
 
@@ -33,9 +34,7 @@ export class MainComponent implements OnInit {
     formulaDialog.afterClosed().subscribe(resp => {
       if(!resp || resp.formula == '$$') return;
       this.lines.push(resp.formula);
-      this.cdRef.detectChanges();
-      MathJax.typeset([document.getElementById((this.lines.length-1).toString())]);
-      MathJax.typeset([document.getElementById("test")]);
+      this.updateMJ();
     });
   }
 
@@ -43,6 +42,25 @@ export class MainComponent implements OnInit {
     this.lines = [];
     this.cdRef.detectChanges();
   }
+
+  dictionaryToggle() {
+    this.dictionaryFlag = !this.dictionaryFlag;
+  }
+
+  copyFun(index: any) {
+    this.lines.push(this.lines[index]);
+    this.updateMJ();
+  }
+
+  updateMJ() {
+    this.cdRef.detectChanges();
+    MathJax.typeset([document.getElementById((this.lines.length-1).toString())]);
+    MathJax.typeset([document.getElementById("dictionary")]);
+    MathJax.typeset([document.getElementById("test")]);
+  }
+
+
+
 
   selection(text: any) {
     if((!this.selectionFlag && !this.clearFlag) || (this.selectionFlag && this.clearFlag)) return;

@@ -1,11 +1,11 @@
 <div class="h-100">
-  <div class="h-100 d-flex justify-content-center bg-light">
-    <div class="col-8"> 
+  <div class="h-100 d-flex bg-light">
+    <div class="col-8" [ngClass]="{'offset-2': !dictionaryFlag, 'offset-1': dictionaryFlag}"> 
       <div class="w-100 mt-5" id="head">
         <div class="btn-row" id="btn-row">
           <button type="button" class="btn btn-primary" (click)="openAddFunction()">Add furmula</button>
           <button type="button" class="btn btn-primary" (click)="clear()">Clear</button>
-          <button type="button" class="btn btn-primary">Dictionary</button>
+          <button type="button" class="btn btn-primary" (click)="dictionaryToggle()">Dictionary</button>
         </div>
       </div>
       <div class="w-100 mt-3 rounded bg-white p-3" id="body">
@@ -24,6 +24,17 @@
           </div>
         <!-- <div><span id="math-field"></span></div> -->
       </div>
+    </div>
+    <div id="dictionary" *ngIf="dictionaryFlag" class="col-3 h-100 p-2">
+      <div class="bg-danger h-100 rounded">
+        Dictionary
+        <ng-container *ngFor="let line of  lines; index as i">
+            <div [id]="i" (click)="copyFun(i)">
+              {{line}}
+            </div>
+          </ng-container>
+      </div>
+      
     </div>
   </div>
 </div>
