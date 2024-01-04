@@ -2,7 +2,8 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild 
 import { MatDialog } from "@angular/material/dialog";
 import { FormulaModelComponent } from "../formula-model/formula-model.component";
 import { timeInterval } from "rxjs";
-import { MathQuillService } from "src/app/services/mathquill.service";
+import { formulaFromTeX, templateFromTeX } from "src/app/modules/math-actions/from-tex";
+import { useTemplate } from "src/app/modules/math-actions/templete-functions";
 
 declare let MathJax: any;
 
@@ -14,8 +15,11 @@ declare let MathJax: any;
 })
 export class MainComponent implements OnInit {
   @ViewChild("render") qqq: ElementRef;
-  //@ViewChild("math-field") mathFieldSpan: ElementRef;
-  
+  // tamplate check
+  // template: string = '\\sin(2[x]) => \\sin([x])\\cos([x])';
+  // formula: string = '\\sin(2\\pi)';
+  // result: string = '';
+
   text: string = "$$ px^2 + qx + r = 0 $$";
   lines: string[] = [];
   mathField: any;
@@ -27,6 +31,9 @@ export class MainComponent implements OnInit {
   constructor(private dialog: MatDialog, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+    // let t = templateFromTeX(this.template);
+    // let f = formulaFromTeX(this.formula);
+    // this.result = useTemplate(t, f)?.toTex() || 'null';
   }
   
   openAddFunction() {

@@ -1,4 +1,6 @@
-class Exponent extends Multiplier {
+import { Multiplier, Expression, Num, MatchResult } from "./all-structures";
+
+export class Exponent extends Multiplier {
     base: Multiplier
     exponent: Expression
     constructor(base: Multiplier, exponent: Expression) {
@@ -28,6 +30,19 @@ class Exponent extends Multiplier {
 
         return ((!this.exponent && !other.exponent) || this.exponent.isEqual(other.exponent)) &&
             this.base.isEqual(other.base);
+    }
+
+    match(other: Multiplier): MatchResult | null {
+        if (!(other instanceof Exponent)) return null;
+        const baseMatch = this.base.match(other.base);
+        if(!baseMatch) return null;
+        const exponentMatch = this.exponent.match(other.exponent);
+        if(!exponentMatch || !baseMatch.extend(exponentMatch)) return null;
+        return baseMatch;
+    }
+
+    substitute(match: MatchResult): Exponent {
+        return new Exponent(this.base.substitute(match), this.exponent.substitute(match));
     }
 
     copy(): Exponent {

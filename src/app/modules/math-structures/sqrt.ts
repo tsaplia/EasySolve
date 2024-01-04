@@ -1,4 +1,6 @@
-class Sqrt extends Multiplier {
+import { Multiplier, MatchResult, Expression, Num } from "./all-structures";
+
+export class Sqrt extends Multiplier {
     content: Multiplier;
     root: Expression
     constructor(content: Multiplier, root: Expression = Expression.wrap(new Num(2))) {
@@ -17,6 +19,19 @@ class Sqrt extends Multiplier {
         if (!(other instanceof Sqrt)) return false;
 
         return this.root.isEqual(other.root) && this.content.isEqual(other.content);
+    }
+
+    match(other: Multiplier): MatchResult | null {
+        if(!(other instanceof Sqrt)) return null;
+        const contentMatch = this.content.match(other.content);
+        if(!contentMatch) return null;
+        const rootMatch = this.root.match(other.root);
+        if(!rootMatch || !contentMatch.extend(rootMatch)) return null;
+        return contentMatch;
+    }
+
+    substitute(match: MatchResult): Sqrt {
+        return new Sqrt(this.content.substitute(match), this.root.substitute(match));
     }
 
     copy(): Sqrt {

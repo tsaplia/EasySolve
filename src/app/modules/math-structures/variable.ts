@@ -1,4 +1,6 @@
-class Variable extends Multiplier {
+import { Multiplier, MatchResult } from "./all-structures";
+
+export class Variable extends Multiplier {
     name: string;
     index: string | null;
     vector: boolean;
@@ -27,6 +29,14 @@ class Variable extends Multiplier {
         if (!(other instanceof Variable)) return false;
 
         return this.name === other.name && this.vector==other.vector && this.index === other.index && this.primeCount==other.primeCount;
+    }
+
+    match(other: Multiplier): MatchResult | null {
+        return this.isEqual(other) ? new MatchResult() : null;
+    }
+
+    substitute(match: MatchResult): Variable {
+        return this.copy();
     }
 
     copy(): Variable {

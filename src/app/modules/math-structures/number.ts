@@ -1,4 +1,6 @@
-class Num extends Multiplier {
+import { Multiplier, MathStruct, MatchResult } from "./all-structures";
+
+export class Num extends Multiplier {
     value: number;
     constructor(number: number | string) {
         super();
@@ -18,6 +20,14 @@ class Num extends Multiplier {
         if (!(other instanceof Num)) return false;
 
         return this.value === other.value;
+    }
+
+    match(other: Multiplier): MatchResult | null {
+        return this.isEqual(other) ? new MatchResult() : null;
+    }
+
+    override substitute(match: MatchResult): MathStruct {
+        return this.copy();
     }
 
     copy(): Num {

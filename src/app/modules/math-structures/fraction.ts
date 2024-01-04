@@ -1,4 +1,6 @@
-class Frac extends Multiplier {
+import { Multiplier, Term, Expression, MatchResult } from "./all-structures";
+
+export class Frac extends Multiplier {
     numerator: Term;
     denomerator: Term;
     constructor(numerator: Term, denomerator: Term) {
@@ -28,6 +30,18 @@ class Frac extends Multiplier {
         return this.numerator.isEqual(other.numerator) && this.denomerator.isEqual(other.denomerator);
     }
 
+    match(other: Multiplier): MatchResult | null {
+        if (!(other instanceof Frac)) return null;
+        let numMatch = this.numerator.match(other.numerator);
+        if (!numMatch) return null;
+        let denomMatch = this.denomerator.match(other.denomerator);
+        if(!denomMatch || !numMatch.extend(denomMatch)) return null;
+        return numMatch;
+    }
+
+    substitute(match: MatchResult): Frac {
+        return new Frac(this.numerator.substitute(match), this.denomerator.substitute(match));
+    }
 
     copy(): Frac {
         return new Frac(this.numerator.copy(), this.denomerator.copy());

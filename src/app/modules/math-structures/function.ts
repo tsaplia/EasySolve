@@ -1,4 +1,6 @@
-class Func extends Multiplier {
+import { Multiplier, Expression, MatchResult } from "./all-structures";
+
+export class Func extends Multiplier {
     name: string;
     content: Expression;
     constructor(name: string, content: Expression) {
@@ -15,6 +17,16 @@ class Func extends Multiplier {
         if (!(other instanceof Func)) return false;
 
         return this.name === other.name && this.content.isEqual(other.content);
+    }
+
+    match(other: Multiplier): MatchResult | null {
+        if(!(other instanceof Func)) return null;
+        if(this.name != other.name) return null;
+        return  this.content.match(other.content);
+    }
+
+    override substitute(match: MatchResult): Func {
+        return new Func(this.name, this.content.substitute(match));
     }
 
     copy(): Func {

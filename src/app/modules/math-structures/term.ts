@@ -1,4 +1,6 @@
-class Term extends MathStruct {
+import { MathStruct, Multiplier, Expression, MatchResult } from "./all-structures";
+
+export class Term extends MathStruct {
     sign: "+" | "-";
     content: Multiplier[];
     constructor(content: Multiplier[], sign: '+' | '-' = '+') {
@@ -19,7 +21,7 @@ class Term extends MathStruct {
                 str += this.content[i].toTex();
             }
         }
-        console.assert(this.content.length, "Empty term content");
+        console.assert(!!this.content.length, "Empty term content");
         return str;
     }
 
@@ -30,7 +32,7 @@ class Term extends MathStruct {
     isEqual(other: Term): boolean {
         if (this.sign != other.sign || !(other instanceof Term) ||
             this.content.length != other.content.length) return false;
-        // !!:attenion code deleted
+        // !!:attention code deleted
         for (let i = 0; i < this.content.length; i++) {
             if (!this.content[i].isEqual(other.content[i])) {
                 return false;
@@ -40,6 +42,21 @@ class Term extends MathStruct {
         return true;
     }
 
+    match(other: Multiplier): MatchResult | null {
+        if(!(other instanceof Term) || this.content.length != other.content.length) return null;
+        const result = new MatchResult();
+        for (let i = 0; i < this.content.length; i++) {
+            const match = this.content[i].match(other.content[i]);
+            if (!match || !result.extend(match)) return null;
+        }
+        return result;
+    }
+
+    substitute(match: MatchResult): Term {
+        return new Term(this.content.map((mult) => mult.substitute(match)), this.sign);
+    }
+
+    // !!: may be changed
     changeSign() {
         this.sign = this.sign == "+" ? "-" : "+";
     }

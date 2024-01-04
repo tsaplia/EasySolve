@@ -1,5 +1,5 @@
-// !!: move to another file
 import { availibleLetters, availibleMathFunc } from "../../configs/config";
+import { Formula, Template, Num, Expression, Term, TemplateVar, Multiplier, Variable, Frac, Func, Sqrt, Exponent } from '../math-structures/all-structures';
 
 class IterStr {
     str: string;
@@ -30,32 +30,12 @@ class IterStr {
     }
 }
 
-/**
- * @param {IterStr} itStr iterable string
- * @param {boolean} pm include signs "+", "-" or not
- * @return {boolean}
- */
-function _endCheck(itStr: IterStr, pm: boolean = true): boolean {
-    if (itStr.finished()) return true;
 
-    let breakers = ["}", "\\right)", "=", "]"];
-    if (pm) breakers.push("+", "-");
-
-    for (let pref of breakers) {
-        if (itStr.startsWith(pref)) return true;
-    }
-    return false;
+export function templateFromTeX(tex: string): Template {
+    let parts = tex.split("=>");
+    if(parts.length != 2) throw new Error("Incorrect template string");
+    return new Template(formulaFromTeX(parts[0]), formulaFromTeX(parts[1]));
 }
-
-/* Removes all \operatorname and \text */
-function deleteExtraBlocks(str: string): string {
-    let regex = /(\\operatorname|\\text){([^\\]*)}/g;
-    for (let match of str.matchAll(regex)) {
-        str = str.replace(match[0], "\\"+match[2]);
-    }
-    return str;
-}
-
 
 export function formulaFromTeX(str: string): Formula {
     str = deleteExtraBlocks(str);
@@ -70,42 +50,6 @@ export function formulaFromTeX(str: string): Formula {
     if (!equalityParts.length) throw new Error("Incorrect input string");
 
     return new Formula(equalityParts);
-}
-
-
-function multiplierFromTex(itStr: IterStr): Multiplier {
-    if (!itStr.finished() && itStr.cur == " ") itStr.add();
-    let newStruct: Multiplier;
-    if (itStr.startsWith("\\frac")) {
-        newStruct = fracFromTeX(itStr);
-    } else if (itStr.startsWith("\\sqrt")) {
-        newStruct = sqrtFromTeX(itStr);
-    } else if (itStr.startsWith("\\vec")) {
-        newStruct = vectorFromTex(itStr);
-    } else if (itStr.startsWith("\\left(")) {
-        newStruct = expressionFromTeX(itStr, true);
-    } else if (itStr.startsWith("\\")) {
-        newStruct = specialNameFromTeX(itStr);
-    } else if (!isNaN(Number(itStr.cur))) {
-        newStruct = numFromTeX(itStr);
-    } else if (itStr.cur.match(/[A-Za-z\wа-яА-Я]/i)) {
-        newStruct = latinVariableFromTeX(itStr);
-    } else throw new Error("Incorrect input string");
-
-    if (!itStr.finished() && itStr.cur == " ") itStr.add();
-    if (itStr.startsWith("'")) {
-        if(!(newStruct instanceof Variable)) throw new Error("Incorrect input string");
-        primeFromTeX(itStr, newStruct);
-    }
-    if (itStr.startsWith("_")) {
-        if(!(newStruct instanceof Variable)) throw new Error("Incorrect input string");
-        indexFromTeX(itStr, newStruct);
-    }
-    if (itStr.startsWith("^")) {
-        return exponentFromTeX(itStr, newStruct);
-    }
-    if (!itStr.finished() && itStr.cur == " ") itStr.add();
-    return newStruct;
 }
 
 
@@ -126,6 +70,44 @@ function expressionFromTeX(itStr: IterStr, _wrapped=false): Expression {
         else throw new Error("Incorrect input string");
     }
     return new Expression(content);
+}
+
+function multiplierFromTex(itStr: IterStr): Multiplier {
+    if (!itStr.finished() && itStr.cur == " ") itStr.add();
+    let newStruct: Multiplier;
+    if (itStr.startsWith("\\frac")) {
+        newStruct = fracFromTeX(itStr);
+    } else if (itStr.startsWith("\\sqrt")) {
+        newStruct = sqrtFromTeX(itStr);
+    } else if (itStr.startsWith("\\vec")) {
+        newStruct = vectorFromTex(itStr);
+    } else if (itStr.startsWith("\\left(")) {
+        newStruct = expressionFromTeX(itStr, true);
+    } else if (itStr.startsWith("\\")) {
+        newStruct = specialNameFromTeX(itStr);
+    } else if (!isNaN(Number(itStr.cur))) {
+        newStruct = numFromTeX(itStr);
+    } else if (itStr.cur.match(/[A-Za-z\wа-яА-Я]/i)) {
+        newStruct = latinVariableFromTeX(itStr);
+    } else if (itStr.cur == '[') {
+        newStruct = templateVarFromTeX(itStr);
+
+    }else throw new Error("Incorrect input string");
+
+    if (!itStr.finished() && itStr.cur == " ") itStr.add();
+    if (itStr.startsWith("'")) {
+        if(!(newStruct instanceof Variable)) throw new Error("Incorrect input string");
+        primeFromTeX(itStr, newStruct);
+    }
+    if (itStr.startsWith("_")) {
+        if(!(newStruct instanceof Variable)) throw new Error("Incorrect input string");
+        indexFromTeX(itStr, newStruct);
+    }
+    if (itStr.startsWith("^")) {
+        return exponentFromTeX(itStr, newStruct);
+    }
+    if (!itStr.finished() && itStr.cur == " ") itStr.add();
+    return newStruct;
 }
 
 
@@ -264,10 +246,6 @@ function numFromTeX(itStr: IterStr): Num {
     return new Num(itStr.str.slice(start, itStr.it));
 }
 
-/**
- * @param {IterStr} itStr
- * @return {Variable | Func}
- */
 function specialNameFromTeX(itStr: IterStr): Variable | Func {
     itStr.add();
     for (let name of availibleLetters) {
@@ -281,4 +259,35 @@ function specialNameFromTeX(itStr: IterStr): Variable | Func {
         return new Func(name, expressionFromTeX(itStr, true));
     }
     throw new Error("Incorrect input string");
+}
+
+function templateVarFromTeX(itStr: IterStr): TemplateVar {
+    itStr.add();
+    let start = itStr.it;
+    while (!itStr.finished() && itStr.cur.match(/[A-Za-z]/i)) itStr.add();
+    let name = itStr.str.slice(start, itStr.it);
+    if(!name || !itStr.startsWith("]")) throw new Error("Incorrect input string");
+    itStr.add();
+    return new TemplateVar(name);
+}
+
+function _endCheck(itStr: IterStr, pm: boolean = true): boolean {
+    if (itStr.finished()) return true;
+
+    let breakers = ["}", "\\right)", "=", "]"];
+    if (pm) breakers.push("+", "-");
+
+    for (let pref of breakers) {
+        if (itStr.startsWith(pref)) return true;
+    }
+    return false;
+}
+
+/* Removes all \operatorname and \text */
+function deleteExtraBlocks(str: string): string {
+    let regex = /(\\operatorname|\\text){([^\\]*)}/g;
+    for (let match of str.matchAll(regex)) {
+        str = str.replace(match[0], "\\"+match[2]);
+    }
+    return str;
 }

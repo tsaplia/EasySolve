@@ -1,4 +1,6 @@
-class Expression extends Multiplier{
+import { Multiplier, Term, MatchResult } from "./all-structures";
+
+export class Expression extends Multiplier{
     content: Term[]
     constructor(content: Term[]) {
         super();
@@ -15,7 +17,7 @@ class Expression extends Multiplier{
             str += this.content[i].toTex();
         }
 
-        console.assert(this.content.length, "Empty block content");
+        console.assert(!!this.content.length, "Empty block content");
 
         return str;
     }
@@ -32,6 +34,21 @@ class Expression extends Multiplier{
         }
 
         return true;
+    }
+
+    match(other: Multiplier): MatchResult | null {
+        if (!(other instanceof Expression) || this.content.length != other.content.length) return null;
+
+        const result = new MatchResult();
+        for (let i = 0; i < this.content.length; i++) {
+            const match = this.content[i].match(other.content[i]);
+            if (!match || !result.extend(match)) return null;
+        }
+        return result;
+    }
+
+    substitute(match: MatchResult): Expression {
+        return new Expression(this.content.map((term) => term.substitute(match)));
     }
 
     copy(): Expression {
