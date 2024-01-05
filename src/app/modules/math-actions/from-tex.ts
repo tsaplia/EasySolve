@@ -18,7 +18,7 @@ class IterStr {
     }
 
     startsWith(searchString: string) {
-        if (this.finished()) throw new Error("The string is ended");
+        if (this.finished()) return false;
         return this.str.startsWith(searchString, this.it);
     }
 
@@ -74,6 +74,7 @@ function expressionFromTeX(itStr: IterStr, _wrapped=false): Expression {
 
 function multiplierFromTex(itStr: IterStr): Multiplier {
     if (!itStr.finished() && itStr.cur == " ") itStr.add();
+    console.log(itStr.cur)
     let newStruct: Multiplier;
     if (itStr.startsWith("\\frac")) {
         newStruct = fracFromTeX(itStr);
