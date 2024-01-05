@@ -16,8 +16,10 @@ declare let MathJax: any;
 export class MainComponent implements OnInit {
   @ViewChild("render") qqq: ElementRef;
   // tamplate check
-  template: string = '\\sin \\left(2[x]\\right)=>\\sin \\left([x]\\right)\\cos \\left([x]\\right)';
+
   formula: string = '\\sin\\left(2\\pi\\right)';
+  template: string = '\\sin\\left(2x\\right)=>\\sin\\left(x\\right)\\cos\\left(x\\right)';
+
   result: string = '';
 
   text: string = "$$ px^2 + qx + r = 0 $$";

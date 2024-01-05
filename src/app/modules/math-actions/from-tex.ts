@@ -86,6 +86,7 @@ function expressionFromTeX(itStr: IterStr, _wrapped=false): Expression {
 
 function multiplierFromTex(itStr: IterStr): Multiplier {
     if (!itStr.finished() && itStr.cur == " ") itStr.add();
+    console.log(itStr.cur)
     let newStruct: Multiplier;
     if (itStr.startsWith("\\frac")) {
         newStruct = fracFromTeX(itStr);
