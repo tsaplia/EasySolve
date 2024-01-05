@@ -1,5 +1,17 @@
 import { availibleLetters, availibleMathFunc } from "../../configs/config";
-import { Formula, Template, Num, Expression, Term, TemplateVar, Multiplier, Variable, Frac, Func, Sqrt, Exponent } from '../math-structures/all-structures';
+import { Exponent } from "../math-structures/exponent";
+import { Expression } from "../math-structures/expression";
+import { Formula } from "../math-structures/formula";
+import { Frac } from "../math-structures/fraction";
+import { Func } from "../math-structures/function";
+import { Multiplier } from "../math-structures/math-structure";
+import { Num } from "../math-structures/number";
+import { Sqrt } from "../math-structures/sqrt";
+import { Template } from "../math-structures/template";
+import { TemplateVar } from "../math-structures/template-var";
+import { Term } from "../math-structures/term";
+import { Variable } from "../math-structures/variable";
+
 
 class IterStr {
     str: string;
@@ -18,7 +30,7 @@ class IterStr {
     }
 
     startsWith(searchString: string) {
-        if (this.finished()) throw new Error("The string is ended");
+        if (this.finished()) return false;
         return this.str.startsWith(searchString, this.it);
     }
 

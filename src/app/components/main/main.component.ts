@@ -16,8 +16,8 @@ declare let MathJax: any;
 export class MainComponent implements OnInit {
   @ViewChild("render") qqq: ElementRef;
   // tamplate check
-  template: string = '\\sin(2[x]) => \\sin([x])\\cos([x])';
-  formula: string = '\\sin(2\\pi)';
+  template: string = '\\sin \\left(2[x]\\right)=>\\sin \\left([x]\\right)\\cos \\left([x]\\right)';
+  formula: string = '\\sin\\left(2\\pi\\right)';
   result: string = '';
 
   text: string = "$$ px^2 + qx + r = 0 $$";
@@ -34,7 +34,6 @@ export class MainComponent implements OnInit {
     let t = templateFromTeX(this.template);
     let f = formulaFromTeX(this.formula);
     this.result = useTemplate(t, f)?.toTex() || 'null';
-    console.log(this.result);
   }
   
   openAddFunction() {
