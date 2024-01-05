@@ -16,9 +16,9 @@ declare let MathJax: any;
 export class MainComponent implements OnInit {
   @ViewChild("render") qqq: ElementRef;
   // tamplate check
-  // template: string = '\\sin(2[x]) => \\sin([x])\\cos([x])';
-  // formula: string = '\\sin(2\\pi)';
-  // result: string = '';
+  template: string = '\\sin(2[x]) => \\sin([x])\\cos([x])';
+  formula: string = '\\sin(2\\pi)';
+  result: string = '';
 
   text: string = "$$ px^2 + qx + r = 0 $$";
   lines: string[] = [];
@@ -31,9 +31,10 @@ export class MainComponent implements OnInit {
   constructor(private dialog: MatDialog, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    // let t = templateFromTeX(this.template);
-    // let f = formulaFromTeX(this.formula);
-    // this.result = useTemplate(t, f)?.toTex() || 'null';
+    let t = templateFromTeX(this.template);
+    let f = formulaFromTeX(this.formula);
+    this.result = useTemplate(t, f)?.toTex() || 'null';
+    console.log(this.result);
   }
   
   openAddFunction() {

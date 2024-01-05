@@ -1,4 +1,9 @@
-import { Multiplier, Expression, Num, MatchResult } from "./all-structures";
+import { Expression } from "./expression";
+import { MatchResult } from "./match-result";
+import { Multiplier } from "./math-structure";
+import { Num } from "./number";
+
+
 
 export class Exponent extends Multiplier {
     base: Multiplier

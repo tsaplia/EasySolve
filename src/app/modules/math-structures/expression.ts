@@ -1,4 +1,7 @@
-import { Multiplier, Term, MatchResult } from "./all-structures";
+import { MatchResult } from "./match-result";
+import { Multiplier } from "./math-structure";
+import { Term } from "./term";
+
 
 export class Expression extends Multiplier{
     content: Term[]

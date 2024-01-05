@@ -1,4 +1,5 @@
-import { Multiplier } from "./all-structures";
+import { Multiplier } from "./math-structure";
+
 
 type Matches = {[name: string]: Multiplier}
 

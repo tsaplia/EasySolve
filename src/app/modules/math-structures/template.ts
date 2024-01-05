@@ -1,4 +1,5 @@
-import { Expression, Formula } from "./all-structures";
+import { Formula } from "./formula";
+
 
 export class Template {
     from: Formula;

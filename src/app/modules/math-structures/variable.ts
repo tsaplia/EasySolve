@@ -1,4 +1,5 @@
-import { Multiplier, MatchResult } from "./all-structures";
+import { MatchResult } from "./match-result";
+import { Multiplier } from "./math-structure";
 
 export class Variable extends Multiplier {
     name: string;

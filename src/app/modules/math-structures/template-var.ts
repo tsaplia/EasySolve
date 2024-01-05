@@ -1,4 +1,6 @@
-import { Multiplier, MatchResult, MathStruct } from "./all-structures";
+import { MatchResult } from "./match-result";
+import { MathStruct, Multiplier } from "./math-structure";
+
 
 export class TemplateVar extends Multiplier {
     name: string

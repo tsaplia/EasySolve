@@ -1,4 +1,7 @@
-import { MathStruct, Multiplier, Expression, MatchResult } from "./all-structures";
+import { Expression } from "./expression";
+import { MatchResult } from "./match-result";
+import { MathStruct, Multiplier } from "./math-structure";
+
 
 export class Term extends MathStruct {
     sign: "+" | "-";

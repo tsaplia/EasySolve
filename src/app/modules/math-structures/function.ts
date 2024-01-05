@@ -1,4 +1,7 @@
-import { Multiplier, Expression, MatchResult } from "./all-structures";
+import { Expression } from "./expression";
+import { MatchResult } from "./match-result";
+import { Multiplier } from "./math-structure";
+
 
 export class Func extends Multiplier {
     name: string;

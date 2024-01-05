@@ -1,4 +1,7 @@
-import { MathStruct, Expression, MatchResult } from "./all-structures";
+import { Expression } from "./expression";
+import { MatchResult } from "./match-result";
+import { MathStruct } from "./math-structure";
+
 
 export class Formula extends MathStruct {
     equalityParts: Expression[];

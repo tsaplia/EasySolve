@@ -1,4 +1,6 @@
-import { Multiplier, MathStruct, MatchResult } from "./all-structures";
+import { MatchResult } from "./match-result";
+import { MathStruct, Multiplier } from "./math-structure";
+
 
 export class Num extends Multiplier {
     value: number;

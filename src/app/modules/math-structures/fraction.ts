@@ -1,4 +1,8 @@
-import { Multiplier, Term, Expression, MatchResult } from "./all-structures";
+import { Expression } from "./expression";
+import { MatchResult } from "./match-result";
+import { Multiplier } from "./math-structure";
+import { Term } from "./term";
+
 
 export class Frac extends Multiplier {
     numerator: Term;

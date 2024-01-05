@@ -1,4 +1,7 @@
-import { Multiplier, MatchResult, Expression, Num } from "./all-structures";
+import { Expression } from "./expression";
+import { MatchResult } from "./match-result";
+import { Multiplier } from "./math-structure";
+import { Num } from "./number";
 
 export class Sqrt extends Multiplier {
     content: Multiplier;
