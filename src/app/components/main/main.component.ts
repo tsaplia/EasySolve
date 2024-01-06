@@ -54,6 +54,8 @@ export class MainComponent implements OnInit {
 
   dictionaryToggle() {
     this.dictionaryFlag = !this.dictionaryFlag;
+    if(this.dictionaryFlag)
+      this.updateMJ();
   }
 
   copyFun(index: any) {
@@ -67,8 +69,6 @@ export class MainComponent implements OnInit {
     MathJax.typeset([document.getElementById("dictionary")]);
     MathJax.typeset([document.getElementById("test")]);
   }
-
-
 
 
   selection(text: any) {

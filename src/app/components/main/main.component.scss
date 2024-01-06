@@ -14,3 +14,20 @@
   outline: 0;
   @extend .w-100;
 }
+.w-0 {
+  width: 0%;
+  overflow: hidden;
+}
+
+#test {
+  transition: margin 1s;
+}
+
+#dictionary {
+  
+  transition: width 1s;
+  animation-direction: reverse;
+}
+#invisible-div {
+  transition: width 1s;
+}
