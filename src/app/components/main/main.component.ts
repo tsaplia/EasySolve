@@ -1,9 +1,11 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { FormulaModelComponent } from "../formula-model/formula-model.component";
 import { timeInterval } from "rxjs";
 import { formulaFromTeX, templateFromTeX } from "src/app/modules/math-actions/from-tex";
 import { useTemplate } from "src/app/modules/math-actions/templete-functions";
+import { ClipboardService } from "ngx-clipboard";
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 
 declare let MathJax: any;
 
@@ -13,7 +15,7 @@ declare let MathJax: any;
   templateUrl: 'main.component.html',
   styleUrls: ['main.component.scss']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, AfterViewInit {
   @ViewChild("render") qqq: ElementRef;
   // tamplate check
 
@@ -30,14 +32,29 @@ export class MainComponent implements OnInit {
   clearFlag: boolean = false;
   dictionaryFlag: boolean = false;
   
-  constructor(private dialog: MatDialog, private cdRef: ChangeDetectorRef) {}
+  constructor(private dialog: MatDialog, 
+              private cdRef: ChangeDetectorRef,
+              private clipboardService: ClipboardService) {}
 
   ngOnInit(): void {
     let t = templateFromTeX(this.template);
     let f = formulaFromTeX(this.formula);
     this.result = useTemplate(t, f)?.toTex() || 'null';
   }
+
+  ngAfterViewInit(): void {
+    this.updateMJ();
+  }
+
+  updateMJ() { // update MathJax
+    this.cdRef.detectChanges();
+    MathJax.typeset([document.getElementById("render")]);
+    MathJax.typeset([document.getElementById("dictionary")]);
+    MathJax.typeset([document.getElementById("test")]);
+  }
   
+
+  // buttons' functions
   openAddFunction() {
     var formulaDialog = this.dialog.open(FormulaModelComponent);
     formulaDialog.afterClosed().subscribe(resp => {
@@ -58,19 +75,26 @@ export class MainComponent implements OnInit {
       this.updateMJ();
   }
 
-  copyFun(index: any) {
-    this.lines.push(this.lines[index]);
+  // formula's actions
+  deleteFunction(index: number) {
+    if(index < 0) return;
+    this.lines.splice(index, 1);
     this.updateMJ();
   }
-
-  updateMJ() {
-    this.cdRef.detectChanges();
-    MathJax.typeset([document.getElementById((this.lines.length-1).toString())]);
-    MathJax.typeset([document.getElementById("dictionary")]);
-    MathJax.typeset([document.getElementById("test")]);
+  
+  copyFunction(index: number) {
+    if(index < 0) return;
+    const text = this.lines[index].slice(1, this.lines[index].length-1);
+    this.clipboardService.copy(text);
   }
 
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.lines, event.previousIndex, event.currentIndex);
+  }
 
+  
+
+  // formula's selection (click can be outside container, so it doesn't detect it)
   selection(text: any) {
     if((!this.selectionFlag && !this.clearFlag) || (this.selectionFlag && this.clearFlag)) return;
 
