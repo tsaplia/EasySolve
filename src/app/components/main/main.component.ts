@@ -95,9 +95,8 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   // formula's selection (click can be outside container, so it doesn't detect it)
   selection(text: any) {
-    if((!this.selectionFlag && !this.clearFlag) || (this.selectionFlag && this.clearFlag)) return;
-
-    if(this.selectionFlag) {
+    if(text.which == 0) return;
+    if(text.which == 1) {
       if(text.srcElement.localName != "mjx-math" && text.srcElement.localName != "div")
         text.srcElement.style.backgroundColor = "#bcf3fa"; 
     }
@@ -107,22 +106,12 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   clickSelection(text: any) {
-    if(text.type == 'mousedown') {
-      if(text.which == 1) {
-        this.selectionFlag = true;
-        if(text.srcElement.localName != "mjx-math" && text.srcElement.localName != "div")
-          text.srcElement.style.backgroundColor = "#bcf3fa"; 
-      }
-      else { // must be which = 3 (rightClick)
-        this.clearFlag = true;
-        text.srcElement.style.backgroundColor = "";
-      }
+    if(text.which == 1) {
+      if(text.srcElement.localName != "mjx-math" && text.srcElement.localName != "div")
+          text.srcElement.style.backgroundColor = "#bcf3fa";
     }
     else {
-      if(text.which == 1)
-        this.selectionFlag = false;
-      else // must be which = 3 (rightClick)
-        this.clearFlag = false;
+      text.srcElement.style.backgroundColor = "";
     }
   }
 }
