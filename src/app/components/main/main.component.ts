@@ -55,7 +55,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
   // buttons' functions
   openAddFunction() {
-    var formulaDialog = this.dialog.open(FormulaModelComponent);
+    var formulaDialog = this.dialog.open(FormulaModelComponent, {hasBackdrop: false});
     formulaDialog.afterClosed().subscribe(resp => {
       if(!resp || resp.formula == '$$') return;
       this.lines.push(resp.formula);
@@ -107,7 +107,6 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   clickSelection(text: any) {
-    console.log(text)
     if(text.type == 'mousedown') {
       if(text.which == 1) {
         this.selectionFlag = true;

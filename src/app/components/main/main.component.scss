@@ -1,8 +1,11 @@
+$primary: #bbddd4;
+
 @import "bootstrap";
 
 .btn-row > button {
   margin: 0px 10px;
   font-family: monospace;
+  // color: white;
 }
 .w-0 {
   width: 0%;
@@ -11,7 +14,7 @@
 .dictionary-card {
   border-bottom-left-radius: 5%;
   border-top-left-radius: 5%;
-  background-color: #889eaa;
+  background-color: #bbddd4;
   
   @extend .p-4;
   @extend .h-100;
