@@ -14,17 +14,17 @@ export class Num extends Multiplier {
         }
     }
 
-    toTex(): string {
+    override toTex(): string {
         return String(this.value);
     }
 
-    isEqual(other: Multiplier): boolean {
+    override isEqual(other: Multiplier): boolean {
         if (!(other instanceof Num)) return false;
 
         return this.value === other.value;
     }
 
-    match(other: Multiplier): MatchResult | null {
+    override match(other: Multiplier): MatchResult | null {
         return this.isEqual(other) ? new MatchResult() : null;
     }
 
@@ -32,7 +32,7 @@ export class Num extends Multiplier {
         return this.copy();
     }
 
-    copy(): Num {
+    override copy(): Num {
         return new Num(this.value);
     }
 

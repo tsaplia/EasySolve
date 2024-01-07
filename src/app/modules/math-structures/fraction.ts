@@ -1,6 +1,6 @@
 import { Expression } from "./expression";
 import { MatchResult } from "./match-result";
-import { Multiplier } from "./math-structure";
+import { MathStruct, Multiplier } from "./math-structure";
 import { Term } from "./term";
 
 
@@ -12,7 +12,7 @@ export class Frac extends Multiplier {
         this.numerator = numerator;
         this.denomerator = denomerator;
     }
-    toTex(): string {
+    override toTex(): string {
         let num = new Expression([this.numerator]).toTex();
         let denom = new Expression([this.denomerator]).toTex();
 
@@ -28,13 +28,13 @@ export class Frac extends Multiplier {
         return `\\frac{${num}}{${denom}}`;
     }
 
-    isEqual(other: Multiplier): boolean {
+    override isEqual(other: Multiplier): boolean {
         if (!(other instanceof Frac)) return false;
 
         return this.numerator.isEqual(other.numerator) && this.denomerator.isEqual(other.denomerator);
     }
 
-    match(other: Multiplier): MatchResult | null {
+    override match(other: Multiplier): MatchResult | null {
         if (!(other instanceof Frac)) return null;
         let numMatch = this.numerator.match(other.numerator);
         if (!numMatch) return null;
@@ -43,11 +43,11 @@ export class Frac extends Multiplier {
         return numMatch;
     }
 
-    substitute(match: MatchResult): Frac {
+    override substitute(match: MatchResult): Frac {
         return new Frac(this.numerator.substitute(match), this.denomerator.substitute(match));
     }
 
-    copy(): Frac {
+    override copy(): Frac {
         return new Frac(this.numerator.copy(), this.denomerator.copy());
     }
 }

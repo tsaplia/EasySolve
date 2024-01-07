@@ -14,7 +14,7 @@ export class Variable extends Multiplier {
         this.primeCount = primeCount;
     }
 
-    toTex(): string {
+    override toTex(): string {
         let TeX = this.name;
         for (let i=0; i<this.primeCount; i++) TeX+="'";
         if (this.index) {
@@ -26,21 +26,21 @@ export class Variable extends Multiplier {
         return TeX;
     }
 
-    isEqual(other: Multiplier): boolean {
+    override isEqual(other: Multiplier): boolean {
         if (!(other instanceof Variable)) return false;
 
         return this.name === other.name && this.vector==other.vector && this.index === other.index && this.primeCount==other.primeCount;
     }
 
-    match(other: Multiplier): MatchResult | null {
+    override match(other: Multiplier): MatchResult | null {
         return this.isEqual(other) ? new MatchResult() : null;
     }
 
-    substitute(match: MatchResult): Variable {
+    override substitute(match: MatchResult): Variable {
         return this.copy();
     }
 
-    copy(): Variable {
+    override copy(): Variable {
         return new Variable(this.name, this.index, this.vector, this.primeCount);
     }
 }

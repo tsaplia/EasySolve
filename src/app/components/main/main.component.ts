@@ -20,8 +20,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   // tamplate check
 
   formula: string = '\\sin\\left(2\\pi\\right)';
-  template: string = '\\sin\\left(2x\\right)=>\\sin\\left(x\\right)\\cos\\left(x\\right)';
-
+  template: string = '\\sin\\left(2[x]\\right)=>\\sin\\left([x]\\right)\\cos\\left([x]\\right)';
   result: string = '';
 
   text: string = "$$ px^2 + qx + r = 0 $$";
@@ -108,6 +107,7 @@ export class MainComponent implements OnInit, AfterViewInit {
   }
 
   clickSelection(text: any) {
+    console.log(text)
     if(text.type == 'mousedown') {
       if(text.which == 1) {
         this.selectionFlag = true;

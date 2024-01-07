@@ -12,7 +12,7 @@ export class Term extends MathStruct {
         this.content = content; // inner multipliers
     }
 
-    toTex(): string {
+    override toTex(): string {
         let str = "";
         for (let i = 0; i < this.content.length; i++) {
             if (!isNaN(Number(this.content[i].toTex()[0])) && !(this.content[i] instanceof Expression) && i > 0) {
@@ -28,11 +28,11 @@ export class Term extends MathStruct {
         return str;
     }
 
-    copy(): Term {
+    override copy(): Term {
         return new Term(this.content.map((mult) => mult.copy()), this.sign);
     }
 
-    isEqual(other: Term): boolean {
+    override isEqual(other: Term): boolean {
         if (this.sign != other.sign || !(other instanceof Term) ||
             this.content.length != other.content.length) return false;
         // !!:attention code deleted
@@ -45,7 +45,7 @@ export class Term extends MathStruct {
         return true;
     }
 
-    match(other: Multiplier): MatchResult | null {
+    override match(other: Multiplier): MatchResult | null {
         if(!(other instanceof Term) || this.content.length != other.content.length) return null;
         const result = new MatchResult();
         for (let i = 0; i < this.content.length; i++) {
@@ -55,7 +55,7 @@ export class Term extends MathStruct {
         return result;
     }
 
-    substitute(match: MatchResult): Term {
+    override substitute(match: MatchResult): Term {
         return new Term(this.content.map((mult) => mult.substitute(match)), this.sign);
     }
 

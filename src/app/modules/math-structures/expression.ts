@@ -1,5 +1,5 @@
 import { MatchResult } from "./match-result";
-import { Multiplier } from "./math-structure";
+import { MathStruct, Multiplier } from "./math-structure";
 import { Term } from "./term";
 
 
@@ -10,7 +10,7 @@ export class Expression extends Multiplier{
         this.content = content; // inner terms of block
     }
 
-    toTex(): string {
+    override toTex(): string {
         let str = "";
         for (let i = 0; i < this.content.length; i++) {
             if (i != 0 || this.content[i].sign != "+") {
@@ -25,7 +25,7 @@ export class Expression extends Multiplier{
         return str;
     }
 
-    isEqual(other: Multiplier): boolean {
+    override isEqual(other: Multiplier): boolean {
         if (!(other instanceof Expression) || this.content.length != other.content.length) {
             return false;
         }
@@ -39,7 +39,7 @@ export class Expression extends Multiplier{
         return true;
     }
 
-    match(other: Multiplier): MatchResult | null {
+    override match(other: Multiplier): MatchResult | null {
         if (!(other instanceof Expression) || this.content.length != other.content.length) return null;
 
         const result = new MatchResult();
@@ -50,11 +50,11 @@ export class Expression extends Multiplier{
         return result;
     }
 
-    substitute(match: MatchResult): Expression {
+    override substitute(match: MatchResult): Expression {
         return new Expression(this.content.map((term) => term.substitute(match)));
     }
 
-    copy(): Expression {
+    override copy(): Expression {
         return new Expression(this.content.map((term) => term.copy()));
     }
 

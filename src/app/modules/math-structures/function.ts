@@ -1,6 +1,6 @@
 import { Expression } from "./expression";
 import { MatchResult } from "./match-result";
-import { Multiplier } from "./math-structure";
+import { MathStruct, Multiplier } from "./math-structure";
 
 
 export class Func extends Multiplier {
@@ -12,17 +12,17 @@ export class Func extends Multiplier {
         this.content = content; // function argument
     }
 
-    toTex(): string {
+    override toTex(): string {
         return `\\${this.name}\\left(${this.content.toTex()}\\right)`;
     }
 
-    isEqual(other: Multiplier): boolean {
+    override isEqual(other: Multiplier): boolean {
         if (!(other instanceof Func)) return false;
 
         return this.name === other.name && this.content.isEqual(other.content);
     }
 
-    match(other: Multiplier): MatchResult | null {
+    override match(other: Multiplier): MatchResult | null {
         if(!(other instanceof Func)) return null;
         if(this.name != other.name) return null;
         return  this.content.match(other.content);
@@ -32,7 +32,7 @@ export class Func extends Multiplier {
         return new Func(this.name, this.content.substitute(match));
     }
 
-    copy(): Func {
+    override copy(): Func {
         return new Func(this.name, this.content.copy());
     }
 }

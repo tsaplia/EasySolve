@@ -8,25 +8,25 @@ export class TemplateVar extends Multiplier {
         super();
         this.name = name;
     }
-    isEqual(other: Multiplier): boolean {
+    override isEqual(other: Multiplier): boolean {
         if (!(other instanceof TemplateVar)) return false;
         return this.name === other.name;
     }
 
-    match(other: MathStruct): MatchResult | null {
+    override match(other: MathStruct): MatchResult | null {
         return new MatchResult({[this.name]: other});
     }
 
-    substitute(match: MatchResult): Multiplier {
+    override substitute(match: MatchResult): Multiplier {
         if(!match.get(this.name)) throw new Error("Template variable not found");
         return (match.get(this.name) as Multiplier).copy();
     }
 
-    toTex(): string {
+    override toTex(): string {
         return `[${this.name}]`;
     }
 
-    copy(): TemplateVar {
+    override copy(): TemplateVar {
         return new TemplateVar(this.name);
     }
 }

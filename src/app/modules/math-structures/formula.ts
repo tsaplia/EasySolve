@@ -10,7 +10,7 @@ export class Formula extends MathStruct {
         this.equalityParts = equalityParts;
     }
 
-    toTex(): string {
+    override toTex(): string {
         let TeX = "";
         for (let part of this.equalityParts) {
             TeX += (TeX ? "=" : "") + part.toTex();
@@ -18,11 +18,11 @@ export class Formula extends MathStruct {
         return TeX;
     }
 
-    copy(): Formula {
+    override copy(): Formula {
         return new Formula(this.equalityParts.map((part) => part.copy()));
     }
 
-    isEqual(other: MathStruct): boolean {
+    override isEqual(other: MathStruct): boolean {
         if (!(other instanceof Formula)) return false;
         if (this.equalityParts.length != other.equalityParts.length) return false;
 
@@ -32,7 +32,7 @@ export class Formula extends MathStruct {
         return true;
     }
 
-    match(other: MathStruct): MatchResult | null {
+    override match(other: MathStruct): MatchResult | null {
         if (!(other instanceof Formula) || this.equalityParts.length != other.equalityParts.length) return null;
         const result = new MatchResult();
         for (let i = 0; i < this.equalityParts.length; i++) {
@@ -42,7 +42,7 @@ export class Formula extends MathStruct {
         return result;
     }
 
-    substitute(match: MatchResult): Formula {
+    override substitute(match: MatchResult): Formula {
         return new Formula(this.equalityParts.map((part) => part.substitute(match)));
     }
 }

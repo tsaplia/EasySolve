@@ -1,6 +1,6 @@
 import { Expression } from "./expression";
 import { MatchResult } from "./match-result";
-import { Multiplier } from "./math-structure";
+import { MathStruct, Multiplier } from "./math-structure";
 import { Num } from "./number";
 
 
@@ -14,7 +14,7 @@ export class Exponent extends Multiplier {
         this.exponent = exponent;
     }
 
-    toTex(): string {
+    override toTex(): string {
         let str = this.base.toTex();
         if (this.base instanceof Expression) {
             str = "\\left("+str+"\\right)";
@@ -30,14 +30,14 @@ export class Exponent extends Multiplier {
         return str;
     }
 
-    isEqual(other: Multiplier): boolean {
+    override isEqual(other: Multiplier): boolean {
         if (!(other instanceof Exponent)) return false;
 
         return ((!this.exponent && !other.exponent) || this.exponent.isEqual(other.exponent)) &&
             this.base.isEqual(other.base);
     }
 
-    match(other: Multiplier): MatchResult | null {
+    override match(other: Multiplier): MatchResult | null {
         if (!(other instanceof Exponent)) return null;
         const baseMatch = this.base.match(other.base);
         if(!baseMatch) return null;
@@ -46,11 +46,11 @@ export class Exponent extends Multiplier {
         return baseMatch;
     }
 
-    substitute(match: MatchResult): Exponent {
+    override substitute(match: MatchResult): Exponent {
         return new Exponent(this.base.substitute(match), this.exponent.substitute(match));
     }
 
-    copy(): Exponent {
+    override copy(): Exponent {
         return new Exponent(this.base.copy(), this.exponent.copy());
     }
 
