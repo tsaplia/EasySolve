@@ -2,10 +2,6 @@ $primary: #bbddd4;
 
 @import "bootstrap";
 
-.w-0 {
-  width: 0%;
-  overflow: hidden;
-}
 .dictionary-card {
   border-bottom-left-radius: 5%;
   border-top-left-radius: 5%;
@@ -14,18 +10,4 @@ $primary: #bbddd4;
   @extend .p-4;
   @extend .h-100;
   @extend .shadow-lg;
-}
-
-
-#canvas {
-  transition: width 1s;
-}
-#dictionary {
-  transition: width 1s;
-}
-#interaction {
-  transition: width 1s;
-}
-#invisible-div {
-  transition: width 1s;
 }

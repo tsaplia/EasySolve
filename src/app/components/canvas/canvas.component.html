@@ -1,0 +1,35 @@
+<div class="px-2 w-100"> 
+  <div class="w-100 mt-5" id="head">
+    <div class="btn-row" id="btn-row">
+      <button type="button" (click)="openAddFunction()">Add furmula</button>
+      <button type="button" (click)="clear()">Clear</button>
+      <button type="button" (click)="dictionaryToggle()">Dictionary</button>
+    </div>
+  </div>
+  <div class="body" id="body">
+    Start here! <br>
+    <div cdkDropList (cdkDropListDropped)="drop($event)">
+      <ng-container *ngFor="let line of  lines; index as i">
+        <div [id]="i" cdkDrag class="d-flex justify-content-between bg-white p-1">
+          <div class="my-auto mjwrap">
+            {{line}}
+          </div>
+          <div class="d-flex">
+            <button class="btn btn-outline-secondary d-flex p-0 mx-1" (click)="copyFunction(i)">
+              <mat-icon aria-hidden="false" fontIcon="file_copy"></mat-icon>
+            </button>
+            <button class="btn btn-outline-secondary d-flex p-0" (click)="deleteFunction(i)">
+              <mat-icon aria-hidden="false" fontIcon="close"></mat-icon>
+            </button>
+            <mat-icon aria-hidden="false" fontIcon="drag_indicator" cdkDragHandle class="drag-icon ms-2 my-auto"></mat-icon>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <div (mouseover)="selection($event)" (mousedown)="clickSelection($event)">
+      \(px^2 + qx + r = 0\)
+    </div>
+
+  </div>
+</div>

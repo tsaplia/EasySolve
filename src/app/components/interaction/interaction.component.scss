@@ -1,0 +1,14 @@
+$primary: #bbddd4;
+
+@import "bootstrap";
+
+.interaction-card {
+  border-bottom-right-radius: 5%;
+  border-top-right-radius: 5%;
+  background-color: #bbddd4;
+  overflow: hidden;
+  
+  @extend .p-4;
+  @extend .h-100;
+  @extend .shadow-lg;
+}

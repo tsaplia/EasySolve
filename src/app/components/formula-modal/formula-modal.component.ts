@@ -3,15 +3,15 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MathQuillService } from "src/app/services/mathquill.service";
 
 @Component({
-  templateUrl: 'formula-model.component.html',
-  styleUrls: ['formula-model.component.scss'],
+  templateUrl: 'formula-modal.component.html',
+  styleUrls: ['formula-modal.component.scss'],
 })
 
-export class FormulaModelComponent implements OnInit {
+export class FormulaModalComponent implements OnInit {
   mathField: any;
   formula: string = '';
   
-  constructor(private dialogRef: MatDialogRef<FormulaModelComponent>, private MQ: MathQuillService) {}
+  constructor(private dialogRef: MatDialogRef<FormulaModalComponent>, private MQ: MathQuillService) {}
   
   ngOnInit(): void {
     this.mathField = this.MQ.createMathField(document.getElementById("math-field") as HTMLSpanElement);

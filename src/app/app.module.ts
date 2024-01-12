@@ -8,16 +8,22 @@ import { FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon'
-import { FormulaModelComponent } from './components/formula-model/formula-model.component';
+import { FormulaModalComponent } from './components/formula-modal/formula-modal.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { CdkDrag, CdkDragHandle, CdkDropList } from '@angular/cdk/drag-drop'
+import { MathCanvasComponent } from './components/canvas/canvas.component';
+import { DictionaryComponent } from './components/dictionary/dictionary.component';
+import { InteractionComponent } from './components/interaction/interaction.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    FormulaModelComponent,
+    FormulaModalComponent,
+    MathCanvasComponent,
+    DictionaryComponent,
+    InteractionComponent
   ],
   imports: [
     BrowserModule,
