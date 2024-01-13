@@ -3,6 +3,8 @@ import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from "@ang
 import { MatDialog } from "@angular/material/dialog";
 import { ClipboardService } from "ngx-clipboard";
 import { FormulaModalComponent } from "../formula-modal/formula-modal.component";
+import { formulaFromTeX } from "src/app/modules/math-actions/from-tex";
+import { prepareHTML } from "src/app/modules/math-actions/selection-listeners";
 
 declare let MathJax: any;
 
@@ -42,6 +44,9 @@ export class MathCanvasComponent implements OnInit {
       if(!resp || resp.formula == '$$') return;
       this.lines.push(resp.formula);
       this.updateMJ();
+      let formula = formulaFromTeX(resp.formula.slice(1, -1));
+      let elem = document.querySelector('.mjwrap') as HTMLElement;
+      prepareHTML(elem, formula);
     });
   }
 
