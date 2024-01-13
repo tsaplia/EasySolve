@@ -7,3 +7,16 @@ html, body {
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+
+// MJXoverrides
+mjx-container .in-function > [space="2"] {
+  margin-left: 0
+}
+
+mjx-container span {
+  display: inline-block;
+}
+
+mjx-container .selected {
+  background-color: #bcf3fa;
+}
