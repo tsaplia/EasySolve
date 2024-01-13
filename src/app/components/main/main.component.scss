@@ -6,16 +6,6 @@ $primary: #bbddd4;
   width: 0%;
   overflow: hidden;
 }
-.dictionary-card {
-  border-bottom-left-radius: 5%;
-  border-top-left-radius: 5%;
-  background-color: #bbddd4;
-  
-  @extend .p-4;
-  @extend .h-100;
-  @extend .shadow-lg;
-}
-
 
 #canvas {
   transition: width 1s;

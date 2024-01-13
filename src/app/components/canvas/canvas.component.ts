@@ -14,9 +14,11 @@ declare let MathJax: any;
 export class MathCanvasComponent implements OnInit {
   
   @Output() dictionaryEvent = new EventEmitter<boolean>();
+  @Output() interactionEvent = new EventEmitter<any>();
 
   lines: any[] = [];
   dictionary: boolean = false;
+  selectedLine: number = -1;
 
   constructor(private dialog: MatDialog, 
               private cdRef: ChangeDetectorRef,
@@ -32,8 +34,6 @@ export class MathCanvasComponent implements OnInit {
   updateMJ() { // update MathJax
     this.cdRef.detectChanges();
     MathJax.typeset([document.getElementById("body")]);
-    // MathJax.typeset([document.getElementById("dictionary")]);
-    // MathJax.typeset([document.getElementById("test")]);
   }
 
   openAddFunction() {
@@ -68,6 +68,12 @@ export class MathCanvasComponent implements OnInit {
     if(index < 0) return;
     const text = this.lines[index].slice(1, this.lines[index].length-1);
     this.clipboardService.copy(text);
+  }
+
+  lineSelect(index: number) {
+    if(index == this.selectedLine) this.selectedLine = -1;
+    else this.selectedLine = index;
+    this.interactionEvent.emit({line: this.lines[this.selectedLine] ? this.lines[this.selectedLine] : '', index: this.selectedLine});
   }
 
   selection(text: any) {

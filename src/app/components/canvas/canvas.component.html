@@ -9,9 +9,9 @@
   <div class="body" id="body">
     Start here! <br>
     <div cdkDropList (cdkDropListDropped)="drop($event)">
-      <ng-container *ngFor="let line of  lines; index as i">
+      <ng-container *ngFor="let line of lines; index as i">
         <div [id]="i" cdkDrag class="d-flex justify-content-between bg-white p-1">
-          <div class="my-auto mjwrap">
+          <div class="my-auto mjwrap" (click)="lineSelect(i)" [ngClass]="{'bg-warning': this.selectedLine == i}">
             {{line}}
           </div>
           <div class="d-flex">

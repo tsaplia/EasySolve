@@ -26,12 +26,10 @@ export class MainComponent implements OnInit, AfterViewInit {
   lines: string[] = [];
 
   dictionary: boolean = false;
-  selectionFlag: boolean = false;
-  clearFlag: boolean = false;
-  
-  constructor(private dialog: MatDialog, 
-              private cdRef: ChangeDetectorRef,
-              private clipboardService: ClipboardService) {}
+  interaction: boolean = false;
+  intFormula: any = null;
+
+  constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {
   }
@@ -51,6 +49,10 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.dictionary = value;
   }
   
-
+  interactionEvent(value: any) {
+    if(value.index >= 0) this.interaction = true;
+    else this.interaction = false;
+    this.intFormula = value;
+  }
   
 }
