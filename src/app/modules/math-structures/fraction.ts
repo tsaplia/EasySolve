@@ -1,5 +1,4 @@
 import { Expression } from "./expression";
-import { MatchResult } from "./match-result";
 import { MathStruct, Multiplier } from "./math-structure";
 import { Term } from "./term";
 
@@ -11,6 +10,7 @@ export class Frac extends Multiplier {
         super();
         this.numerator = numerator;
         this.denomerator = denomerator;
+        this.numerator.parent = this.denomerator.parent = this;
     }
     override toTex(): string {
         let num = new Expression([this.numerator]).toTex();
@@ -34,20 +34,15 @@ export class Frac extends Multiplier {
         return this.numerator.isEqual(other.numerator) && this.denomerator.isEqual(other.denomerator);
     }
 
-    override match(other: Multiplier): MatchResult | null {
-        if (!(other instanceof Frac)) return null;
-        let numMatch = this.numerator.match(other.numerator);
-        if (!numMatch) return null;
-        let denomMatch = this.denomerator.match(other.denomerator);
-        if(!denomMatch || !numMatch.extend(denomMatch)) return null;
-        return numMatch;
-    }
-
-    override substitute(match: MatchResult): Frac {
-        return new Frac(this.numerator.substitute(match), this.denomerator.substitute(match));
-    }
-
     override copy(): Frac {
         return new Frac(this.numerator.copy(), this.denomerator.copy());
+    }
+
+    override get children(): MathStruct[] {
+        return [this.numerator, this.denomerator];
+    }
+
+    override changeStructure(callback: (struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Frac {
+        return new Frac(callback(this.numerator, ...args) as Term, callback(this.denomerator, ...args) as Term);
     }
 }

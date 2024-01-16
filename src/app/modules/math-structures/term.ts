@@ -1,5 +1,4 @@
 import { Expression } from "./expression";
-import { MatchResult } from "./match-result";
 import { MathStruct, Multiplier } from "./math-structure";
 
 
@@ -10,6 +9,7 @@ export class Term extends MathStruct {
         super();
         this.sign = sign; // plus(+) or minus(-)
         this.content = content; // inner multipliers
+        this.content.forEach((mult)=>mult.parent = this);
     }
 
     override toTex(): string {
@@ -45,18 +45,12 @@ export class Term extends MathStruct {
         return true;
     }
 
-    override match(other: Multiplier): MatchResult | null {
-        if(!(other instanceof Term) || this.content.length != other.content.length) return null;
-        const result = new MatchResult();
-        for (let i = 0; i < this.content.length; i++) {
-            const match = this.content[i].match(other.content[i]);
-            if (!match || !result.extend(match)) return null;
-        }
-        return result;
+    override get children(): MathStruct[] {
+        return this.content;
     }
 
-    override substitute(match: MatchResult): Term {
-        return new Term(this.content.map((mult) => mult.substitute(match)), this.sign);
+    override changeStructure(callback: (struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Term {
+        return new Term(this.content.map((mult) => callback(mult, ...args)), this.sign);
     }
 
     // !!: may be changed

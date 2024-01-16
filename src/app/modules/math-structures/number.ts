@@ -1,4 +1,3 @@
-import { MatchResult } from "./match-result";
 import { MathStruct, Multiplier } from "./math-structure";
 
 
@@ -24,15 +23,15 @@ export class Num extends Multiplier {
         return this.value === other.value;
     }
 
-    override match(other: Multiplier): MatchResult | null {
-        return this.isEqual(other) ? new MatchResult() : null;
-    }
-
-    override substitute(match: MatchResult): MathStruct {
-        return this.copy();
-    }
-
     override copy(): Num {
+        return new Num(this.value);
+    }
+
+    override get children(): MathStruct[] {
+        return [];
+    }
+
+    override changeStructure(): Num {
         return new Num(this.value);
     }
 

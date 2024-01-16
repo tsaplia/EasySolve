@@ -1,12 +1,12 @@
 import { availibleMathFunc } from "src/app/configs/config";
-import { Frac } from "../math-structures/fraction";
-import { Formula } from "../math-structures/formula";
-import { Expression } from "../math-structures/expression";
-import { Term } from "../math-structures/term";
-import { Exponent } from "../math-structures/exponent";
-import { MathStruct, Multiplier } from "../math-structures/math-structure";
-import { Sqrt } from "../math-structures/sqrt";
-import { Func } from "../math-structures/function";
+import { Frac } from "../../math-structures/fraction";
+import { Formula } from "../../math-structures/formula";
+import { Expression } from "../../math-structures/expression";
+import { Term } from "../../math-structures/term";
+import { Exponent } from "../../math-structures/exponent";
+import { MathStruct, Multiplier } from "../../math-structures/math-structure";
+import { Sqrt } from "../../math-structures/sqrt";
+import { Func } from "../../math-structures/function";
 import { setListener } from "./selected";
 
 enum ClassNames {
@@ -114,7 +114,7 @@ function groupFunctionParts(root: Element) {
  */
 function wrapExprParts(elem: Element): Element {
     if(elem.localName != MJXTags.mrow && elem.localName != MJXTags.textatom){
-        //if it is not a multiplier
+        //if it is a multiplier
         return wrap(elem, ClassNames.expr);
     }if(getInnerText(elem.firstElementChild as Element) == "("){
         // if it is an expression in breackets
@@ -143,7 +143,6 @@ function prepareFormula(root: Element, formula: Formula) {
         }
         if (i==0 || i==formula.equalityParts.length-1) {
             prepareExpression(group, formula.equalityParts[i]);
-            // expr handler
         }
 
         if (i < formula.equalityParts.length - 1) {
@@ -163,7 +162,6 @@ function prepareExpression(root: Element, expr: Expression) {
             next = group.nextElementSibling;
         }
         prepareTerm(group, expr.content[i]);
-        //termHandler(expr.content[i], group);
 
         if (i < expr.content.length - 1) {
             group = wrap(next as Element, ClassNames.term);
@@ -176,7 +174,6 @@ function prepareTerm(root: Element, term: Term) {
     setListener(term, root as HTMLElement);
     for (let multInd = 0, elemInd = 0; multInd < term.content.length; multInd++, elemInd++) {
         while (root.children[elemInd].localName == MJXTags.mo) elemInd++;
-        // multiplierHandler
         prepareMult(root.children[elemInd], term.content[multInd]);
     }
 };
@@ -231,6 +228,5 @@ function prepareSqrt(root: Element, sqrt: Sqrt) {
 }
 
 function prepareFunction(root: Element, func: Func) {
-    let conent = wrapExprParts(root.lastElementChild as Element);
-    prepareMult(conent, func.content);
+    prepareExpression(wrapExprParts(root.lastElementChild as Element), func.content);
 }

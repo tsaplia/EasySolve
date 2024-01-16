@@ -3,8 +3,9 @@ import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from "@ang
 import { MatDialog } from "@angular/material/dialog";
 import { ClipboardService } from "ngx-clipboard";
 import { FormulaModalComponent } from "../formula-modal/formula-modal.component";
-import { formulaFromTeX } from "src/app/modules/math-actions/from-tex";
-import { prepareHTML } from "src/app/modules/math-actions/selection-listeners";
+import { formulaFromTeX, templateFromTeX } from "src/app/modules/math-actions/from-tex";
+import { prepareHTML } from "src/app/modules/math-actions/selection/selection-listeners";
+import { useTemplate } from "src/app/modules/math-actions/templates/templete-functions";
 
 declare let MathJax: any;
 
@@ -21,13 +22,21 @@ export class MathCanvasComponent implements OnInit {
   lines: any[] = [];
   dictionary: boolean = false;
   selectedLine: number = -1;
+  formula: string = '\\sin\\left(2\\sqrt{x}\\right)';
+  template: string = '\\sin\\left(2[x]\\right)=>2\\sin\\left([x]\\right)\\cos\\left([x]\\right)';
+  result: string = '';
 
   constructor(private dialog: MatDialog, 
               private cdRef: ChangeDetectorRef,
               private clipboardService: ClipboardService,
               ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    let f = formulaFromTeX(this.formula);
+    let t = templateFromTeX(this.template);
+    let r = useTemplate(t,f);
+    this.result = `$${this.formula} => ${r?.toTex() || ''}$`;
+  }
 
   ngAfterViewInit(): void {
     this.updateMJ();
@@ -44,6 +53,7 @@ export class MathCanvasComponent implements OnInit {
       if(!resp || resp.formula == '$$') return;
       this.lines.push(resp.formula);
       this.updateMJ();
+
       let formula = formulaFromTeX(resp.formula.slice(1, -1));
       let elem = document.querySelector('.mjwrap') as HTMLElement;
       prepareHTML(elem, formula);

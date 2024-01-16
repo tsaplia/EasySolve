@@ -1,4 +1,3 @@
-import { MatchResult } from "./match-result";
 import { MathStruct, Multiplier } from "./math-structure";
 import { Term } from "./term";
 
@@ -8,6 +7,7 @@ export class Expression extends Multiplier{
     constructor(content: Term[]) {
         super();
         this.content = content; // inner terms of block
+        this.content.forEach((term)=>term.parent = this);
     }
 
     override toTex(): string {
@@ -39,23 +39,16 @@ export class Expression extends Multiplier{
         return true;
     }
 
-    override match(other: Multiplier): MatchResult | null {
-        if (!(other instanceof Expression) || this.content.length != other.content.length) return null;
-
-        const result = new MatchResult();
-        for (let i = 0; i < this.content.length; i++) {
-            const match = this.content[i].match(other.content[i]);
-            if (!match || !result.extend(match)) return null;
-        }
-        return result;
-    }
-
-    override substitute(match: MatchResult): Expression {
-        return new Expression(this.content.map((term) => term.substitute(match)));
-    }
-
     override copy(): Expression {
         return new Expression(this.content.map((term) => term.copy()));
+    }
+
+    override get children(): MathStruct[] {
+        return this.content;
+    }
+
+    override changeStructure(callback: (struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Expression {
+        return new Expression(this.content.map((term) => callback(term, ...args) as Term));
     }
 
     /** remove all plus-terms with only block multiplier */

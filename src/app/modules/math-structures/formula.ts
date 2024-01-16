@@ -1,5 +1,4 @@
 import { Expression } from "./expression";
-import { MatchResult } from "./match-result";
 import { MathStruct } from "./math-structure";
 
 
@@ -8,6 +7,7 @@ export class Formula extends MathStruct {
     constructor(equalityParts:Expression[]) {
         super();
         this.equalityParts = equalityParts;
+        this.equalityParts.forEach((part) => part.parent = this);
     }
 
     override toTex(): string {
@@ -32,17 +32,11 @@ export class Formula extends MathStruct {
         return true;
     }
 
-    override match(other: MathStruct): MatchResult | null {
-        if (!(other instanceof Formula) || this.equalityParts.length != other.equalityParts.length) return null;
-        const result = new MatchResult();
-        for (let i = 0; i < this.equalityParts.length; i++) {
-            const match = this.equalityParts[i].match(other.equalityParts[i]);
-            if (!match || !result.extend(match)) return null;
-        }
-        return result;
+    override get children(): MathStruct[] {
+        return this.equalityParts;
     }
 
-    override substitute(match: MatchResult): Formula {
-        return new Formula(this.equalityParts.map((part) => part.substitute(match)));
+    override changeStructure(callback: (struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Formula {
+        return new Formula(this.equalityParts.map((part) => callback(part, ...args) as Expression));
     }
 }
