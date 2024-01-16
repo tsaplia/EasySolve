@@ -67,6 +67,7 @@ export class MathCanvasComponent implements OnInit {
   deleteFunction(index: number) {
     if(index < 0) return;
     this.lines.splice(index, 1);
+    this.updateMJ();
   }
   
   copyFunction(index: number) {

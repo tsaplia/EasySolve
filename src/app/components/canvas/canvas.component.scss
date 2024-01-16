@@ -13,7 +13,7 @@ $primary: #bbddd4;
   overflow: hidden;
 }
 .body {
-  min-height: 200px;
+  max-height: 100%;
   font-family: monospace;
   @extend .w-100;
   @extend .mt-3;
@@ -21,6 +21,7 @@ $primary: #bbddd4;
   @extend .bg-white;
   @extend .shadow;
   @extend .p-3;
+  @extend .overflow-y-auto;
 }
 .mjwrap > * {
   display: flex;
