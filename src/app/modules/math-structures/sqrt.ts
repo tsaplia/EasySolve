@@ -1,5 +1,4 @@
 import { Expression } from "./expression";
-import { MatchResult } from "./match-result";
 import { MathStruct, Multiplier } from "./math-structure";
 import { Num } from "./number";
 
@@ -10,6 +9,7 @@ export class Sqrt extends Multiplier {
         super();
         this.root = root;
         this.content = content; 
+        this.content.parent = this.root.parent = this;
     }
 
     override toTex(): string {
@@ -24,20 +24,15 @@ export class Sqrt extends Multiplier {
         return this.root.isEqual(other.root) && this.content.isEqual(other.content);
     }
 
-    override match(other: Multiplier): MatchResult | null {
-        if(!(other instanceof Sqrt)) return null;
-        const contentMatch = this.content.match(other.content);
-        if(!contentMatch) return null;
-        const rootMatch = this.root.match(other.root);
-        if(!rootMatch || !contentMatch.extend(rootMatch)) return null;
-        return contentMatch;
-    }
-
-    override substitute(match: MatchResult): Sqrt {
-        return new Sqrt(this.content.substitute(match), this.root.substitute(match));
-    }
-
     override copy(): Sqrt {
         return new Sqrt(this.content.copy(), this.root.copy());
+    }
+
+    override get children(): MathStruct[] {
+        return [this.content, this.root];
+    }
+
+    override changeStructure(callback: (struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Sqrt {
+        return new Sqrt(callback(this.content, ...args), callback(this.root, ...args) as Expression);
     }
 }

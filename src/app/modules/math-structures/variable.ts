@@ -1,5 +1,4 @@
-import { MatchResult } from "./match-result";
-import { Multiplier } from "./math-structure";
+import {  MathStruct, Multiplier } from "./math-structure";
 
 export class Variable extends Multiplier {
     name: string;
@@ -32,15 +31,15 @@ export class Variable extends Multiplier {
         return this.name === other.name && this.vector==other.vector && this.index === other.index && this.primeCount==other.primeCount;
     }
 
-    override match(other: Multiplier): MatchResult | null {
-        return this.isEqual(other) ? new MatchResult() : null;
-    }
-
-    override substitute(match: MatchResult): Variable {
-        return this.copy();
-    }
-
     override copy(): Variable {
+        return new Variable(this.name, this.index, this.vector, this.primeCount);
+    }
+
+    override get children(): Multiplier[] {
+        return [];
+    }
+
+    override changeStructure(): Variable {
         return new Variable(this.name, this.index, this.vector, this.primeCount);
     }
 }

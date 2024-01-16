@@ -1,17 +1,16 @@
 import { Expression } from "./expression";
-import { MatchResult } from "./match-result";
 import { MathStruct, Multiplier } from "./math-structure";
 import { Num } from "./number";
 
 
-
 export class Exponent extends Multiplier {
-    base: Multiplier
-    exponent: Expression
+    base: Multiplier;
+    exponent: Expression;
     constructor(base: Multiplier, exponent: Expression) {
         super();
         this.base = base;
         this.exponent = exponent;
+        exponent.parent = base.parent = this;
     }
 
     override toTex(): string {
@@ -37,21 +36,16 @@ export class Exponent extends Multiplier {
             this.base.isEqual(other.base);
     }
 
-    override match(other: Multiplier): MatchResult | null {
-        if (!(other instanceof Exponent)) return null;
-        const baseMatch = this.base.match(other.base);
-        if(!baseMatch) return null;
-        const exponentMatch = this.exponent.match(other.exponent);
-        if(!exponentMatch || !baseMatch.extend(exponentMatch)) return null;
-        return baseMatch;
-    }
-
-    override substitute(match: MatchResult): Exponent {
-        return new Exponent(this.base.substitute(match), this.exponent.substitute(match));
-    }
-
     override copy(): Exponent {
         return new Exponent(this.base.copy(), this.exponent.copy());
+    }
+
+    override get children(): MathStruct[] {
+        return [this.base, this.exponent];
+    }
+
+    override changeStructure(callback:(struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Exponent {
+        return new Exponent(callback(this.base, ...args), callback(this.exponent, ...args) as Expression);
     }
 
     static getExponent(structure: Multiplier): [Multiplier, Expression] {

@@ -1,11 +1,10 @@
-import { MatchResult } from "./match-result";
-
 export abstract class MathStruct{
+    parent: MathStruct | null = null;
     abstract toTex(): string;
     abstract isEqual(other: MathStruct): boolean;
-    abstract match(other: MathStruct): MatchResult | null;
     abstract copy(): MathStruct;
-    abstract substitute(match: MatchResult): MathStruct;
+    abstract get children(): MathStruct[];
+    abstract changeStructure(callback: (struct: MathStruct, ...args: any[])=>MathStruct , ...args: any[]): MathStruct;
 }
 
 export abstract class Multiplier extends MathStruct {}

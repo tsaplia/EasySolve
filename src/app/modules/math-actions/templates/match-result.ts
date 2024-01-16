@@ -1,4 +1,4 @@
-import { Multiplier } from "./math-structure";
+import { Multiplier } from "../../math-structures/math-structure";
 
 
 type Matches = {[name: string]: Multiplier}
