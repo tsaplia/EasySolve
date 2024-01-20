@@ -2,10 +2,12 @@ import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ClipboardService } from "ngx-clipboard";
-import { FormulaModalComponent } from "../formula-modal/formula-modal.component";
+import { AddingModalComponent } from "../adding-modal/adding-modal.component";
 import { formulaFromTeX, templateFromTeX } from "src/app/modules/math-actions/from-tex";
 import { prepareHTML } from "src/app/modules/math-actions/selection/selection-listeners";
 import { useTemplate } from "src/app/modules/math-actions/templates/templete-functions";
+import { CanvasLine } from "src/app/modules/canvasLine";
+import { ToastrService } from "ngx-toastr";
 
 declare let MathJax: any;
 
@@ -19,7 +21,7 @@ export class MathCanvasComponent implements OnInit {
   @Output() dictionaryEvent = new EventEmitter<boolean>();
   @Output() interactionEvent = new EventEmitter<any>();
 
-  lines: any[] = [];
+  lines: CanvasLine[] = [];
   dictionary: boolean = false;
   selectedLine: number = -1;
   formula: string = '\\sin\\left(2\\sqrt{x}\\right)';
@@ -29,6 +31,7 @@ export class MathCanvasComponent implements OnInit {
   constructor(private dialog: MatDialog, 
               private cdRef: ChangeDetectorRef,
               private clipboardService: ClipboardService,
+              private toast: ToastrService,
               ) {}
 
   ngOnInit() {
@@ -42,25 +45,41 @@ export class MathCanvasComponent implements OnInit {
     this.updateMJ();
   }
 
-  updateMJ() { // update MathJax
+
+  // update MathJax
+  updateMJ() { 
     this.cdRef.detectChanges();
     MathJax.typeset([document.getElementById("body")]);
   }
 
+  // buttons' functionality
   openAddFunction() {
-    var formulaDialog = this.dialog.open(FormulaModalComponent);
+    var formulaDialog = this.dialog.open(AddingModalComponent, {data: {type: 'formula'}});
     formulaDialog.afterClosed().subscribe(resp => {
-      if(!resp || resp.formula == '$$') return;
-      this.lines.push(resp.formula);
+      if(!resp || resp.line == '$$') return;
+
+      this.lines.push(new CanvasLine({line: resp.line, type: 'formula'}));
       this.updateMJ();
 
-      let formula = formulaFromTeX(resp.formula.slice(1, -1));
+      let formula = formulaFromTeX(resp.line.slice(1, -1));
       let elem = document.querySelector('.mjwrap') as HTMLElement;
       prepareHTML(elem, formula);
     });
   }
 
+  openAddText() {
+    var textDialog = this.dialog.open(AddingModalComponent, {data: {type: 'text'}});
+    textDialog.afterClosed().subscribe(resp => {
+      if(!resp) return;
+      
+      this.lines.push(new CanvasLine({line: resp.line, type: 'text'}));
+      this.cdRef.detectChanges();
+    })
+  }
+
   clear() {
+    if(this.selectedLine != -1)
+      this.lineSelect(this.lines.findIndex(el => el.id === this.selectedLine));
     this.lines = [];
     this.cdRef.detectChanges();
   }
@@ -70,28 +89,36 @@ export class MathCanvasComponent implements OnInit {
     this.dictionaryEvent.emit(this.dictionary);
   }
 
+  // line's functionality
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.lines, event.previousIndex, event.currentIndex);
   }
   
   deleteFunction(index: number) {
     if(index < 0) return;
+    if(this.selectedLine == this.lines[index].id) this.lineSelect(index);
     this.lines.splice(index, 1);
     this.updateMJ();
   }
   
   copyFunction(index: number) {
     if(index < 0) return;
-    const text = this.lines[index].slice(1, this.lines[index].length-1);
+    const text = this.lines[index].line.slice(1, this.lines[index].line.length-1);
     this.clipboardService.copy(text);
+    
+    this.toast.clear();
+    this.toast.success("Copy succes"); // can add in 3rd param {positionClass: 'toast-bottom-right'}
   }
 
   lineSelect(index: number) {
-    if(index == this.selectedLine) this.selectedLine = -1;
-    else this.selectedLine = index;
-    this.interactionEvent.emit({line: this.lines[this.selectedLine] ? this.lines[this.selectedLine] : '', index: this.selectedLine});
+    if(this.lines[index].type == 'text') return;
+
+    if(this.lines[index].id == this.selectedLine) this.selectedLine = -1;
+    else this.selectedLine = this.lines[index].id;
+    this.interactionEvent.emit({line: this.lines[index], selected: this.selectedLine});
   }
 
+  // selection functionality
   selection(text: any) {
     if(text.which == 0) return;
     if(text.which == 1) {

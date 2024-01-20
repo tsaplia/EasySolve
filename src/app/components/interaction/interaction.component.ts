@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, Input } from "@angular/core";
+import { CanvasLine } from "src/app/modules/canvasLine";
 
 declare let MathJax: any;
 
@@ -10,19 +11,22 @@ declare let MathJax: any;
 
 export class InteractionComponent {
 
-  _formula: any[] = [];
+  _line: CanvasLine[] = [];
 
-  @Input() set formula(value: any) {
-    if(this._formula.length == 0) this._formula.push(value); 
-    else if(value.index == -1) this._formula = [];
-    else this._formula[0] = value;
+  @Input() set line(value: CanvasLine) {
+    if(!value) return;
+    
+    if(this._line.length == 0) this._line.push(value); 
+    else if(this._line[0].id == value.id) this._line = [];
+    else this._line[0] = value;
+
     this.updateMJ();
     this.cdRef.detectChanges();
   }
 
   constructor(private cdRef: ChangeDetectorRef) {}
   
-  updateMJ() { // update MathJax
+  updateMJ() { // update MathJax  
     this.cdRef.detectChanges();
     MathJax.typeset([document.getElementById("interaction")]);
   }

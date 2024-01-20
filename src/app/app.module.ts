@@ -8,19 +8,20 @@ import { FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon'
-import { FormulaModalComponent } from './components/formula-modal/formula-modal.component';
+import { AddingModalComponent} from './components/adding-modal/adding-modal.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { CdkDrag, CdkDragHandle, CdkDropList } from '@angular/cdk/drag-drop'
 import { MathCanvasComponent } from './components/canvas/canvas.component';
 import { DictionaryComponent } from './components/dictionary/dictionary.component';
 import { InteractionComponent } from './components/interaction/interaction.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    FormulaModalComponent,
+    AddingModalComponent,
     MathCanvasComponent,
     DictionaryComponent,
     InteractionComponent
@@ -35,7 +36,8 @@ import { InteractionComponent } from './components/interaction/interaction.compo
     ClipboardModule,
     CdkDrag,
     CdkDropList,
-    CdkDragHandle
+    CdkDragHandle,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

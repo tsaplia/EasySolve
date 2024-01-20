@@ -1,8 +1,8 @@
 <div id="interaction" class="pe-2 h-100">
   <div class="interaction-card">
     Interaction
-    <div *ngFor="let f of _formula">
-      {{f ? f.line : ''}}
+    <div *ngFor="let line of _line">
+      {{line ? line.line : ''}}
     </div>
   </div>
 </div>

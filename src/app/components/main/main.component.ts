@@ -1,11 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { FormulaModalComponent } from "../formula-modal/formula-modal.component";
-import { timeInterval } from "rxjs";
-import { formulaFromTeX, templateFromTeX } from "src/app/modules/math-actions/from-tex";
-import { useTemplate } from "src/app/modules/math-actions/templates/templete-functions";
-import { ClipboardService } from "ngx-clipboard";
-import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
+import {ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from "@angular/core";
 
 declare let MathJax: any;
 
@@ -15,7 +8,7 @@ declare let MathJax: any;
   templateUrl: 'main.component.html',
   styleUrls: ['main.component.scss']
 })
-export class MainComponent implements OnInit, AfterViewInit {
+export class MainComponent implements OnInit {
   @ViewChild("render") qqq: ElementRef;
 
   lines: string[] = [];
@@ -29,25 +22,14 @@ export class MainComponent implements OnInit, AfterViewInit {
   ngOnInit() {
   }
 
-  ngAfterViewInit() {
-    // this.updateMJ();
-  }
-
-  // updateMJ() { // update MathJax
-  //   this.cdRef.detectChanges();
-  //   MathJax.typeset([document.getElementById("body")]);
-  //   MathJax.typeset([document.getElementById("dictionary")]);
-  //   MathJax.typeset([document.getElementById("test")]);
-  // }
-
   dictionaryToggle(value: any) {
     this.dictionary = value;
   }
   
   interactionEvent(value: any) {
-    if(value.index >= 0) this.interaction = true;
+    if(value.selected >= 0) this.interaction = true;
     else this.interaction = false;
-    this.intFormula = value;
+    this.intFormula = value.line;
   }
   
 }

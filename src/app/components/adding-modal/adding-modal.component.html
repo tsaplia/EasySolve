@@ -1,11 +1,16 @@
 <div class="all">
   <div class="head">
-    <h1>Add formula</h1>
+    <h1>Add {{type}}</h1>
   </div>
   <div class="body">
     <div>
       <!-- <input type="text" class="finput" [(ngModel)]="formula" (keyup.enter)="add()"> -->
-      <div><span class="finput" id="math-field" (keyup.enter)="add()"></span></div>
+      <div *ngIf="type=='formula'">
+        <span class="finput" id="math-field" (keyup.enter)="add()"></span>
+      </div>
+      <div *ngIf="type=='text'">
+        <input class="finput" id="text-field" [(ngModel)]="this.line" (keyup.enter)="add()" />
+      </div>
     </div>
     <div class="mt-2 d-flex justify-content-between">
       <button class="btn btn-primary" (click)="add()">Add</button>
