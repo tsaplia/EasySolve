@@ -81,7 +81,7 @@ function expressionFromTeX(itStr: IterStr, _wrapped=false): Expression {
         if (itStr.startsWith("\\right)")) itStr.add(7);
         else throw new Error("Incorrect input string");
     }
-    return new Expression(content,);
+    return new Expression(content);
 }
 
 function multiplierFromTex(itStr: IterStr): Multiplier {
