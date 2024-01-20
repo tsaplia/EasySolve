@@ -113,7 +113,7 @@ function groupFunctionParts(root: Element) {
  * Groups expression parts by wrapping them in a specified class.
  */
 function wrapExprParts(elem: Element): Element {
-    if(elem.localName != MJXTags.mrow && elem.localName != MJXTags.textatom){
+    if(elem.localName != MJXTags.mrow && elem.localName != MJXTags.textatom && elem.localName != MJXTags.box){
         //if it is a multiplier
         return wrap(elem, ClassNames.expr);
     }if(getInnerText(elem.firstElementChild as Element) == "("){
@@ -179,11 +179,14 @@ function prepareTerm(root: Element, term: Term) {
 };
 
 function prepareMult(root: Element, mult: Multiplier) {
+    if(mult instanceof Expression){
+        prepareExpression(wrapExprParts(root), mult);
+        return;
+    }
+
     setListener(mult, root as HTMLElement);
     if(mult instanceof Frac){
         prepareFrac(root, mult);
-    }else if(mult instanceof Expression){
-        prepareExpression(wrapExprParts(root), mult);
     }else if(mult instanceof Exponent){
         prepareExponent(root, mult);
     }else if(mult instanceof Sqrt){
@@ -224,7 +227,8 @@ function prepareExponent(root: Element, exponent: Exponent) {
 function prepareSqrt(root: Element, sqrt: Sqrt) {
     let rootEl = root.querySelector(`${MJXTags.root}`)?.firstElementChild;
     if(rootEl) prepareExpression(wrapExprParts(rootEl), sqrt.root);
-    prepareMult(root.querySelector(`${MJXTags.box}`)?.firstChild as Element, sqrt.content);
+    let baseEl = root.querySelector(`${MJXTags.box}`);
+    prepareMult((sqrt.content instanceof Expression ? baseEl : baseEl?.firstElementChild) as Element, sqrt.content);
 }
 
 function prepareFunction(root: Element, func: Func) {

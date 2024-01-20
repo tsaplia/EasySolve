@@ -29,7 +29,9 @@ export class Sqrt extends Multiplier {
     }
 
     override get children(): MathStruct[] {
-        return [this.content, this.root];
+        let res = [this.content];
+        if(this.root.toTex() !== "2") res.push(this.root);
+        return res;
     }
 
     override changeStructure(callback: (struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Sqrt {

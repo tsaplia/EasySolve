@@ -5,8 +5,9 @@ import { Sqrt } from "../../math-structures/sqrt";
 export const selected: Map<HTMLElement, MathStruct> = new Map();
 const allStructures: Map<MathStruct, HTMLElement> = new Map();
 
+const disabledTargets = ['(', ')'];
+
 function addSelected(struct: MathStruct){
-    console.log("add selected", struct);
     let elem = allStructures.get(struct) as HTMLElement;
     if(!elem) throw new Error("Element not found");
     selected.set(elem, struct);
@@ -14,7 +15,6 @@ function addSelected(struct: MathStruct){
 }
 
 function removeSelected(struct: MathStruct){
-    console.log("remove selected", struct);
     let elem = allStructures.get(struct) as HTMLElement;
     if(!elem) throw new Error("Element not found");
     selected.delete(elem);
@@ -51,18 +51,16 @@ function getChildren(struct: MathStruct): MathStruct[] {
     return children;
 }
 
-const disabledTargets = ['(', ')'];
-
 export function setListener(struct: MathStruct, elem: HTMLElement){
     let findSelected = (structures: MathStruct[]) => structures.find(struct => selected.has(allStructures.get(struct) as HTMLElement));
-    let targetCheck = (t: HTMLElement) => t.localName != "mjx-c" && !disabledTargets.includes(getComputedStyle(t, 'before').content);
+    let targetCheck = (t: HTMLElement) => t.localName == "mjx-c" && !disabledTargets.includes(getComputedStyle(t, 'before').content);
 
     allStructures.set(struct, elem);
     let parents = getParents(struct);
     let children = getChildren(struct);
     elem.addEventListener("click", (event) => {
-        if((event.target as HTMLElement)?.localName != "mjx-c") return;
-        console.log(event.target,event)
+        if(!targetCheck(event.target as HTMLElement)) return;
+        console.log("click", struct);
         if(selected.has(elem)){
             removeSelected(struct);
             event.stopPropagation();
@@ -74,7 +72,8 @@ export function setListener(struct: MathStruct, elem: HTMLElement){
         }
     });
     elem.addEventListener('mouseover', (event) => {
-        if((event.target as HTMLElement)?.localName != "mjx-c" || event.buttons !== 1) return;
+        if(!targetCheck(event.target as HTMLElement) || event.buttons !== 1) return;
+        console.log("mouseover", struct);
         if(selected.has(elem)){
             if(event.ctrlKey) removeSelected(struct);
             event.stopPropagation();
