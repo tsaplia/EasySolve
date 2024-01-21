@@ -7,7 +7,7 @@ import { Template } from "../../math-structures/template";
 import { TemplateVar } from "../../math-structures/template-var";
 import { Variable } from "../../math-structures/variable";
 import { selected } from "../selection/selected";
-import { getParents } from "../structure-actions";
+import { getParents, toExpression, toMultiplier, toTerm } from "../structure-actions";
 import { Term } from "../../math-structures/term";
 import { Expression } from "../../math-structures/expression";
 
@@ -67,8 +67,9 @@ function getSelectedData(): {formula: Formula, parent: MathStruct} {
 
 function replace(formula: Formula, from: Term | Multiplier, to: Term | Multiplier): Formula {
     // TODO: change changestructure method
-    if(from instanceof Term) to = Term.toTerm(to); 
-    else to = Expression.toExpression(to);
+    if(from instanceof Term) to = toTerm(to); 
+    else if(from instanceof Expression)to = toExpression(to);
+    else to = toMultiplier(to);
     function callback(struct: MathStruct): MathStruct {
         if(struct === from) return to;
         return struct.changeStructure(callback, match);
@@ -79,7 +80,7 @@ function replace(formula: Formula, from: Term | Multiplier, to: Term | Multiplie
 export function tryTemplete(template: Template): Formula | null {
     let {formula} = getSelectedData();
     let selectedStruct = selected.values().next().value as Term|Multiplier
-    let selectedExpression = Expression.toExpression(selectedStruct);
+    let selectedExpression = toExpression(selectedStruct);
     let resultExpression = useTemplate(template, selectedExpression);
     if(!resultExpression) return null;
     return replace(formula, selectedStruct, resultExpression);

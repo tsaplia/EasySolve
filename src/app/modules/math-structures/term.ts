@@ -68,10 +68,4 @@ export class Term extends MathStruct {
             if (mult.content[0].sign == "-") this.changeSign();
         }
     }
-
-    static toTerm(mult: Multiplier | Term): Term {
-        if(mult instanceof Term) return mult;
-        if(mult instanceof Expression && mult.content.length == 1) mult.content[0].copy();
-        return new Term([mult.copy()]);
-    }
 }
