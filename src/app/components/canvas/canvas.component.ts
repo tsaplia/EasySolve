@@ -5,7 +5,6 @@ import { ClipboardService } from "ngx-clipboard";
 import { AddingModalComponent } from "../adding-modal/adding-modal.component";
 import { formulaFromTeX, templateFromTeX } from "src/app/modules/math-actions/from-tex";
 import { prepareHTML } from "src/app/modules/math-actions/selection/selection-listeners";
-import { useTemplate } from "src/app/modules/math-actions/templates/templete-functions";
 import { CanvasLine } from "src/app/modules/canvasLine";
 import { ToastrService } from "ngx-toastr";
 
@@ -37,8 +36,8 @@ export class MathCanvasComponent implements OnInit {
   ngOnInit() {
     let f = formulaFromTeX(this.formula);
     let t = templateFromTeX(this.template);
-    let r = useTemplate(t,f);
-    this.result = `$${this.formula} => ${r?.toTex() || ''}$`;
+ 
+
   }
 
   ngAfterViewInit(): void {
