@@ -1,10 +1,10 @@
-import { Formula } from "./formula";
+import { Expression } from "./expression";
 
 
 export class Template {
-    from: Formula;
-    to: Formula;
-    constructor(from: Formula, to: Formula) {
+    from: Expression;
+    to: Expression;
+    constructor(from: Expression, to: Expression) {
         this.from = from;
         this.to = to;
     }

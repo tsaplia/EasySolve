@@ -53,6 +53,6 @@ export class Exponent extends Multiplier {
             return [structure.base, structure.exponent];
         }
 
-        return [structure, Expression.wrap(new Num(1))];
+        return [structure, Expression.toExpression(new Num(1))];
     }
 }

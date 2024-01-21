@@ -1,6 +1,7 @@
 import { Func } from "../../math-structures/function";
 import { MathStruct } from "../../math-structures/math-structure";
 import { Sqrt } from "../../math-structures/sqrt";
+import { getParents, getChildren } from "../structure-actions";
 
 export const selected: Map<HTMLElement, MathStruct> = new Map();
 const allStructures: Map<MathStruct, HTMLElement> = new Map();
@@ -28,27 +29,6 @@ function checkParentSelection(struct: MathStruct | null){
         struct.children.forEach((child)=>removeSelected(child));
         checkParentSelection(struct.parent);
     }
-}
-
-function getParents(struct: MathStruct): MathStruct[] {
-    let parents: MathStruct[] = [];
-    while(struct.parent){
-        parents.push(struct.parent);
-        struct = struct.parent;
-    }
-    return parents;
-}
-
-function getChildren(struct: MathStruct): MathStruct[] {
-    let children: MathStruct[] = [];
-    function get(struct: MathStruct){
-        struct.children.forEach((child) => {
-            children.push(child);
-            get(child);
-        });
-    }
-    get(struct);
-    return children;
 }
 
 export function setListener(struct: MathStruct, elem: HTMLElement){

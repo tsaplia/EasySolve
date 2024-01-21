@@ -5,7 +5,7 @@ import { Num } from "./number";
 export class Sqrt extends Multiplier {
     content: Multiplier;
     root: Expression
-    constructor(content: Multiplier, root: Expression = Expression.wrap(new Num(2))) {
+    constructor(content: Multiplier, root: Expression = Expression.toExpression(new Num(2))) {
         super();
         this.root = root;
         this.content = content; 
