@@ -34,12 +34,15 @@ export function toMultiplier(struct: MathStruct): Multiplier {
 
 export function toExpression(struct: Multiplier | Term, sign: '+' | '-' = "+"): Expression {
     if(struct instanceof Expression) return struct.copy();
-    if (struct instanceof Term) return new Expression([struct.copy()]);
+    if (struct instanceof Term) {
+        if(struct.sign == '+' && struct.content.length==1 && struct.content[0] instanceof Expression) return struct.content[0].copy();
+        return new Expression([struct.copy()]);
+    }
     return new Expression([new Term([struct.copy()], sign)]);
 }
 
 export function toTerm(mult: Multiplier | Term): Term {
-    if(mult instanceof Term) return mult;
-    if(mult instanceof Expression && mult.content.length == 1) mult.content[0].copy();
+    if(mult instanceof Term) return mult.copy();
+    if(mult instanceof Expression && mult.content.length == 1) return mult.content[0].copy();
     return new Term([mult.copy()]);
 }

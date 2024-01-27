@@ -2,8 +2,9 @@ import { Func } from "../../math-structures/function";
 import { MathStruct } from "../../math-structures/math-structure";
 import { Sqrt } from "../../math-structures/sqrt";
 import { getParents, getChildren } from "../structure-actions";
+import { SelectedStructures } from "./selected_structures";
 
-export const selected: Map<HTMLElement, MathStruct> = new Map();
+export const selected: SelectedStructures = new SelectedStructures();
 const allStructures: Map<MathStruct, HTMLElement> = new Map();
 
 const disabledTargets = ['(', ')'];
@@ -40,7 +41,6 @@ export function setListener(struct: MathStruct, elem: HTMLElement){
     let children = getChildren(struct);
     elem.addEventListener("click", (event) => {
         if(!targetCheck(event.target as HTMLElement)) return;
-        console.log("click", struct);
         if(selected.has(elem)){
             removeSelected(struct);
             event.stopPropagation();
@@ -53,7 +53,6 @@ export function setListener(struct: MathStruct, elem: HTMLElement){
     });
     elem.addEventListener('mouseover', (event) => {
         if(!targetCheck(event.target as HTMLElement) || event.buttons !== 1) return;
-        console.log("mouseover", struct);
         if(selected.has(elem)){
             if(event.ctrlKey) removeSelected(struct);
             event.stopPropagation();
