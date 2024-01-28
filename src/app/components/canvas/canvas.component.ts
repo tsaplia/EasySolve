@@ -1,13 +1,13 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, HostListener, OnInit, Output } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ClipboardService } from "ngx-clipboard";
 import { AddingModalComponent } from "../adding-modal/adding-modal.component";
 import { formulaFromTeX, templateFromTeX } from "src/app/modules/math-actions/from-tex";
 import { prepareHTML } from "src/app/modules/math-actions/selection/selection-listeners";
-import { useTemplate } from "src/app/modules/math-actions/templates/templete-functions";
 import { CanvasLine } from "src/app/modules/canvasLine";
 import { ToastrService } from "ngx-toastr";
+import { tryTemplete } from "src/app/modules/math-actions/templates/templete-functions";
 
 declare let MathJax: any;
 
@@ -25,9 +25,6 @@ export class MathCanvasComponent implements OnInit {
   dictionary: boolean = false;
   interaction: boolean = false;
   selectedLine: number = -1;
-  formula: string = '\\sin\\left(2\\sqrt{x}\\right)';
-  template: string = '\\sin\\left(2[x]\\right)=>2\\sin\\left([x]\\right)\\cos\\left([x]\\right)';
-  result: string = '';
 
   constructor(private dialog: MatDialog, 
               private cdRef: ChangeDetectorRef,
@@ -36,10 +33,6 @@ export class MathCanvasComponent implements OnInit {
               ) {}
 
   ngOnInit() {
-    let f = formulaFromTeX(this.formula);
-    let t = templateFromTeX(this.template);
-    let r = useTemplate(t,f);
-    this.result = `$${this.formula} => ${r?.toTex() || ''}$`;
   }
 
   ngAfterViewInit(): void {
@@ -69,12 +62,12 @@ export class MathCanvasComponent implements OnInit {
     var formulaDialog = this.dialog.open(AddingModalComponent, {panelClass: 'full-width-dialog', data: {type: 'formula'}});
     formulaDialog.afterClosed().subscribe(resp => {
       if(!resp || resp.line == '$$') return;
-
-      this.lines.push(new CanvasLine({line: resp.line, type: 'formula'}));
+      let line = new CanvasLine({line: resp.line, type: 'formula'});
+      this.lines.push(line);
       this.updateMJ();
-
+      
       let formula = formulaFromTeX(resp.line.slice(1, -1));
-      let elem = document.querySelector('.mjwrap') as HTMLElement;
+      let elem = document.querySelector(`#line-${line.id}`) as HTMLElement;
       prepareHTML(elem, formula);
     });
   }
@@ -156,6 +149,26 @@ export class MathCanvasComponent implements OnInit {
     else {
       text.srcElement.style.backgroundColor = "";
     }
+  }
+
+  // test
+  @HostListener('window:keyup', ['$event'])
+  keyPress(event: KeyboardEvent) {
+
+    if(event.altKey && event.key  == "u") this.testTemplateUse();
+  }
+
+  testTemplateUse() {
+    console.log("test");
+    let tString: string = '\\sin\\left(2[x]\\right)=>2\\sin\\left([x]\\right)\\cos\\left([x]\\right)';
+    let template = templateFromTeX(tString);
+    let result = tryTemplete(template);
+    if(!result) return;
+    let line = new CanvasLine({line: `$${result.toTex()}$`, type: 'formula'});
+    this.lines.push(line);
+    this.updateMJ();
+    let elem = document.querySelector(`#line-${line.id}`) as HTMLElement;
+    prepareHTML(elem, result);
   }
 
 }

@@ -1,3 +1,4 @@
+import { toExpression } from "../math-actions/structure-actions";
 import { Expression } from "./expression";
 import { MathStruct, Multiplier } from "./math-structure";
 import { Num } from "./number";
@@ -5,7 +6,7 @@ import { Num } from "./number";
 export class Sqrt extends Multiplier {
     content: Multiplier;
     root: Expression
-    constructor(content: Multiplier, root: Expression = Expression.wrap(new Num(2))) {
+    constructor(content: Multiplier, root: Expression = toExpression(new Num(2))) {
         super();
         this.root = root;
         this.content = content; 

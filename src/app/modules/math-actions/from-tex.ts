@@ -11,6 +11,7 @@ import { Template } from "../math-structures/template";
 import { TemplateVar } from "../math-structures/template-var";
 import { Term } from "../math-structures/term";
 import { Variable } from "../math-structures/variable";
+import { toExpression } from "./structure-actions";
 
 
 class IterStr {
@@ -46,7 +47,7 @@ class IterStr {
 export function templateFromTeX(tex: string): Template {
     let parts = tex.split("=>");
     if(parts.length != 2) throw new Error("Incorrect template string");
-    return new Template(formulaFromTeX(parts[0]), formulaFromTeX(parts[1]));
+    return new Template(formulaFromTeX(parts[0]).equalityParts[0], formulaFromTeX(parts[1]).equalityParts[0]);
 }
 
 export function formulaFromTeX(str: string): Formula {
@@ -170,7 +171,7 @@ function exponentFromTeX(itStr: IterStr, base: Multiplier) {
         exponent = expressionFromTeX(itStr);
         itStr.add();
     } else {
-        exponent = Expression.wrap( !isNaN(Number(itStr.cur)) ? new Num(itStr.cur) : new Variable(itStr.cur) );
+        exponent = toExpression( !isNaN(Number(itStr.cur)) ? new Num(itStr.cur) : new Variable(itStr.cur) );
         itStr.add();
     }
 
@@ -179,7 +180,7 @@ function exponentFromTeX(itStr: IterStr, base: Multiplier) {
 
 
 function sqrtFromTeX(itStr: IterStr): Sqrt {
-    let root = Expression.wrap(new Num(2));
+    let root = toExpression(new Num(2));
     itStr.add(5);
     if (itStr.startsWith("[")) {
         itStr.add();

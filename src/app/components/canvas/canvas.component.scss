@@ -50,3 +50,16 @@ $primary: #bbddd4;
 .drag-icon:hover {
   cursor: move;
 }
+
+// MJXoverrides
+:host ::ng-deep mjx-container .in-function > [space="2"] {
+  margin-left: 0
+}
+
+:host ::ng-deep mjx-container span {
+  display: inline-block;
+}
+
+:host ::ng-deep mjx-container .selected {
+  background-color: #bcf3fa;
+}

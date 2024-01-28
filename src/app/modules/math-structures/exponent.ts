@@ -1,3 +1,4 @@
+import { toExpression } from "../math-actions/structure-actions";
 import { Expression } from "./expression";
 import { MathStruct, Multiplier } from "./math-structure";
 import { Num } from "./number";
@@ -53,6 +54,6 @@ export class Exponent extends Multiplier {
             return [structure.base, structure.exponent];
         }
 
-        return [structure, Expression.wrap(new Num(1))];
+        return [structure, toExpression(new Num(1))];
     }
 }
