@@ -64,10 +64,4 @@ export class Expression extends Multiplier{
 
         return modified;
     }
-
-    static toExpression(struct: Multiplier | Term, sign: '+' | '-' = "+"): Expression {
-        if(struct instanceof Expression) return struct;
-        if (struct instanceof Term) return new Expression([struct]);
-        return new Expression([new Term([struct], sign)]);
-    }
 }

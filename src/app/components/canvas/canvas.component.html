@@ -11,7 +11,7 @@
     <div cdkDropList (cdkDropListDropped)="drop($event)">
       <ng-container *ngFor="let line of lines; index as i">
         <div [id]="line.id" cdkDrag class="d-flex justify-content-between bg-white p-1">
-          <div class="my-auto mjwrap" (click)="lineSelect(i)" [ngClass]="{'bg-warning': this.selectedLine == line.id}">
+          <div class="my-auto mjwrap" id="line-{{line.id}}" (click)="lineSelect(i)" [ngClass]="{'bg-warning': this.selectedLine == line.id}">
             {{line.line}}
           </div>
           <div class="d-flex">
@@ -29,9 +29,6 @@
 
     <div (mouseover)="selection($event)" (mousedown)="clickSelection($event)">
       \(px^2 + qx + r = 0\) 
-    </div>
-    <div>
-      {{result}}
     </div>
   </div>
 </div>

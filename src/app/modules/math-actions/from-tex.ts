@@ -11,6 +11,7 @@ import { Template } from "../math-structures/template";
 import { TemplateVar } from "../math-structures/template-var";
 import { Term } from "../math-structures/term";
 import { Variable } from "../math-structures/variable";
+import { toExpression } from "./structure-actions";
 
 
 class IterStr {
@@ -170,7 +171,7 @@ function exponentFromTeX(itStr: IterStr, base: Multiplier) {
         exponent = expressionFromTeX(itStr);
         itStr.add();
     } else {
-        exponent = Expression.toExpression( !isNaN(Number(itStr.cur)) ? new Num(itStr.cur) : new Variable(itStr.cur) );
+        exponent = toExpression( !isNaN(Number(itStr.cur)) ? new Num(itStr.cur) : new Variable(itStr.cur) );
         itStr.add();
     }
 
@@ -179,7 +180,7 @@ function exponentFromTeX(itStr: IterStr, base: Multiplier) {
 
 
 function sqrtFromTeX(itStr: IterStr): Sqrt {
-    let root = Expression.toExpression(new Num(2));
+    let root = toExpression(new Num(2));
     itStr.add(5);
     if (itStr.startsWith("[")) {
         itStr.add();

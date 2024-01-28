@@ -1,8 +1,12 @@
-import { Expression } from "./expression";
-import { Term } from "./term";
-
 export abstract class MathStruct{
-    parent: MathStruct | null = null;
+    private _parent: MathStruct | null = null;
+    get parent(): MathStruct | null { 
+        return this._parent; 
+    }
+    set parent(parent: MathStruct | null) {
+        if(this._parent) throw new Error("Parent already set");
+        this._parent = parent;
+    }
     abstract toTex(): string;
     abstract isEqual(other: MathStruct): boolean;
     abstract copy(): MathStruct;
@@ -10,13 +14,4 @@ export abstract class MathStruct{
     abstract changeStructure(callback: (struct: MathStruct, ...args: any[])=>MathStruct , ...args: any[]): MathStruct;
 }
 
-export abstract class Multiplier extends MathStruct {
-    static toMultiplier(struct: MathStruct): Multiplier {
-        if(struct instanceof Term){
-            return struct.sign == "+" && struct.content.length==0 ? struct.content[0].copy() : new Expression([struct.copy()]);
-        }if(struct instanceof Expression){
-            return struct.content.length==0 ? Multiplier.toMultiplier(struct.content[0]) : struct.copy();
-        }
-        return struct.copy();
-    }
-}
+export abstract class Multiplier extends MathStruct {}
