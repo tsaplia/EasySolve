@@ -23,6 +23,7 @@ export class MathCanvasComponent implements OnInit {
 
   lines: CanvasLine[] = [];
   dictionary: boolean = false;
+  interaction: boolean = false;
   selectedLine: number = -1;
   formula: string = '\\sin\\left(2\\sqrt{x}\\right)';
   template: string = '\\sin\\left(2[x]\\right)=>2\\sin\\left([x]\\right)\\cos\\left([x]\\right)';
@@ -53,8 +54,19 @@ export class MathCanvasComponent implements OnInit {
   }
 
   // buttons' functionality
+  interactionToggle() {
+    if(!this.interaction) {
+      this.interaction = true;
+      this.interactionEvent.emit({line: this.lines[this.lines.findIndex(el => el.id === this.selectedLine)], selected: this.selectedLine});
+    }
+    else {
+      this.interaction = false;
+      this.interactionEvent.emit({line: this.lines[this.lines.findIndex(el => el.id === this.selectedLine)], selected: -1});
+    }
+  }
+
   openAddFunction() {
-    var formulaDialog = this.dialog.open(AddingModalComponent, {data: {type: 'formula'}});
+    var formulaDialog = this.dialog.open(AddingModalComponent, {panelClass: 'full-width-dialog', data: {type: 'formula'}});
     formulaDialog.afterClosed().subscribe(resp => {
       if(!resp || resp.line == '$$') return;
 
@@ -70,10 +82,10 @@ export class MathCanvasComponent implements OnInit {
   openAddText() {
     var textDialog = this.dialog.open(AddingModalComponent, {data: {type: 'text'}});
     textDialog.afterClosed().subscribe(resp => {
-      if(!resp) return;
+      if(!resp || resp.line == '$$') return;
       
       this.lines.push(new CanvasLine({line: resp.line, type: 'text'}));
-      this.cdRef.detectChanges();
+      this.updateMJ();
     })
   }
 
@@ -115,7 +127,13 @@ export class MathCanvasComponent implements OnInit {
 
     if(this.lines[index].id == this.selectedLine) this.selectedLine = -1;
     else this.selectedLine = this.lines[index].id;
-    this.interactionEvent.emit({line: this.lines[index], selected: this.selectedLine});
+    
+    if(this.interaction)
+      this.interactionEvent.emit({line: this.lines[index], selected: this.selectedLine});
+    if(this.selectedLine == -1 && this.interaction) {
+      this.interaction = false;
+      this.interactionEvent.emit({line: this.lines[index], selected: this.selectedLine});
+    }
   }
 
   // selection functionality

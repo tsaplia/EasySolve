@@ -2,12 +2,18 @@ $primary: #bbddd4;
 
 @import "bootstrap";
 
-.btn-row > button {
+.btn-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-row > button, .btn-row > div > button{
   margin: 0px 10px;
   font-family: monospace;
   @extend .btn;
   @extend .btn-primary;
 }
+
 .w-0 {
   width: 0%;
   overflow: hidden;

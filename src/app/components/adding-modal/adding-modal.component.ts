@@ -9,7 +9,6 @@ import { MathQuillService } from "src/app/services/mathquill.service";
 
 export class AddingModalComponent implements OnInit, AfterViewInit {
   mathField: any;
-  line: string = '';
   type: string = 'formula';
   
   constructor(private dialogRef: MatDialogRef<AddingModalComponent>, 
@@ -29,10 +28,7 @@ export class AddingModalComponent implements OnInit, AfterViewInit {
   }
 
   add() {
-    if(this.type == 'formula')
-      this.dialogRef.close({line: `$${this.mathField.latex()}$`});
-    else 
-      this.dialogRef.close({line: this.line});
+    this.dialogRef.close({line: `$${this.mathField.latex()}$`});
   }
 
 }

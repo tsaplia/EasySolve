@@ -5,7 +5,7 @@ $primary: #bbddd4;
   font-family: monospace;
 }
 .all {
- width: 100vh;
+ width: 100%;
  @extend .bg-light;
 }
 .head {
@@ -18,12 +18,12 @@ $primary: #bbddd4;
 }
 .finput {
   width: 100%;
-
+  min-width: 600px;
   font-size: 22px;
 
   border: none;
   border-bottom: 2px solid #777777;
-  background: transparent;
+  background-color: #f8f9fa;
   outline: 0;
 }
 .finput:focus {

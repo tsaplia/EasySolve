@@ -1,13 +1,57 @@
 <div class="px-2 w-100" style="height: 80%;"> 
   <div class="w-100 mt-5" id="head">
     <div class="btn-row" id="btn-row">
-      <button type="button" (click)="openAddFunction()">Add furmula</button>
-      <button type="button" (click)="openAddText()">Add text</button>
-      <button type="button" (click)="clear()">Clear</button>
+      <button type="button" (click)="interactionToggle()" [disabled]="selectedLine == -1">Interaction</button>
+      <div>
+        <button type="button" (click)="openAddFunction()">Add furmula</button>
+        <button type="button" (click)="openAddText()">Add text</button>
+        <button type="button" (click)="clear()">Clear</button>
+      </div>
       <button type="button" (click)="dictionaryToggle()">Dictionary</button>
     </div>
   </div>
   <div class="body" id="body">
+    <div class="d-flex justify-content-between" style="margin-top: -10px; margin-right: -10px;">
+      <div>
+        <input type="text" placeholder="Title" class="" style="margin-top:10px; border: none;">
+      </div>
+      <div>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_horiz</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item [matMenuTriggerFor]="save">
+            <mat-icon>save_alt</mat-icon>
+            <span>Save As...</span>
+          </button>
+          <mat-menu #save>
+            <button mat-menu-item>
+              <mat-icon>save_alt</mat-icon>
+              <span>json</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>save_alt</mat-icon>
+              <span>txt</span>
+            </button>
+          </mat-menu>
+          
+          <button mat-menu-item [matMenuTriggerFor]="open">
+            <mat-icon>folder_open</mat-icon>
+            <span>Open From...</span>
+          </button>
+          <mat-menu #open>
+            <button mat-menu-item>
+              <mat-icon>save_alt</mat-icon>
+              <span>from bufer</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>save_alt</mat-icon>
+              <span>from folder</span>
+            </button>
+          </mat-menu>
+        </mat-menu>
+      </div>
+    </div>
     <div cdkDropList (cdkDropListDropped)="drop($event)">
       <ng-container *ngFor="let line of lines; index as i">
         <div [id]="line.id" cdkDrag class="d-flex justify-content-between bg-white p-1">

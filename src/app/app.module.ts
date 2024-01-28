@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon'
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 import { AddingModalComponent} from './components/adding-modal/adding-modal.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { CdkDrag, CdkDragHandle, CdkDropList } from '@angular/cdk/drag-drop'
@@ -33,6 +35,8 @@ import { ToastrModule } from 'ngx-toastr';
     NoopAnimationsModule,
     MatDialogModule,
     MatIconModule,
+    MatMenuModule,
+    MatButtonModule,
     ClipboardModule,
     CdkDrag,
     CdkDropList,

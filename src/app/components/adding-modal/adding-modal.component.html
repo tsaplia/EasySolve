@@ -5,11 +5,8 @@
   <div class="body">
     <div>
       <!-- <input type="text" class="finput" [(ngModel)]="formula" (keyup.enter)="add()"> -->
-      <div *ngIf="type=='formula'">
+      <div>
         <span class="finput" id="math-field" (keyup.enter)="add()"></span>
-      </div>
-      <div *ngIf="type=='text'">
-        <input class="finput" id="text-field" [(ngModel)]="this.line" (keyup.enter)="add()" />
       </div>
     </div>
     <div class="mt-2 d-flex justify-content-between">
