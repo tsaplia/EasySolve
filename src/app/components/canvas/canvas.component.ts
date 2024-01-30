@@ -38,23 +38,21 @@ export class MathCanvasComponent implements OnInit {
   ngAfterViewInit(): void {
     this.updateMJ();
   }
-
-
   // update MathJax
   updateMJ() { 
     this.cdRef.detectChanges();
     MathJax.typeset([document.getElementById("body")]);
   }
 
-  // buttons' functionality
+//#region buttons' functionality
   interactionToggle() {
     if(!this.interaction) {
       this.interaction = true;
-      this.interactionEvent.emit({line: this.lines[this.lines.findIndex(el => el.id === this.selectedLine)], selected: this.selectedLine});
+      this.interactionEmit(0);
     }
     else {
       this.interaction = false;
-      this.interactionEvent.emit({line: this.lines[this.lines.findIndex(el => el.id === this.selectedLine)], selected: -1});
+      this.interactionEmit(-1);
     }
   }
 
@@ -62,9 +60,8 @@ export class MathCanvasComponent implements OnInit {
     var formulaDialog = this.dialog.open(AddingModalComponent, {panelClass: 'full-width-dialog', data: {type: 'formula'}});
     formulaDialog.afterClosed().subscribe(resp => {
       if(!resp || resp.line == '$$') return;
+      this.addNewLine(resp.line, "formula");
       let line = new CanvasLine({line: resp.line, type: 'formula'});
-      this.lines.push(line);
-      this.updateMJ();
       
       let formula = formulaFromTeX(resp.line.slice(1, -1));
       let elem = document.querySelector(`#line-${line.id}`) as HTMLElement;
@@ -76,9 +73,7 @@ export class MathCanvasComponent implements OnInit {
     var textDialog = this.dialog.open(AddingModalComponent, {data: {type: 'text'}});
     textDialog.afterClosed().subscribe(resp => {
       if(!resp || resp.line == '$$') return;
-      
-      this.lines.push(new CanvasLine({line: resp.line, type: 'text'}));
-      this.updateMJ();
+      this.addNewLine(resp.line, "text");
     })
   }
 
@@ -93,8 +88,8 @@ export class MathCanvasComponent implements OnInit {
     this.dictionary = !this.dictionary;
     this.dictionaryEvent.emit(this.dictionary);
   }
-
-  // line's functionality
+//#endregion buttons' functionality
+//#region line's functionality 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.lines, event.previousIndex, event.currentIndex);
   }
@@ -120,21 +115,17 @@ export class MathCanvasComponent implements OnInit {
 
     if(this.lines[index].id == this.selectedLine) this.selectedLine = -1;
     else this.selectedLine = this.lines[index].id;
-    
-    if(this.interaction)
-      this.interactionEvent.emit({line: this.lines[index], selected: this.selectedLine});
-    if(this.selectedLine == -1 && this.interaction) {
-      this.interaction = false;
-      this.interactionEvent.emit({line: this.lines[index], selected: this.selectedLine});
-    }
-  }
 
-  // selection functionality
+    if(this.interaction)
+      this.interactionEmit(0);
+  }
+//#endregion line's functionality 
+//#region selection functionality
   selection(text: any) {
     if(text.which == 0) return;
     if(text.which == 1) {
       if(text.srcElement.localName != "mjx-math" && text.srcElement.localName != "div")
-        text.srcElement.style.backgroundColor = "#bcf3fa"; 
+        text.srcElement.style.backgroundColor = "#bcf3fa";
     }
     else {
       text.srcElement.style.backgroundColor = "";
@@ -150,7 +141,23 @@ export class MathCanvasComponent implements OnInit {
       text.srcElement.style.backgroundColor = "";
     }
   }
+//#endregion selection functionality
+//#region help functions
+  interactionEmit(selected: number) {
+    if(this.selectedLine == -1) {
+      let line: CanvasLine = new CanvasLine();
+      line.type = "formula"; line.line = "";
+      this.interactionEvent.emit({line: line, selected: selected});
+    }  else
+    this.interactionEvent.emit({line: this.lines[this.lines.findIndex(el => el.id === this.selectedLine)], selected: selected});
+  }
 
+  addNewLine(line: string, type: string) {
+    let cLine = new CanvasLine({line: line, type: type});
+    this.lines.push(cLine);
+    this.updateMJ();
+  }
+//#endregion help functions
   // test
   @HostListener('window:keyup', ['$event'])
   keyPress(event: KeyboardEvent) {

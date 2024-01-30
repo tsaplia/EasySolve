@@ -20,6 +20,8 @@ export class InteractionComponent {
     else if(this._line[0].id == value.id) this._line = [];
     else this._line[0] = value;
 
+    
+
     this.updateMJ();
     this.cdRef.detectChanges();
   }
@@ -29,5 +31,21 @@ export class InteractionComponent {
   updateMJ() { // update MathJax  
     this.cdRef.detectChanges();
     MathJax.typeset([document.getElementById("interaction")]);
+  }
+// you can rename all this funtions and buttons. Also you can add new if you need.
+  btn1() {
+    
+  }
+  btn2() {
+    
+  }
+  btn3() {
+    
+  }
+  btn4() {
+    
+  }
+  btn5() {
+    
   }
 }

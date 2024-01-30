@@ -1,8 +1,18 @@
 <div id="interaction" class="pe-2 h-100">
   <div class="interaction-card">
     Interaction
-    <div *ngFor="let line of _line">
+    <div id="input" *ngFor="let line of _line">
       {{line ? line.line : ''}}
+    </div>
+    <div id="output">
+
+    </div>
+    <div class="btn-row">
+      <button (click)="btn1()">1</button>
+      <button (click)="btn2()">2</button>
+      <button (click)="btn3()">3</button>
+      <button (click)="btn4()">4</button>
+      <button (click)="btn5()">5</button>
     </div>
   </div>
 </div>

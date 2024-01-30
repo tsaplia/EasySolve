@@ -16,3 +16,23 @@ $primary: #bbddd4;
 #interaction {
   font-family: monospace;
 }
+
+.btn-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-row > button, .btn-row > div > button{
+  margin-top: 10px;
+  font-family: monospace;
+  @extend .btn;
+  @extend .btn-secondary;
+}
+
+#input, #output {
+  display: flex;
+  align-items: center;
+  min-height: 30px;
+  margin-top: 10px;
+  background-color: antiquewhite;
+}
