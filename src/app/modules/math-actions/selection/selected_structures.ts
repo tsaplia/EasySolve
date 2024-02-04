@@ -14,8 +14,7 @@ export class SelectedStructures extends Map<HTMLElement, MathStruct>{
         if(Array.from(this.values()).every(struct => struct instanceof Formula && struct.equalityParts.length >= 2)) 
             return "formula";
         let parent: MathStruct | null = this.values().next().value.parent;
-        if(!parent) return this.size == 1 ? "structure" : null;
-        if(parent instanceof Formula) return null;
+        if(!parent || (parent instanceof Formula)) return this.size == 1 ? "structure" : null;
         return Array.from(this.values()).every(struct => struct.parent == parent) ? "structure" : null;
     }
 

@@ -63,10 +63,6 @@ export class MathCanvasComponent implements OnInit {
       if(!resp || resp.line == '$$') return;
       this.addNewLine(resp.line, "formula");
       let line = new CanvasLine({line: resp.line, type: 'formula'});
-      
-      let formula = formulaFromTeX(resp.line.slice(1, -1));
-      let elem = document.querySelector(`#line-${line.id}`) as HTMLElement;
-      prepareHTML(elem, formula);
     });
   }
 
@@ -163,6 +159,10 @@ export class MathCanvasComponent implements OnInit {
     let cLine = new CanvasLine({line: line, type: type});
     this.lines.push(cLine);
     this.updateMJ();
+    if(type == 'formula') {
+      let elem = document.querySelector(`#line-${cLine.id}`) as HTMLElement;
+      prepareHTML(elem, formulaFromTeX(line.slice(1, -1)));
+    }
   }
 //#endregion help functions
   // test
@@ -173,16 +173,11 @@ export class MathCanvasComponent implements OnInit {
   }
 
   testTemplateUse() {
-    console.log("test");
     let tString: string = '\\sin\\left(2[x]\\right)=>2\\sin\\left([x]\\right)\\cos\\left([x]\\right)';
     let template = templateFromTeX(tString);
     let result = tryTemplete(template);
     if(!result) return;
-    let line = new CanvasLine({line: `$${result.toTex()}$`, type: 'formula'});
-    this.lines.push(line);
-    this.updateMJ();
-    let elem = document.querySelector(`#line-${line.id}`) as HTMLElement;
-    prepareHTML(elem, result);
+    this.addNewLine(`$${result.toTex()}$`, 'formula');
   }
 
 }

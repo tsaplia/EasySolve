@@ -33,6 +33,7 @@ export class InteractionComponent {
     MathJax.typeset([document.getElementById("interaction")]);
   }
 // you can rename all this funtions and buttons. Also you can add new if you need.
+
   btn1() {
     
   }
