@@ -17,6 +17,7 @@ import { MathCanvasComponent } from './components/canvas/canvas.component';
 import { DictionaryComponent } from './components/dictionary/dictionary.component';
 import { InteractionComponent } from './components/interaction/interaction.component';
 import { ToastrModule } from 'ngx-toastr';
+import { SaveOpenComponent } from './components/save-open/save-open.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ToastrModule } from 'ngx-toastr';
     AddingModalComponent,
     MathCanvasComponent,
     DictionaryComponent,
-    InteractionComponent
+    InteractionComponent,
+    SaveOpenComponent
   ],
   imports: [
     BrowserModule,

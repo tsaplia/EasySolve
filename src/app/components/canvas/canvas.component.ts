@@ -5,7 +5,7 @@ import { ClipboardService } from "ngx-clipboard";
 import { AddingModalComponent } from "../adding-modal/adding-modal.component";
 import { formulaFromTeX, templateFromTeX } from "src/app/modules/math-actions/from-tex";
 import { prepareHTML } from "src/app/modules/math-actions/selection/selection-listeners";
-import { CanvasLine } from "src/app/modules/canvasLine";
+import { CanvasLine } from "src/app/models/canvasLine";
 import { ToastrService } from "ngx-toastr";
 import { tryTemplete } from "src/app/modules/math-actions/templates/templete-functions";
 
@@ -22,6 +22,7 @@ export class MathCanvasComponent implements OnInit {
   @Output() interactionEvent = new EventEmitter<any>();
 
   lines: CanvasLine[] = [];
+  title: string = '';
   dictionary: boolean = false;
   interaction: boolean = false;
   selectedLine: number = -1;
@@ -87,6 +88,12 @@ export class MathCanvasComponent implements OnInit {
   dictionaryToggle() {
     this.dictionary = !this.dictionary;
     this.dictionaryEvent.emit(this.dictionary);
+  }
+
+  linesFromFile(value: any) {
+    this.title = value.title;
+    this.lines = value.lines;
+    this.updateMJ();
   }
 //#endregion buttons' functionality
 //#region line's functionality 

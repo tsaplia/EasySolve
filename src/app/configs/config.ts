@@ -13,3 +13,11 @@ export const availibleMathFunc = {
   "arccos":Math.acos, 
   "arctan":Math.atan
 }
+
+export class idCounter {
+  static id: number = 0;
+  static getId(): number {
+    this.id+=1;
+    return this.id;
+  }
+}

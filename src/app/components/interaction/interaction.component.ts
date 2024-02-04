@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input } from "@angular/core";
-import { CanvasLine } from "src/app/modules/canvasLine";
+import { CanvasLine } from "src/app/models/canvasLine";
 
 declare let MathJax: any;
 

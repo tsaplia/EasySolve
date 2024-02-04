@@ -1,3 +1,5 @@
+import { idCounter } from "../configs/config";
+
 export class CanvasLine {
   id: number;
   type: string;
@@ -5,6 +7,6 @@ export class CanvasLine {
   
   constructor(obj?: any) {
     if(obj) Object.assign(this, obj);
-    this.id = new Date().getTime();
+    this.id = idCounter.getId();
   }
 }
