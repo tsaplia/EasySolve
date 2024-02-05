@@ -1,0 +1,18 @@
+[
+  {
+    "id":"algebra-1",
+    "category":"algebra",
+    "action":false,
+    "type":"formula",
+    "body":"$\\left(a+b\\right)^2=a^2+2ab+b^2$",
+    "name":"$\\left(a+b\\right)^2=a^2+2ab+b^2$"
+  },
+  {
+    "id":"algebra-2",
+    "category":"algebra",
+    "action":false,
+    "type":"formula",
+    "body":"$a^2-b^2=\\left(a-b\\right)\\left(a+b\\right)$",
+    "name":"$a^2-b^2=\\left(a-b\\right)\\left(a+b\\right)$"
+  }
+]

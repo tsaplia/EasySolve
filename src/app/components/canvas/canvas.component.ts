@@ -8,6 +8,7 @@ import { prepareHTML } from "src/app/modules/math-actions/selection/selection-li
 import { CanvasLine } from "src/app/models/canvasLine";
 import { ToastrService } from "ngx-toastr";
 import { tryTemplete } from "src/app/modules/math-actions/templates/templete-functions";
+import * as TemplateData from "src/assets/templates.json"
 
 declare let MathJax: any;
 
@@ -27,6 +28,8 @@ export class MathCanvasComponent implements OnInit {
   interaction: boolean = false;
   selectedLine: number = -1;
 
+  templates: any = TemplateData;
+
   constructor(private dialog: MatDialog, 
               private cdRef: ChangeDetectorRef,
               private clipboardService: ClipboardService,
@@ -34,6 +37,7 @@ export class MathCanvasComponent implements OnInit {
               ) {}
 
   ngOnInit() {
+    console.log(this.templates);
   }
 
   ngAfterViewInit(): void {
@@ -122,29 +126,7 @@ export class MathCanvasComponent implements OnInit {
     if(this.interaction)
       this.interactionEmit(0);
   }
-//#endregion line's functionality 
-//#region selection functionality
-  selection(text: any) {
-    if(text.which == 0) return;
-    if(text.which == 1) {
-      if(text.srcElement.localName != "mjx-math" && text.srcElement.localName != "div")
-        text.srcElement.style.backgroundColor = "#bcf3fa";
-    }
-    else {
-      text.srcElement.style.backgroundColor = "";
-    }
-  }
-
-  clickSelection(text: any) {
-    if(text.which == 1) {
-      if(text.srcElement.localName != "mjx-math" && text.srcElement.localName != "div")
-          text.srcElement.style.backgroundColor = "#bcf3fa";
-    }
-    else {
-      text.srcElement.style.backgroundColor = "";
-    }
-  }
-//#endregion selection functionality
+//#endregion line's functionality
 //#region help functions
   interactionEmit(selected: number) {
     if(this.selectedLine == -1) {

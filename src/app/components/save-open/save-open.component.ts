@@ -1,5 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { ClipboardService } from "ngx-clipboard";
+import { ToastrService } from "ngx-toastr";
 import { CanvasLine } from "src/app/models/canvasLine";
 
 @Component({
@@ -15,10 +17,11 @@ export class SaveOpenComponent {
   @Output() openEvent = new EventEmitter<any>();
 
   file: any;
-  newLines: CanvasLine[] = [];
 
   constructor(private clipboardService: ClipboardService,
-              private cdRef: ChangeDetectorRef) {
+              private cdRef: ChangeDetectorRef,
+              private toast: ToastrService,
+              private dialog: MatDialog) {
   }
 
   dowload(type: string) {
@@ -36,14 +39,6 @@ export class SaveOpenComponent {
   }
 
   async dataFromClipboard() { // doesn't work
-    // const data = await navigator.clipboard.read();
-    // console.debug(data);
-    // for(const item of data) {
-    //   for(const type of item.types) {
-    //     const blob = await item.getType(type);
-    //     console.log(blob)
-    //   }
-    // }
   }
 
   dataFromFolder() {
@@ -52,30 +47,31 @@ export class SaveOpenComponent {
 
   handleFile(value: any) {
     this.file = value.target.files[0]
-    console.log(this.file.name)
+    value.target.value = null;
     var reader = new FileReader();
     reader.onload = (e) => {
-      this.toCanvasLine(reader.result?.toString(), this.file.name);
+      this.parseData(reader.result?.toString(), this.file.name);
     }
     reader.readAsText(this.file)
   }
 
-  toCanvasLine(value: any, title: string) {
+  parseData(value: any, title: string) {
     try {
       var objects = JSON.parse(value);
-      for(let item of objects) {
-        this.newLines.push(new CanvasLine(item));
-      }
+      let newLines: CanvasLine[] = [];
+      for(let item of objects)
+        newLines.push(new CanvasLine(item));
       let titles = title.split('.');
       title = '';
       titles.forEach((e, index) =>  {
         if(index < titles.length-1)
           title += e;
       });
-      this.openEvent.emit({title: title, lines: this.newLines});
-      this.newLines = [];
+      this.openEvent.emit({title: title, lines: newLines});
     }
     catch(error) {
+      this.toast.clear();
+      this.toast.error("Program takes only .json and .txt file formats, and files with correct structure.", "File incorrect")
       console.log(error);
     }
   }
