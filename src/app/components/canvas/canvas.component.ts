@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { ChangeDetectorRef, Component, EventEmitter, HostListener, OnInit, Output } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit, Output } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ClipboardService } from "ngx-clipboard";
 import { AddingModalComponent } from "../adding-modal/adding-modal.component";
@@ -9,6 +9,7 @@ import { CanvasLine } from "src/app/models/canvasLine";
 import { ToastrService } from "ngx-toastr";
 import { tryTemplete } from "src/app/modules/math-actions/templates/templete-functions";
 import * as TemplateData from "src/assets/templates.json"
+import { Formula } from "src/app/modules/math-structures/formula";
 
 declare let MathJax: any;
 
@@ -21,6 +22,12 @@ export class MathCanvasComponent implements OnInit {
   
   @Output() dictionaryEvent = new EventEmitter<boolean>();
   @Output() interactionEvent = new EventEmitter<any>();
+
+  @Input() set newFormula(value: Formula | null) {
+    if(!value) return;
+    this.addNewLine(`$${value.toTex()}$`, 'formula');
+    this.newFormula = null;
+  }
 
   lines: CanvasLine[] = [];
   title: string = '';

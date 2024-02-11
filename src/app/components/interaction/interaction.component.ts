@@ -1,5 +1,8 @@
-import { ChangeDetectorRef, Component, Input } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
 import { CanvasLine } from "src/app/models/canvasLine";
+import { availibleActions } from "src/app/modules/math-actions/actions";
+import { Formula } from "src/app/modules/math-structures/formula";
+import templates from "src/assets/templates.json";
 
 declare let MathJax: any;
 
@@ -10,8 +13,10 @@ declare let MathJax: any;
 })
 
 export class InteractionComponent {
-
+  templates = templates;
   _line: CanvasLine[] = [];
+
+  @Output() ActionEvent = new EventEmitter<Formula>();
 
   @Input() set line(value: CanvasLine) {
     if(!value) return;
@@ -27,26 +32,23 @@ export class InteractionComponent {
   }
 
   constructor(private cdRef: ChangeDetectorRef) {}
+
+  ngAfterViewInit(): void {
+    this.updateMJ();
+    console.log(templates);
+  }
   
   updateMJ() { // update MathJax  
     this.cdRef.detectChanges();
     MathJax.typeset([document.getElementById("interaction")]);
   }
-// you can rename all this funtions and buttons. Also you can add new if you need.
 
-  btn1() {
-    
+  useTemplate(id: string) {
+    let action = availibleActions.get(id);
+    if(!action) return;
+    let formula = action();
+    console.log(formula?.toTex(), "new formula");
+    if(formula) this.ActionEvent.emit(formula);
   }
-  btn2() {
-    
-  }
-  btn3() {
-    
-  }
-  btn4() {
-    
-  }
-  btn5() {
-    
-  }
+
 }

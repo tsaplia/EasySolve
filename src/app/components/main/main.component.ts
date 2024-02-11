@@ -1,4 +1,5 @@
 import {ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild } from "@angular/core";
+import { Formula } from "src/app/modules/math-structures/formula";
 
 declare let MathJax: any;
 
@@ -16,6 +17,7 @@ export class MainComponent implements OnInit {
   dictionary: boolean = false;
   interaction: boolean = false;
   intFormula: any = null;
+  newCanvasFormula: Formula | null = null;
 
   constructor(private cdRef: ChangeDetectorRef) {}
 
@@ -31,5 +33,4 @@ export class MainComponent implements OnInit {
     else this.interaction = false;
     this.intFormula = value.line;
   }
-  
 }
