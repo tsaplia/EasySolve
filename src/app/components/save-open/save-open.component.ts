@@ -42,7 +42,8 @@ export class SaveOpenComponent {
   }
 
   dataFromFolder() {
-    document.getElementById('file')?.click();
+    //if(confirm("If you open the file, the information already entered will be erased. You want open the file?"))
+      document.getElementById('file')?.click();
   }
 
   handleFile(value: any) {
