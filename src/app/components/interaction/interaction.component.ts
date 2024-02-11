@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angu
 import { CanvasLine } from "src/app/models/canvasLine";
 import { availibleActions } from "src/app/modules/math-actions/actions";
 import { Formula } from "src/app/modules/math-structures/formula";
-import templates from "src/assets/templates.json";
+import templates from "src/assets/actions.json";
 
 declare let MathJax: any;
 
@@ -25,8 +25,6 @@ export class InteractionComponent {
     else if(this._line[0].id == value.id) this._line = [];
     else this._line[0] = value;
 
-    
-
     this.updateMJ();
     this.cdRef.detectChanges();
   }
@@ -35,7 +33,6 @@ export class InteractionComponent {
 
   ngAfterViewInit(): void {
     this.updateMJ();
-    console.log(templates);
   }
   
   updateMJ() { // update MathJax  
@@ -45,10 +42,9 @@ export class InteractionComponent {
 
   useTemplate(id: string) {
     let action = availibleActions.get(id);
+    console.log("action", action);
     if(!action) return;
     let formula = action();
-    console.log(formula?.toTex(), "new formula");
     if(formula) this.ActionEvent.emit(formula);
   }
-
 }

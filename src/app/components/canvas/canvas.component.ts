@@ -8,7 +8,7 @@ import { prepareHTML } from "src/app/modules/math-actions/selection/selection-li
 import { CanvasLine } from "src/app/models/canvasLine";
 import { ToastrService } from "ngx-toastr";
 import { tryTemplete } from "src/app/modules/math-actions/templates/templete-functions";
-import * as TemplateData from "src/assets/templates.json"
+import * as TemplateData from "src/assets/actions.json"
 import { Formula } from "src/app/modules/math-structures/formula";
 
 declare let MathJax: any;
@@ -35,7 +35,7 @@ export class MathCanvasComponent implements OnInit {
   interaction: boolean = false;
   selectedLine: number = -1;
 
-  templates: any = TemplateData;
+  templates = TemplateData;
 
   constructor(private dialog: MatDialog, 
               private cdRef: ChangeDetectorRef,
@@ -154,19 +154,4 @@ export class MathCanvasComponent implements OnInit {
     }
   }
 //#endregion help functions
-  // test
-  @HostListener('window:keyup', ['$event'])
-  keyPress(event: KeyboardEvent) {
-
-    if(event.altKey && event.key  == "u") this.testTemplateUse();
-  }
-
-  testTemplateUse() {
-    let tString: string = '\\sin\\left(2[x]\\right)=>2\\sin\\left([x]\\right)\\cos\\left([x]\\right)';
-    let template = templateFromTeX(tString);
-    let result = tryTemplete(template);
-    if(!result) return;
-    this.addNewLine(`$${result.toTex()}$`, 'formula');
-  }
-
 }
