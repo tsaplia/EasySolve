@@ -1,8 +1,10 @@
 <div id="interaction" class="pe-2 h-100">
   <div class="interaction-card">
     Interaction
-    <div id="input" *ngFor="let line of _line">
-      {{line ? line.line : ''}}
+    <div id="input">
+      <div *ngFor="let line of lines">
+        {{line ? line.line : ''}}
+      </div>
     </div>
     <div id="output">
 

@@ -10,6 +10,7 @@ import { ToastrService } from "ngx-toastr";
 import { tryTemplete } from "src/app/modules/math-actions/templates/templete-functions";
 import * as TemplateData from "src/assets/actions.json"
 import { Formula } from "src/app/modules/math-structures/formula";
+import { StorageService } from "src/app/services/storage.service";
 
 declare let MathJax: any;
 
@@ -21,7 +22,7 @@ declare let MathJax: any;
 export class MathCanvasComponent implements OnInit {
   
   @Output() dictionaryEvent = new EventEmitter<boolean>();
-  @Output() interactionEvent = new EventEmitter<any>();
+  @Output() interactionEvent = new EventEmitter<boolean>();
 
   @Input() set newFormula(value: Formula | null) {
     if(!value) return;
@@ -29,7 +30,7 @@ export class MathCanvasComponent implements OnInit {
     this.newFormula = null;
   }
 
-  lines: CanvasLine[] = [];
+  // lines: CanvasLine[] = [];
   title: string = '';
   dictionary: boolean = false;
   interaction: boolean = false;
@@ -37,10 +38,15 @@ export class MathCanvasComponent implements OnInit {
 
   templates = TemplateData;
 
+  get lines() {
+    return this.storage.lines;
+  }
+
   constructor(private dialog: MatDialog, 
               private cdRef: ChangeDetectorRef,
               private clipboardService: ClipboardService,
               private toast: ToastrService,
+              private storage: StorageService
               ) {}
 
   ngOnInit() {
@@ -58,14 +64,8 @@ export class MathCanvasComponent implements OnInit {
 
 //#region buttons' functionality
   interactionToggle() {
-    if(!this.interaction) {
-      this.interaction = true;
-      this.interactionEmit(0);
-    }
-    else {
-      this.interaction = false;
-      this.interactionEmit(-1);
-    }
+    this.interaction = !this.interaction;
+    this.interactionEvent.emit(this.interaction);
   }
 
   openAddFunction() {
@@ -88,7 +88,7 @@ export class MathCanvasComponent implements OnInit {
   clear() {
     if(this.selectedLine != -1)
       this.lineSelect(this.lines.findIndex(el => el.id === this.selectedLine));
-    this.lines = [];
+    this.storage.clearLines();
     this.cdRef.detectChanges();
   }
 
@@ -99,7 +99,7 @@ export class MathCanvasComponent implements OnInit {
 
   linesFromFile(value: any) {
     this.title = value.title;
-    this.lines = value.lines;
+    this.storage.setLines(value.lines);
     this.updateMJ();
   }
 //#endregion buttons' functionality
@@ -130,23 +130,16 @@ export class MathCanvasComponent implements OnInit {
     if(this.lines[index].id == this.selectedLine) this.selectedLine = -1;
     else this.selectedLine = this.lines[index].id;
 
-    if(this.interaction)
-      this.interactionEmit(0);
+    if(this.selectedLine == -1)
+      this.storage.selectedLine = null;
+    else 
+      this.storage.selectedLine = this.lines[index];
   }
 //#endregion line's functionality
 //#region help functions
-  interactionEmit(selected: number) {
-    if(this.selectedLine == -1) {
-      let line: CanvasLine = new CanvasLine();
-      line.type = "formula"; line.line = "";
-      this.interactionEvent.emit({line: line, selected: selected});
-    }  else
-    this.interactionEvent.emit({line: this.lines[this.lines.findIndex(el => el.id === this.selectedLine)], selected: selected});
-  }
-
   addNewLine(line: string, type: string) {
     let cLine = new CanvasLine({line: line, type: type});
-    this.lines.push(cLine);
+    this.storage.addLine(cLine)
     this.updateMJ();
     if(type == 'formula') {
       let elem = document.querySelector(`#line-${cLine.id}`) as HTMLElement;

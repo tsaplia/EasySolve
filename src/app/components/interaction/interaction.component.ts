@@ -1,7 +1,9 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
+import { NonNullAssert } from "@angular/compiler";
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { CanvasLine } from "src/app/models/canvasLine";
 import { availibleActions } from "src/app/modules/math-actions/actions";
 import { Formula } from "src/app/modules/math-structures/formula";
+import { StorageService } from "src/app/services/storage.service";
 import templates from "src/assets/actions.json";
 
 declare let MathJax: any;
@@ -12,29 +14,41 @@ declare let MathJax: any;
   styleUrls: ['interaction.component.scss']
 })
 
-export class InteractionComponent {
+export class InteractionComponent implements OnInit {
   templates = templates;
-  _line: CanvasLine[] = [];
+  private _lines: CanvasLine[] = [];
 
   @Output() ActionEvent = new EventEmitter<Formula>();
 
-  @Input() set line(value: CanvasLine) {
-    if(!value) return;
-    
-    if(this._line.length == 0) this._line.push(value); 
-    else if(this._line[0].id == value.id) this._line = [];
-    else this._line[0] = value;
 
-    this.updateMJ();
-    this.cdRef.detectChanges();
+  get lines(): CanvasLine[] {
+    if(this.storage.selectedLine == null) { 
+      if(this._lines.length != 0){
+        this._lines = [];
+        this.updateMJ();
+      }  
+    }
+    else {
+      if(this._lines.length == 0) {
+        this._lines.push(this.storage.selectedLine);
+        this.updateMJ();
+      }
+      else {
+        if(this._lines[0] != this.storage.selectedLine) {
+          this._lines[0] = this.storage.selectedLine;
+          this.updateMJ();
+        }
+      }
+    }
+    return this._lines;
   }
 
-  constructor(private cdRef: ChangeDetectorRef) {}
-
-  ngAfterViewInit(): void {
-    this.updateMJ();
+  constructor(private cdRef: ChangeDetectorRef,
+              private storage: StorageService) { }
+  ngOnInit(): void {
   }
-  
+
+
   updateMJ() { // update MathJax  
     this.cdRef.detectChanges();
     MathJax.typeset([document.getElementById("interaction")]);

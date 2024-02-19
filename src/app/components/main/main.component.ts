@@ -29,8 +29,6 @@ export class MainComponent implements OnInit {
   }
   
   interactionEvent(value: any) {
-    if(value.selected >= 0) this.interaction = true;
-    else this.interaction = false;
-    this.intFormula = value.line;
+    this.interaction = value;
   }
 }
