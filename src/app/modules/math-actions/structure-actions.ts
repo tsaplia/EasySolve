@@ -46,3 +46,32 @@ export function toTerm(mult: Multiplier | Term): Term {
     if(mult instanceof Expression && mult.content.length == 1) return mult.content[0].copy();
     return new Term([mult.copy()]);
 }
+
+export function removeExtraGroups(struct: MathStruct): MathStruct {
+    if(struct instanceof Term){
+        let content: Multiplier[] = [];
+        let modified = false;
+        for(let mult of struct.content){
+            if(mult instanceof Expression && mult.content.length == 1 && mult.content[0].sign == "+"){
+                content.push(...mult.content[0].content);
+                modified = true;
+            }else{
+                content.push(mult);
+            }
+        }
+        return modified ? new Term(content.map((mult) => mult.copy())) : struct;
+    }if(struct instanceof Expression){
+        let content: Term[] = [];
+        let modified = false;
+        for(let term of struct.content){
+            if(term.sign == "+" && term.content.length == 1 && term.content[0] instanceof Expression){
+                content.push(...term.content[0].content);
+                modified = true;
+            }else{
+                content.push(term);
+            }
+        }
+        return modified ? new Expression(content.map((mult) => mult.copy())) : struct;
+    }
+    return struct;
+}

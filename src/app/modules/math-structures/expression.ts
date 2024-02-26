@@ -6,7 +6,7 @@ export class Expression extends Multiplier{
     content: Term[]
     constructor(content: Term[]) {
         super();
-        this.content = content; // inner terms of block
+        this.content = [...content]; // inner terms of block
         this.content.forEach((term)=>term.parent = this);
     }
 
@@ -44,24 +44,10 @@ export class Expression extends Multiplier{
     }
 
     override get children(): MathStruct[] {
-        return this.content;
+        return [...this.content];
     }
 
     override changeStructure(callback: (struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Expression {
         return new Expression(this.content.map((term) => callback(term, ...args) as Term));
-    }
-
-    /** remove all plus-terms with only block multiplier */
-    // !!: may be changed
-    removeExtraBlocks() {
-        let modified = false;
-        for (let term of this.content) {
-            if (term.content.length == 1 && term.content[0] instanceof Expression && term.sign == "+") {
-                this.content.splice(this.content.indexOf(term), 1, ...term.content[0].content);
-                modified = true;
-            }
-        }
-
-        return modified;
     }
 }

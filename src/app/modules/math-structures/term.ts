@@ -8,7 +8,7 @@ export class Term extends MathStruct {
     constructor(content: Multiplier[], sign: '+' | '-' = '+') {
         super();
         this.sign = sign; // plus(+) or minus(-)
-        this.content = content; // inner multipliers
+        this.content = [...content]; // inner multipliers
         this.content.forEach((mult)=>mult.parent = this);
     }
 
@@ -32,8 +32,8 @@ export class Term extends MathStruct {
         return new Term(this.content.map((mult) => mult.copy()), this.sign);
     }
 
-    override isEqual(other: Term): boolean {
-        if (this.sign != other.sign || !(other instanceof Term) ||
+    override isEqual(other: MathStruct): boolean {
+        if (!(other instanceof Term) || this.sign != other.sign || 
             this.content.length != other.content.length) return false;
         // !!:attention code deleted
         for (let i = 0; i < this.content.length; i++) {
@@ -46,26 +46,10 @@ export class Term extends MathStruct {
     }
 
     override get children(): MathStruct[] {
-        return this.content;
+        return [...this.content];
     }
 
     override changeStructure(callback: (struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Term {
         return new Term(this.content.map((mult) => callback(mult, ...args)), this.sign);
-    }
-
-    // !!: may be changed
-    changeSign() {
-        this.sign = this.sign == "+" ? "-" : "+";
-    }
-
-    // !!: may be changed
-    removeExtraBlocks(start: number = 0, end: number = this.content.length): void {
-        for (let i = start; i < end; i++) {
-            let mult = this.content[i];
-            if (!(mult instanceof Expression) || mult.content.length != 1) continue;
-
-            this.content.splice(this.content.indexOf(mult), 1, ...mult.content[0].content);
-            if (mult.content[0].sign == "-") this.changeSign();
-        }
     }
 }

@@ -11,7 +11,7 @@ import { Template } from "../math-structures/template";
 import { TemplateVar } from "../math-structures/template-var";
 import { Term } from "../math-structures/term";
 import { Variable } from "../math-structures/variable";
-import { toExpression } from "./structure-actions";
+import { toExpression, toTerm } from "./structure-actions";
 
 
 class IterStr {
@@ -148,13 +148,11 @@ function termFromTeX(itStr: IterStr) {
 function fracFromTeX(itStr: IterStr) {
     let num; let denom;
     itStr.add(6);
-    num = new Term([expressionFromTeX(itStr)]);
-    num.removeExtraBlocks();
+    num = toTerm(expressionFromTeX(itStr));
     if (!itStr.startsWith("}{")) throw new Error("Incorrect input string");
 
     itStr.add(2);
-    denom = new Term([expressionFromTeX(itStr)]);
-    denom.removeExtraBlocks();
+    denom = toTerm(expressionFromTeX(itStr));
     if (!itStr.startsWith("}")) throw new Error("Incorrect input string");
     itStr.add(1);
 
