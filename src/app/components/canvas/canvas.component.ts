@@ -125,15 +125,15 @@ export class MathCanvasComponent implements OnInit {
   }
 
   lineSelect(index: number) {
-    if(this.lines[index].type == 'text') return;
+    // if(this.lines[index].type == 'text') return;
 
-    if(this.lines[index].id == this.selectedLine) this.selectedLine = -1;
-    else this.selectedLine = this.lines[index].id;
+    // if(this.lines[index].id == this.selectedLine) this.selectedLine = -1;
+    // else this.selectedLine = this.lines[index].id;
 
-    if(this.selectedLine == -1)
-      this.storage.selectedLine = null;
-    else 
-      this.storage.selectedLine = this.lines[index];
+    // if(this.selectedLine == -1)
+    //   this.storage.selectedLine = null;
+    // else 
+    //   this.storage.selectedLine = this.lines[index];
   }
 //#endregion line's functionality
 //#region help functions

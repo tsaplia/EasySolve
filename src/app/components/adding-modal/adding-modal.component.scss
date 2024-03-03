@@ -6,6 +6,8 @@ $primary: #bbddd4;
 }
 .all {
  width: 100%;
+ border-radius: 10px;
+//  @extend .rounded;
  @extend .bg-light;
 }
 .head {

@@ -1,0 +1,13 @@
+<div>
+  <div *ngFor="let category of categories">
+    <div (click)="openCategory(category.id)" class="category">
+      <mat-icon>{{openCategories.get(category.id) ? "expand_more" : "chevron_right"}}</mat-icon>{{category.name}}
+    </div>
+    <div *ngIf="openCategories.get(category.id)">
+      <div *ngFor="let action of actionsByCategory.get(category.id)" class="list-item">
+        <div>{{action.name}}</div>
+        <button (click)="useAction(action.id)" class="btn btn-outline-secondary d-flex p-0 mx-1 my-auto"><mat-icon>play_arrow</mat-icon></button>
+      </div>
+    </div>
+  </div>
+</div>

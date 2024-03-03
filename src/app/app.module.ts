@@ -18,6 +18,7 @@ import { DictionaryComponent } from './components/dictionary/dictionary.componen
 import { InteractionComponent } from './components/interaction/interaction.component';
 import { ToastrModule } from 'ngx-toastr';
 import { SaveOpenComponent } from './components/save-open/save-open.component';
+import { ListComponent } from './components/list/list.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { SaveOpenComponent } from './components/save-open/save-open.component';
     MathCanvasComponent,
     DictionaryComponent,
     InteractionComponent,
-    SaveOpenComponent
+    SaveOpenComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
