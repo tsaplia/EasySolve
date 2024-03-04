@@ -50,7 +50,6 @@ export class MathCanvasComponent implements OnInit {
               ) {}
 
   ngOnInit() {
-    console.log(this.templates);
   }
 
   ngAfterViewInit(): void {

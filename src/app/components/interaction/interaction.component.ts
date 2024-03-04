@@ -1,4 +1,3 @@
-import { NonNullAssert } from "@angular/compiler";
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { CanvasLine } from "src/app/models/canvasLine";
 import { availibleActions } from "src/app/modules/math-actions/actions";

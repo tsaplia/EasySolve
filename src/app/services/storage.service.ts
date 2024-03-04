@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { CanvasLine } from "../models/canvasLine";
+import { selected } from "../modules/math-actions/selection/selected";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,13 @@ export class StorageService {
   }
 
   get selectedLine(): CanvasLine | null {
+    if(selected.type != 'structure') {
+      this._selectedLine = null;
+    }else if(this._selectedLine == null){
+      let text = selected.getStructureData().structure.toTex();
+      this._selectedLine = new CanvasLine({line: text, type: 'formula'});
+    }
+    
     return this._selectedLine;
   }
   set selectedLine(line: CanvasLine | null) {
