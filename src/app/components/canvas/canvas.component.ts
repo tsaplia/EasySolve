@@ -34,7 +34,6 @@ export class MathCanvasComponent implements OnInit {
   title: string = '';
   dictionary: boolean = false;
   interaction: boolean = false;
-  selectedLine: number = -1;
 
   templates = TemplateData;
 
@@ -72,7 +71,6 @@ export class MathCanvasComponent implements OnInit {
     formulaDialog.afterClosed().subscribe(resp => {
       if(!resp || resp.line == '$$') return;
       this.addNewLine(resp.line, "formula");
-      let line = new CanvasLine({line: resp.line, type: 'formula'});
     });
   }
 
@@ -85,8 +83,6 @@ export class MathCanvasComponent implements OnInit {
   }
 
   clear() {
-    if(this.selectedLine != -1)
-      this.lineSelect(this.lines.findIndex(el => el.id === this.selectedLine));
     this.storage.clearLines();
     this.cdRef.detectChanges();
   }
@@ -108,9 +104,7 @@ export class MathCanvasComponent implements OnInit {
   }
   
   deleteFunction(index: number) {
-    if(index < 0) return;
-    if(this.selectedLine == this.lines[index].id) this.lineSelect(index);
-    this.lines.splice(index, 1);
+    this.storage.deleteLine(index);
     this.updateMJ();
   }
   
@@ -136,7 +130,7 @@ export class MathCanvasComponent implements OnInit {
   }
 //#endregion line's functionality
 //#region help functions
-  addNewLine(line: string, type: string) {
+  addNewLine(line: string, type: "text" | "formula") {
     let cLine = new CanvasLine({line: line, type: type});
     this.storage.addLine(cLine)
     this.updateMJ();
