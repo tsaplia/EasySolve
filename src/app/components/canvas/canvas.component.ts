@@ -72,7 +72,6 @@ export class MathCanvasComponent implements OnInit {
     formulaDialog.afterClosed().subscribe(resp => {
       if(!resp || resp.line == '$$') return;
       this.addNewLine(resp.line, "formula");
-      let line = new CanvasLine({line: resp.line, type: 'formula'});
     });
   }
 
@@ -110,7 +109,7 @@ export class MathCanvasComponent implements OnInit {
   deleteFunction(index: number) {
     if(index < 0) return;
     if(this.selectedLine == this.lines[index].id) this.lineSelect(index);
-    this.lines.splice(index, 1);
+    this.storage.deleteLine(index);
     this.updateMJ();
   }
   

@@ -16,7 +16,7 @@ export class StorageService {
     this._lines.push(line);
   }
   setLines(lines: CanvasLine[]) {
-    this._lines = lines;
+    this._lines = [...lines];
   }
   deleteLine(index: number) {
     this._lines.splice(index, 1);
