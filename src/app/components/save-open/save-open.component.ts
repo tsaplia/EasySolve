@@ -47,7 +47,7 @@ export class SaveOpenComponent {
   }
 
   handleFile(value: any) {
-    this.file = value.target.files[0]
+    this.file = value.target.files[0];
     value.target.value = null;
     var reader = new FileReader();
     reader.onload = (e) => {
@@ -72,7 +72,7 @@ export class SaveOpenComponent {
     }
     catch(error) {
       this.toast.clear();
-      this.toast.error("Program takes only .json and .txt file formats, and files with correct structure.", "File incorrect")
+      this.toast.error("Program takes only .json and .txt file formats, and files with correct structure.", "File incorrect");
       console.log(error);
     }
   }

@@ -7,8 +7,6 @@ import { formulaFromTeX, templateFromTeX } from "src/app/modules/math-actions/fr
 import { prepareHTML } from "src/app/modules/math-actions/selection/selection-listeners";
 import { CanvasLine } from "src/app/models/canvasLine";
 import { ToastrService } from "ngx-toastr";
-import { tryTemplete } from "src/app/modules/math-actions/templates/templete-functions";
-import * as TemplateData from "src/assets/actions.json"
 import { Formula } from "src/app/modules/math-structures/formula";
 import { StorageService } from "src/app/services/storage.service";
 
@@ -30,12 +28,9 @@ export class MathCanvasComponent implements OnInit {
     this.newFormula = null;
   }
 
-  // lines: CanvasLine[] = [];
   title: string = '';
   dictionary: boolean = false;
   interaction: boolean = false;
-
-  templates = TemplateData;
 
   get lines() {
     return this.storage.lines;
@@ -66,20 +61,12 @@ export class MathCanvasComponent implements OnInit {
     this.interactionEvent.emit(this.interaction);
   }
 
-  openAddFunction() {
-    var formulaDialog = this.dialog.open(AddingModalComponent, {panelClass: 'full-width-dialog', data: {type: 'formula'}});
+  openAddModal(type: "formula" | "text") {
+    var formulaDialog = this.dialog.open(AddingModalComponent, {data: {type: type}});
     formulaDialog.afterClosed().subscribe(resp => {
       if(!resp || resp.line == '$$') return;
-      this.addNewLine(resp.line, "formula");
+      this.addNewLine(resp.line, type);
     });
-  }
-
-  openAddText() {
-    var textDialog = this.dialog.open(AddingModalComponent, {data: {type: 'text'}});
-    textDialog.afterClosed().subscribe(resp => {
-      if(!resp || resp.line == '$$') return;
-      this.addNewLine(resp.line, "text");
-    })
   }
 
   clear() {
@@ -116,21 +103,9 @@ export class MathCanvasComponent implements OnInit {
     this.toast.clear();
     this.toast.success("Copy succes"); // can add in 3rd param {positionClass: 'toast-bottom-right'}
   }
-
-  lineSelect(index: number) {
-    // if(this.lines[index].type == 'text') return;
-
-    // if(this.lines[index].id == this.selectedLine) this.selectedLine = -1;
-    // else this.selectedLine = this.lines[index].id;
-
-    // if(this.selectedLine == -1)
-    //   this.storage.selectedLine = null;
-    // else 
-    //   this.storage.selectedLine = this.lines[index];
-  }
 //#endregion line's functionality
 //#region help functions
-  addNewLine(line: string, type: "text" | "formula") {
+  addNewLine(line: string, type:"formula" | "text") {
     let cLine = new CanvasLine({line: line, type: type});
     this.storage.addLine(cLine)
     this.updateMJ();

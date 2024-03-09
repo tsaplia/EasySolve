@@ -10,16 +10,14 @@ declare let MathJax: any;
   styleUrls: ['main.component.scss']
 })
 export class MainComponent implements OnInit {
-  @ViewChild("render") qqq: ElementRef;
 
   lines: string[] = [];
 
   dictionary: boolean = false;
   interaction: boolean = false;
-  intFormula: any = null;
   newCanvasFormula: Formula | null = null;
 
-  constructor(private cdRef: ChangeDetectorRef) {}
+  constructor() {}
 
   ngOnInit() {
   }

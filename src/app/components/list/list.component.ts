@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
+import { FormulaAction } from "src/app/models/formulaAction";
 
 import actions from "src/assets/actions.json"
 import categories from "src/assets/categories.json"
@@ -12,9 +13,9 @@ declare let MathJax: any;
 })
 export class ListComponent implements OnInit {
   categories = categories;
-  actions = actions;
+  actions: FormulaAction[] = actions;
 
-  actionsByCategory = new Map<number, any[]>;
+  actionsByCategory = new Map<number, FormulaAction[]>;
   openCategories = new Map<number, boolean>;
 
   constructor(private cdRef: ChangeDetectorRef) {}
@@ -24,7 +25,6 @@ export class ListComponent implements OnInit {
       this.actionsByCategory.set(e.id, this.actions.filter(a => a.categoryId == e.id));
       this.openCategories.set(e.id, false);
     });
-
   }
 
   openCategory(id: number) {
@@ -32,14 +32,9 @@ export class ListComponent implements OnInit {
     this.updateMJ();
   }
 
-  useAction(id: number) {
+  useAction(id: string) {
     // for una
   }
-
-  // actionsByCategory(id: number) {
-  //   return this.actions.filter(e => e.categoryId == id);
-  // }
-
 
   updateMJ() { // update MathJax  
     this.cdRef.detectChanges();

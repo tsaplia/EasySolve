@@ -23,10 +23,10 @@
       <span>Open From...</span>
     </button>
     <mat-menu #open>
-      <button mat-menu-item (click)="dataFromClipboard()">
+      <!-- <button mat-menu-item (click)="dataFromClipboard()">
         <mat-icon>file_copy</mat-icon>
         <span>clipboard</span>
-      </button>
+      </button> -->
       <button mat-menu-item (click)="dataFromFolder()">
         <input type="file" id="file" style="display: none;" (change)="handleFile($event)">
         <mat-icon>folder</mat-icon>

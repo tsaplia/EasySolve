@@ -47,7 +47,6 @@ export class InteractionComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   updateMJ() { // update MathJax  
     this.cdRef.detectChanges();
     MathJax.typeset([document.getElementById("interaction")]);
