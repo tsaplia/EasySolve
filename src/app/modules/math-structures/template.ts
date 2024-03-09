@@ -1,6 +1,5 @@
 import { Expression } from "./expression";
 
-
 export class Template {
     from: Expression;
     to: Expression;

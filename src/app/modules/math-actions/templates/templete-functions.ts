@@ -10,6 +10,7 @@ import { selected } from "../selection/selected";
 import { removeExtraGroups, toExpression, toMultiplier, toTerm } from "../structure-actions";
 import { Term } from "../../math-structures/term";
 import { Expression } from "../../math-structures/expression";
+import { FormulaTemplate } from "../../math-structures/formula-template";
 
 export function tryTemplete(template: Template): Formula | null {
     if(selected.type != "structure") return null;
@@ -19,9 +20,22 @@ export function tryTemplete(template: Template): Formula | null {
     let matchRusult = match(template.from, selectedExpression);
     if(!matchRusult) return null;
     let resultExpression = substituteVariables(template.to, matchRusult);
-    if(!resultExpression) return null;
 
     return replace(formula, structure, resultExpression);
+}
+
+export function tryFormulaTemplate(template: FormulaTemplate): Formula | null {
+    if(selected.type != "formula") return null;
+    let formulas = selected.selectedFormulas as Formula[];
+    if(formulas.length!=template.from.length) return null;
+
+    let matchRusults = new MatchResult();
+    for(let i=0; i<formulas.length; i++){
+        let curResult = match(template.from[i], formulas[i]);
+        if(!curResult || !matchRusults.extend(curResult)) return null;
+    }
+    
+    return template.to.map(formula => substituteVariables(formula, matchRusults))[0];
 }
 
 function match(template: MathStruct, struct: MathStruct): MatchResult | null {
@@ -42,8 +56,15 @@ function match(template: MathStruct, struct: MathStruct): MatchResult | null {
     let tChildren = template.children;
     let sChildren = struct.children;
     
-    //wrap multiple multipliers in term
+    // wrap /unwrap children
     if(tChildren.length != sChildren.length) {
+        //unwrap single multipliers in expression
+        if(template instanceof Expression){
+            let mult = toMultiplier(template);
+            return mult instanceof TemplateVar ? new MatchResult({[mult.name]: struct}) : null;
+        }
+        
+        //wrap multiple multipliers in term
         if(!(template instanceof Term) || tChildren.length != 1 || !(tChildren[0] instanceof TemplateVar)) return null;
         sChildren = [new Expression([new Term(sChildren.map(child => child.copy()))])];
     }
@@ -80,7 +101,7 @@ function match(template: MathStruct, struct: MathStruct): MatchResult | null {
     return recursiveMatch(0);
 }
 
-function substituteVariables(template: Expression, match: MatchResult): Expression {
+function substituteVariables<T extends MathStruct>(template: T, match: MatchResult): T{
     function callback(struct: MathStruct): MathStruct {
         if(struct instanceof TemplateVar){
             if(!match.get(struct.name)) throw new Error("Template variable not found");
@@ -89,7 +110,7 @@ function substituteVariables(template: Expression, match: MatchResult): Expressi
         let newStruct: typeof struct = struct.changeStructure(callback);
         return newStruct.isEqual(struct) ? newStruct : removeExtraGroups(newStruct);
     };
-    return template.changeStructure(callback);
+    return template.changeStructure(callback) as T;
 }
 
 function replace(formula: Formula, from: Term | Multiplier, to: Term | Multiplier): Formula {

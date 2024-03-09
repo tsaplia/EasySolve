@@ -7,9 +7,6 @@ export class MatchResult {
     private result: Matches;
     /**
      * Initializes a new instance of the Constructor class.
-     *
-     * @param {type} matches - an object containing matches
-     * @return {void} 
      */
     constructor(matches = {}) {
         this.result = matches;

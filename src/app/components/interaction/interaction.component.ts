@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { CanvasLine } from "src/app/models/canvasLine";
 import { availibleActions } from "src/app/modules/math-actions/actions";
+import { selected } from "src/app/modules/math-actions/selection/selected";
 import { Formula } from "src/app/modules/math-structures/formula";
 import { StorageService } from "src/app/services/storage.service";
 import templates from "src/assets/actions.json";
@@ -54,9 +55,11 @@ export class InteractionComponent implements OnInit {
 
   useTemplate(id: string) {
     let action = availibleActions.get(id);
-    console.log("action", action);
     if(!action) return;
     let formula = action();
-    if(formula) this.ActionEvent.emit(formula);
+    if(formula) {
+      this.ActionEvent.emit(formula);
+      selected.clear();
+    }
   }
 }

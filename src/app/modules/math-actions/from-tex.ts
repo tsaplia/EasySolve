@@ -2,6 +2,7 @@ import { availibleLetters, availibleMathFunc } from "../../configs/config";
 import { Exponent } from "../math-structures/exponent";
 import { Expression } from "../math-structures/expression";
 import { Formula } from "../math-structures/formula";
+import { FormulaTemplate } from "../math-structures/formula-template";
 import { Frac } from "../math-structures/fraction";
 import { Func } from "../math-structures/function";
 import { Multiplier } from "../math-structures/math-structure";
@@ -48,6 +49,12 @@ export function templateFromTeX(tex: string): Template {
     let parts = tex.split("=>");
     if(parts.length != 2) throw new Error("Incorrect template string");
     return new Template(formulaFromTeX(parts[0]).equalityParts[0], formulaFromTeX(parts[1]).equalityParts[0]);
+}
+
+export function formulaTemplateFromTeX(tex: string): FormulaTemplate {
+    let parts = tex.split("=>");
+    if(parts.length != 2) throw new Error("Incorrect template string");
+    return new FormulaTemplate(parts[0].split(";").map(formulaFromTeX),  parts[1].split(";").map(formulaFromTeX));
 }
 
 export function formulaFromTeX(str: string): Formula {

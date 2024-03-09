@@ -25,9 +25,9 @@ export function getChildren(struct: MathStruct): MathStruct[] {
 
 export function toMultiplier(struct: MathStruct): Multiplier {
     if(struct instanceof Term){
-        return struct.sign == "+" && struct.content.length==0 ? struct.content[0].copy() : new Expression([struct.copy()]);
+        return struct.sign == "+" && struct.content.length==1 ? struct.content[0].copy() : new Expression([struct.copy()]);
     }if(struct instanceof Expression){
-        return struct.content.length==0 ? toMultiplier(struct.content[0]) : struct.copy();
+        return struct.content.length==1 ? toMultiplier(struct.content[0]) : struct.copy();
     }
     return struct.copy();
 }
