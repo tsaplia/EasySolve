@@ -32,10 +32,20 @@ function checkParentSelection(struct: MathStruct | null){
     }
 }
 
+export function removeStruct(elem: HTMLElement): void{
+    elem.querySelectorAll('.struct').forEach((structEl)=>{
+        selected.delete(structEl as HTMLElement);
+        Array.from(allStructures.entries()).forEach(([key, val])=>{
+            if(val == structEl) allStructures.delete(key);
+        });
+    });
+}
+
 export function setListener(struct: MathStruct, elem: HTMLElement){
     let findSelected = (structures: MathStruct[]) => structures.find(struct => selected.has(allStructures.get(struct) as HTMLElement));
     let targetCheck = (t: HTMLElement) => t.localName == "mjx-c" && !disabledTargets.includes(getComputedStyle(t, 'before').content);
 
+    elem.classList.add("struct");
     allStructures.set(struct, elem);
     let parents = getParents(struct);
     let children = getChildren(struct);

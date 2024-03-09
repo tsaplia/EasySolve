@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { CanvasLine } from "../models/canvasLine";
-import { selected } from "../modules/math-actions/selection/selected";
+import { removeStruct, selected } from "../modules/math-actions/selection/selected";
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +16,13 @@ export class StorageService {
     this._lines.push(line);
   }
   setLines(lines: CanvasLine[]) {
+    this.clearLines();
     this._lines = [...lines];
   }
   deleteLine(index: number) {
     if(index < 0 || index >= this._lines.length) return;
-    this._lines.splice(index, 1);
-    // TODO: remove selected
+    let deleted = this._lines.splice(index, 1)[0];
+    removeStruct(document.querySelector(`#line-${deleted.id}`) as HTMLElement);
   }
   clearLines() {
     this._lines = [];
