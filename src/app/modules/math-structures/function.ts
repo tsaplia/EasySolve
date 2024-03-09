@@ -30,7 +30,7 @@ export class Func extends Multiplier {
         return [this.content];
     }
 
-    override changeStructure(callback: (struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Func {
-        return new Func(this.name, callback(this.content, ...args) as Expression);
+    override changeStructure(callback: (struct: MathStruct) => MathStruct): Func {
+        return new Func(this.name, callback(this.content) as Expression);
     }
 }

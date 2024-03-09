@@ -16,7 +16,7 @@ export class SaveOpenComponent {
 
   @Output() openEvent = new EventEmitter<any>();
 
-  file: any;
+  file: File;
 
   constructor(private clipboardService: ClipboardService,
               private cdRef: ChangeDetectorRef,
@@ -46,17 +46,17 @@ export class SaveOpenComponent {
       document.getElementById('file')?.click();
   }
 
-  handleFile(value: any) {
-    this.file = value.target.files[0];
-    value.target.value = null;
+  handleFile(value: Event) {
+    this.file = (value.target as HTMLInputElement).files?.item(0) as File;
+    (value.target as HTMLInputElement).value = '';
     var reader = new FileReader();
     reader.onload = (e) => {
-      this.parseData(reader.result?.toString(), this.file.name);
+      this.parseData(reader.result?.toString() as string, this.file.name);
     }
     reader.readAsText(this.file)
   }
 
-  parseData(value: any, title: string) {
+  parseData(value: string, title: string) {
     try {
       var objects = JSON.parse(value);
       let newLines: CanvasLine[] = [];

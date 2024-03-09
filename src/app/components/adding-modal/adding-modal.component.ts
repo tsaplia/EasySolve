@@ -8,7 +8,7 @@ import { MathQuillService } from "src/app/services/mathquill.service";
 })
 
 export class AddingModalComponent implements OnInit, AfterViewInit {
-  mathField: any;
+  mathField: MQ.MathField;
   type: string = 'formula';
   
   constructor(private dialogRef: MatDialogRef<AddingModalComponent>, 

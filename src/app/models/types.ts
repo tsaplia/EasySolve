@@ -1,6 +1,6 @@
-interface FormulaAction {
+export interface FormulaAction {
     id: string,
-    category: string,
+    categoryId: number,
     template: boolean,
     type: "formula" | "expression",
     body: string | null,

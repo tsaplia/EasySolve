@@ -45,8 +45,8 @@ export class Exponent extends Multiplier {
         return [this.base, this.exponent];
     }
 
-    override changeStructure(callback:(struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Exponent {
-        return new Exponent(callback(this.base, ...args), callback(this.exponent, ...args) as Expression);
+    override changeStructure(callback:(struct: MathStruct) => MathStruct): Exponent {
+        return new Exponent(callback(this.base), callback(this.exponent) as Expression);
     }
 
     static getExponent(structure: Multiplier): [Multiplier, Expression] {

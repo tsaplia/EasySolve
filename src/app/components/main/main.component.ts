@@ -22,11 +22,11 @@ export class MainComponent implements OnInit {
   ngOnInit() {
   }
 
-  dictionaryToggle(value: any) {
+  dictionaryToggle(value: boolean) {
     this.dictionary = value;
   }
   
-  interactionEvent(value: any) {
+  interactionToggle(value: boolean) {
     this.interaction = value;
   }
 }

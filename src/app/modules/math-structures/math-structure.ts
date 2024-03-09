@@ -11,7 +11,7 @@ export abstract class MathStruct{
     abstract isEqual(other: MathStruct): boolean;
     abstract copy(): MathStruct;
     abstract get children(): MathStruct[];
-    abstract changeStructure(callback: (struct: MathStruct, ...args: any[])=>MathStruct , ...args: any[]): MathStruct;
+    abstract changeStructure(callback: (struct: MathStruct)=>MathStruct): MathStruct;
 }
 
 export abstract class Multiplier extends MathStruct {}

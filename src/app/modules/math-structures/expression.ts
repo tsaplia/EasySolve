@@ -47,7 +47,7 @@ export class Expression extends Multiplier{
         return [...this.content];
     }
 
-    override changeStructure(callback: (struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Expression {
-        return new Expression(this.content.map((term) => callback(term, ...args) as Term));
+    override changeStructure(callback: (struct: MathStruct) => MathStruct): Expression {
+        return new Expression(this.content.map((term) => callback(term) as Term));
     }
 }

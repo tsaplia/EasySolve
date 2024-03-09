@@ -35,7 +35,7 @@ export class Sqrt extends Multiplier {
         return res;
     }
 
-    override changeStructure(callback: (struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Sqrt {
-        return new Sqrt(callback(this.content, ...args), callback(this.root, ...args) as Expression);
+    override changeStructure(callback: (struct: MathStruct) => MathStruct): Sqrt {
+        return new Sqrt(callback(this.content), callback(this.root) as Expression);
     }
 }

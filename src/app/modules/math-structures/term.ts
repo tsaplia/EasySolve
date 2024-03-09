@@ -49,7 +49,7 @@ export class Term extends MathStruct {
         return [...this.content];
     }
 
-    override changeStructure(callback: (struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Term {
-        return new Term(this.content.map((mult) => callback(mult, ...args)), this.sign);
+    override changeStructure(callback: (struct: MathStruct) => MathStruct): Term {
+        return new Term(this.content.map((mult) => callback(mult)), this.sign);
     }
 }

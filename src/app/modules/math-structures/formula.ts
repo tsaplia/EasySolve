@@ -36,7 +36,7 @@ export class Formula extends MathStruct {
         return this.equalityParts;
     }
 
-    override changeStructure(callback: (struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Formula {
-        return new Formula(this.equalityParts.map((part) => callback(part, ...args) as Expression));
+    override changeStructure(callback: (struct: MathStruct) => MathStruct): Formula {
+        return new Formula(this.equalityParts.map((part) => callback(part) as Expression));
     }
 }

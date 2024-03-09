@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
-import { FormulaAction } from "src/app/models/formulaAction";
+import type { FormulaAction } from "src/app/models/types";
 
 import actions from "src/assets/actions.json"
 import categories from "src/assets/categories.json"
@@ -13,7 +13,7 @@ declare let MathJax: any;
 })
 export class ListComponent implements OnInit {
   categories = categories;
-  actions: FormulaAction[] = actions;
+  actions: FormulaAction[] = actions as FormulaAction[];
 
   actionsByCategory = new Map<number, FormulaAction[]>;
   openCategories = new Map<number, boolean>;

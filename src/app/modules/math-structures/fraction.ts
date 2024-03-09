@@ -42,7 +42,7 @@ export class Frac extends Multiplier {
         return [this.numerator, this.denomerator];
     }
 
-    override changeStructure(callback: (struct: MathStruct, ...args: any[]) => MathStruct, ...args: any[]): Frac {
-        return new Frac(callback(this.numerator, ...args) as Term, callback(this.denomerator, ...args) as Term);
+    override changeStructure(callback: (struct: MathStruct) => MathStruct): Frac {
+        return new Frac(callback(this.numerator) as Term, callback(this.denomerator) as Term);
     }
 }
