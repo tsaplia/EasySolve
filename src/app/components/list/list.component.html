@@ -1,7 +1,8 @@
 <div>
   <div *ngFor="let category of categories">
     <div (click)="openCategory(category.id)" class="category">
-      <mat-icon>{{openCategories.get(category.id) ? "expand_more" : "chevron_right"}}</mat-icon>{{category.name}}
+      <mat-icon>{{openCategories.get(category.id) ? "expand_more" : "chevron_right"}}</mat-icon>
+      <div>{{category.name}}</div>
     </div>
     <div *ngIf="openCategories.get(category.id)">
       <div *ngFor="let action of actionsByCategory.get(category.id)" class="list-item">

@@ -3,6 +3,7 @@ import type { FormulaAction } from "src/app/models/types";
 
 import actions from "src/assets/actions.json"
 import categories from "src/assets/categories.json"
+import definitions from "src/assets/definitions.json"
 
 declare let MathJax: any;
 
@@ -12,6 +13,8 @@ declare let MathJax: any;
   styleUrls: ["list.component.scss"]
 })
 export class ListComponent implements OnInit {
+  @Input() mode: "interaction" | "dictionary" | null = null;
+
   categories = categories;
   actions: FormulaAction[] = actions as FormulaAction[];
 

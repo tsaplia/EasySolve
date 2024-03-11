@@ -62,6 +62,23 @@ export class MathCanvasComponent implements OnInit {
   }
 
   openAddModal(type: "formula" | "text") {
+    // var error: boolean = false;
+    // var line: string = '';
+    // do {
+    //   error = false;
+    //   var formulaDialog = this.dialog.open(AddingModalComponent, {data: {type: type, line: line}});
+    //   formulaDialog.afterClosed().subscribe(resp => {
+    //     if(!resp || resp.line == '$$') return;
+    //     line = resp.line
+    //     if(!checkLine(line)) {
+    //       error = true;
+    //       this.toast.clear();
+    //       this.toast.error("","Uncorrect formula");
+    //     }
+    //   });
+    // } while (error)
+    // this.addNewLine(line, type);
+
     var formulaDialog = this.dialog.open(AddingModalComponent, {data: {type: type}});
     formulaDialog.afterClosed().subscribe(resp => {
       if(!resp || resp.line == '$$') return;

@@ -29,9 +29,10 @@ $primary: #bbddd4;
   @extend .p-3;
   @extend .overflow-y-auto;
 }
-.mjwrap > * {
-  display: flex;
-  flex-wrap: wrap;
+.title-input {
+  border: none;
+  margin-top: 10px;
+  width: 100%;
 }
 
 .cdk-drag-preview {
