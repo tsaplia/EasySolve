@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { CanvasLine } from "src/app/models/canvasLine";
 import { availibleActions } from "src/app/modules/math-actions/actions";
 import { Formula } from "src/app/modules/math-structures/formula";
@@ -13,7 +13,7 @@ declare let MathJax: any;
   styleUrls: ['interaction.component.scss']
 })
 
-export class InteractionComponent implements OnInit {
+export class InteractionComponent implements OnInit, AfterViewInit {
   templates = templates;
   private _lines: CanvasLine[] = [];
 
@@ -45,6 +45,10 @@ export class InteractionComponent implements OnInit {
   constructor(private cdRef: ChangeDetectorRef,
               private storage: StorageService) { }
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+      this.updateMJ();
   }
 
   updateMJ() { // update MathJax  

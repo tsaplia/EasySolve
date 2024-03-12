@@ -4,16 +4,17 @@ $primary: #bbddd4;
 
 .w-0 {
   width: 0%;
-  overflow: hidden;
 }
 
 #canvas {
   transition: width 1s;
 }
 #dictionary {
+  overflow: hidden;
   transition: width 1s;
 }
 #interaction {
+  overflow: hidden;
   transition: width 1s;
 }
 #invisible-div {
