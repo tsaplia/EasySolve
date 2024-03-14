@@ -1,0 +1,12 @@
+[
+  {
+    "id": "multi-1",
+    "categoryId": 1,
+    "text": "$Abbreviated\\ multiplication:\\ \\left(a+b\\right)^2=a^2+2ab+b^2$"
+  },
+  {
+    "id": "multi-2",
+    "categoryId": 1,
+    "text": "$Abbreviated\\ multiplication:\\ \\left(a-b\\right)^2=a^2-2ab+b^2$"
+  }
+]

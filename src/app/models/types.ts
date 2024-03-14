@@ -6,3 +6,9 @@ export interface FormulaAction {
     body: string | null,
     name: string
 }
+
+export interface FormulaDefinition {
+    id: string,
+    categoryId: number,
+    text: string
+}

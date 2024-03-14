@@ -1,8 +1,17 @@
 .category {
+  color: rgba(0,0,0,1);
   font-size:20px;
   font-family: monospace;
   display: flex;
   align-items: center;
+  cursor: pointer;
+}
+.category > mat-icon {
+  margin-right: 5px;
+}
+.category:hover > mat-icon {
+  background-color: azure;
+  border-radius: 15px;
 }
 .list-item {
   margin-left: 25px;

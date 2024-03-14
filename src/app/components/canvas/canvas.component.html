@@ -12,8 +12,8 @@
   </div>
   <div class="body" id="body">
     <div class="d-flex justify-content-between" style="margin-top: -10px; margin-right: -10px;">
-      <div>
-        <input type="text" placeholder="Title" class="" style="margin-top:10px; border: none;" [(ngModel)]="title">
+      <div style="width:100%; padding-right:6px">
+        <input type="text" placeholder="Title" class="title-input"  [(ngModel)]="title">
       </div>
       <app-save-open [lines]="lines" [title]="title" (openEvent)="linesFromFile($event)"></app-save-open>
     </div>

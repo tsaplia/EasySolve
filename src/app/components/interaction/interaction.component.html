@@ -1,6 +1,9 @@
 <div id="interaction" class="pe-2 h-100">
   <div class="interaction-card">
-    Interaction
+    
+    <h2 class="d-flex justify-content-end">Interaction</h2>
+    <hr>
+    
     <div id="input">
       <div *ngFor="let line of lines">
         {{line ? line.line : ''}}
@@ -12,6 +15,6 @@
     <div class="btn-row" *ngFor="let template of templates;">
         <button type="button" (click)="useTemplate(template.id)">{{template.name}}</button>
     </div>
-    <app-list></app-list>
+    <app-list [mode]="'interaction'"></app-list>
   </div>
 </div>

@@ -12,15 +12,15 @@ export class AddingModalComponent implements OnInit, AfterViewInit {
   type: string = 'formula';
   
   constructor(private dialogRef: MatDialogRef<AddingModalComponent>, 
-              @Inject(MAT_DIALOG_DATA) public data: any,          
+              @Inject(MAT_DIALOG_DATA) public data: {type: string, line: string},
               private MQ: MathQuillService) {}
-  
   
   ngOnInit(): void {
     this.type = this.data.type;
   }
   ngAfterViewInit(): void {
     this.mathField = this.MQ.createMathField(document.getElementById("math-field") as HTMLSpanElement);
+    this.mathField.write(this.data.line ? this.data.line : '');
   }
 
   close() {

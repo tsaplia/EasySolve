@@ -24,9 +24,33 @@ export class MainComponent implements OnInit {
 
   dictionaryToggle(value: boolean) {
     this.dictionary = value;
+    // next code is for beauty closing and opening
+    let int: HTMLElement | null = document.getElementById('dictionary');
+    if(int && value) {
+      setTimeout(() => {
+        int?.setAttribute("style", "overflow: visible")
+      }, 100);
+    }
+    if(int && !value) {
+      setTimeout(() => {
+        int?.setAttribute("style", "overflow: hidden")
+      }, 500);
+    }
   }
   
   interactionToggle(value: boolean) {
     this.interaction = value;
+    // next code is for beauty closing and opening (that fucking line disappered)
+    let int: HTMLElement | null = document.getElementById('interaction');
+    if(int && value) {
+      setTimeout(() => {
+        int?.setAttribute("style", "overflow: visible")
+      }, 100);
+    }
+    if(int && !value) {
+      setTimeout(() => {
+        int?.setAttribute("style", "overflow: hidden")
+      }, 500);
+    }
   }
 }
