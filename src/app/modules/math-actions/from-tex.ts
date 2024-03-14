@@ -61,6 +61,7 @@ export function formulaFromTeX(str: string): Formula {
     str = deleteExtraBlocks(str);
     let equalityParts = [];
     let itStr = new IterStr(str);
+    if(itStr.valueOf().endsWith('=')) throw new Error("Incorrect input string");
 
     while (!itStr.finished()) {
         let newBlock = expressionFromTeX(itStr);

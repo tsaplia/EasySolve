@@ -20,7 +20,7 @@ export class AddingModalComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     this.mathField = this.MQ.createMathField(document.getElementById("math-field") as HTMLSpanElement);
-    this.mathField.write(this.data.line ? this.data.line : '');
+    this.mathField.write(this.data.line ? this.data.line.slice(1, -1) : '');
   }
 
   close() {

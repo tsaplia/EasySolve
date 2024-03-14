@@ -1,31 +1,46 @@
 $primary: #bbddd4;
 @import "bootstrap";
 
+h1 {
+  margin-bottom: 0;
+}
+
 :host {
   font-family: monospace;
 }
+
+:host ::ng-deep .mq-editable-field.mq-focused {
+  -webkit-box-shadow: none;
+  -moz-box-shadow:none;
+  box-shadow: none;
+  border-radius: 1px;
+}
+
 .all {
- width: 100%;
- border-radius: 10px;
-//  @extend .rounded;
- @extend .bg-light;
+  width: 80vw; 
+  max-width: 500px;
+  border-radius: 10px;
+  //  @extend .rounded;
+  @extend .bg-light;
 }
 .head {
-  padding: 10px 0px 0px 30px;
+  padding: 10px 30px 5px 30px;
   background-color: #bbddd4;
 }
 .body {
-  @extend .mt-4;
-  @extend .p-2;
+  @extend .mt-3;
+  @extend .p-3;
 }
 .finput {
   width: 100%;
-  min-width: 600px;
+
   font-size: 22px;
+  display: inline-block;
 
   border: none;
   border-bottom: 2px solid #777777;
   background-color: #f8f9fa;
+  padding: 3px;
   outline: 0;
 }
 .finput:focus {

@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit
 import { MatDialog } from "@angular/material/dialog";
 import { ClipboardService } from "ngx-clipboard";
 import { AddingModalComponent } from "../adding-modal/adding-modal.component";
-import { formulaFromTeX, templateFromTeX } from "src/app/modules/math-actions/from-tex";
+import { formulaFromTeX } from "src/app/modules/math-actions/from-tex";
 import { prepareHTML } from "src/app/modules/math-actions/selection/selection-listeners";
 import { CanvasLine } from "src/app/models/canvasLine";
 import { ToastrService } from "ngx-toastr";
@@ -61,28 +61,28 @@ export class MathCanvasComponent implements OnInit {
     this.interactionEvent.emit(this.interaction);
   }
 
-  openAddModal(type: "formula" | "text") {
-    // var error: boolean = false;
-    // var line: string = '';
-    // do {
-    //   error = false;
-    //   var formulaDialog = this.dialog.open(AddingModalComponent, {data: {type: type, line: line}});
-    //   formulaDialog.afterClosed().subscribe(resp => {
-    //     if(!resp || resp.line == '$$') return;
-    //     line = resp.line
-    //     if(!checkLine(line)) {
-    //       error = true;
-    //       this.toast.clear();
-    //       this.toast.error("","Uncorrect formula");
-    //     }
-    //   });
-    // } while (error)
-    // this.addNewLine(line, type);
+  openAddModal(type: "formula" | "text", line: string = '') {
+    let checkLine = (line: string) => {
+      try{
+        formulaFromTeX(line.slice(1, -1));
+      }catch(e) {
+        return false;
+      }
+      return true;
+    }
 
-    var formulaDialog = this.dialog.open(AddingModalComponent, {data: {type: type}});
+    let formulaDialog = this.dialog.open(AddingModalComponent, {data: {type: type, line: line}});
     formulaDialog.afterClosed().subscribe(resp => {
       if(!resp || resp.line == '$$') return;
-      this.addNewLine(resp.line, type);
+      line = resp.line
+      if(checkLine(line)) {
+        this.addNewLine(line, type);
+      }else{
+        this.toast.clear();
+        this.toast.error("","Uncorrect formula");
+        this.openAddModal(type, line);
+        // I would change this 
+      }
     });
   }
 
