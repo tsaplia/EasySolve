@@ -25,7 +25,7 @@ h1 {
 }
 .head {
   padding: 10px 30px 5px 30px;
-  background-color: #bbddd4;
+  background-color: $primary;
 }
 .body {
   @extend .mt-3;

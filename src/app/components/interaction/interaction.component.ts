@@ -52,6 +52,11 @@ export class InteractionComponent implements OnInit, AfterViewInit {
       this.updateMJ();
   }
 
+  addOutputToLines() {
+
+    // this.storage.addLine();
+  }
+
   updateMJ() { // update MathJax  
     this.cdRef.detectChanges();
     MathJax.typeset([document.getElementById("interaction")]);

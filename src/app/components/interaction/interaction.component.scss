@@ -37,6 +37,10 @@ $primary: #bbddd4;
   background-color: antiquewhite;
 }
 
+h2 {
+  color: var(--bs-gray-800);
+}
+
 hr {
   border-color: azure;
   border-width: 5px;

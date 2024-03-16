@@ -75,13 +75,13 @@ export class MathCanvasComponent implements OnInit {
     formulaDialog.afterClosed().subscribe(resp => {
       if(!resp || resp.line == '$$') return;
       line = resp.line
-      if(checkLine(line)) {
+      if(checkLine(line))
         this.addNewLine(line, type);
-      }else{
+      else {
         this.toast.clear();
         this.toast.error("","Uncorrect formula");
         this.openAddModal(type, line);
-        // I would change this 
+        // I would change this
       }
     });
   }

@@ -10,10 +10,12 @@ $primary: #bbddd4;
   transition: width 1s;
 }
 #dictionary {
+  z-index: 1;
   overflow: hidden;
   transition: width 1s;
 }
 #interaction {
+  z-index: 1;
   overflow: hidden;
   transition: width 1s;
 }
