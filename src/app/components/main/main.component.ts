@@ -15,7 +15,7 @@ export class MainComponent implements OnInit {
 
   dictionary: boolean = false;
   interaction: boolean = false;
-  newCanvasFormula: Formula | null = null;
+  newCanvasFormulas: Formula[] | null = null;
 
   constructor() {}
 

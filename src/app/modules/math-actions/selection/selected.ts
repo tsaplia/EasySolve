@@ -9,6 +9,13 @@ const allStructures: Map<MathStruct, HTMLElement> = new Map();
 
 const disabledTargets = ['(', ')'];
 
+export function clearSelected(){
+    Array.from(selected.keys()).forEach(elem => {
+        elem.classList.remove("selected");
+    });
+    selected.clear();
+}
+
 function addSelected(struct: MathStruct){
     let elem = allStructures.get(struct) as HTMLElement;
     if(!elem) throw new Error("Element not found");

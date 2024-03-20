@@ -22,10 +22,12 @@ export class MathCanvasComponent implements OnInit {
   @Output() dictionaryEvent = new EventEmitter<boolean>();
   @Output() interactionEvent = new EventEmitter<boolean>();
 
-  @Input() set newFormula(value: Formula | null) {
-    if(!value) return;
-    this.addNewLine(`$${value.toTex()}$`, 'formula');
-    this.newFormula = null;
+  @Input() set newFormulas(formulas: Formula[] | null) {
+    if(!formulas) return;
+    formulas.forEach(f => {
+      this.addNewLine(`$${f.toTex()}$`, 'formula');
+    })
+    this.newFormulas = null;
   }
 
   title: string = '';

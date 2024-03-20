@@ -10,13 +10,13 @@
       </div>
     </div>
     <div id="output">
+      <div *ngFor="let formula of preview">
+        {{formula ? "$"+formula.toTex()+"$" : ''}}
+      </div>
     </div>
     <div class="btn-row">
       <button type="button" (click)="addOutputToLines()">add to lines</button>
     </div>
-    <div class="btn-row" *ngFor="let template of templates;">
-        <button type="button" (click)="useTemplate(template.id)">{{template.name}}</button>
-    </div>
-    <app-list [mode]="'interaction'"></app-list>
+    <app-list [mode]="'interaction'" (ActionSelected)="useTemplate($event)"></app-list>
   </div>
 </div>

@@ -8,7 +8,7 @@ export class SelectedStructures extends Map<HTMLElement, MathStruct>{
     constructor(){
         super();
     }
-
+    
     get type(): "formula" | "structure" | null{
         if(!this.size) return null;
         if(Array.from(this.values()).every(struct => struct instanceof Formula && struct.equalityParts.length >= 2)) 

@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { CanvasLine } from "../models/canvasLine";
-import { removeStruct, selected } from "../modules/math-actions/selection/selected";
+import { clearSelected, removeStruct, selected } from "../modules/math-actions/selection/selected";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
   private _lines: CanvasLine[] = [];
-  private _selectedLine: CanvasLine | null = null;
+  private _selectedLines: CanvasLine[] = [];
 
   get lines(): CanvasLine[] {
     return this._lines;  
@@ -26,18 +26,34 @@ export class StorageService {
   }
   clearLines() {
     this._lines = [];
-    selected.clear();
+    clearSelected();
   }
 
-  get selectedLine(): CanvasLine | null {
-    if(selected.type != 'structure') {
-      this._selectedLine = null;
-      return null;
+  get selectedLines(): CanvasLine[] {
+    if(selected.type == null) {
+      this._selectedLines = [];
+      return [];
     }
-    let text = selected.getStructureData().structure.toTex();
-    if(this._selectedLine?.line != text){
-      this._selectedLine = new CanvasLine({line: text, type: 'formula'});
+    if(selected.type == 'formula'){
+      let selTex = selected.selectedFormulas?.map(formula => formula.toTex());
+      for(let i=0; i<this._selectedLines.length; i++) {
+        if(selTex?.includes(this._selectedLines[i].line)) {
+          selTex.splice(selTex.indexOf(this._selectedLines[i].line), 1);
+        }else{
+          this._selectedLines.splice(i, 1);
+          i--;
+        }
+      }
+      selTex?.forEach(tex => {
+        this._selectedLines.push(new CanvasLine({line: `$${tex}$`, type: 'formula'}));
+      });
     }
-    return this._selectedLine;
+    if(selected.type == 'structure'){
+      let tex = selected.getStructureData().structure.toTex();
+      if(this._selectedLines?.[0]?.line != tex){
+        this._selectedLines = [new CanvasLine({line: `$${tex}$`, type: 'formula'})];
+      }
+    }
+    return this._selectedLines;
   }
 }

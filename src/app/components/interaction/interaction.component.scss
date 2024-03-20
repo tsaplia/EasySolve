@@ -1,5 +1,4 @@
-$primary: #bbddd4;
-
+@import "/src/assets/variables.scss";
 @import "bootstrap";
 
 .interaction-card {
@@ -30,8 +29,7 @@ $primary: #bbddd4;
 }
 
 #input, #output {
-  display: flex;
-  align-items: center;
+  @extend .p-1;
   min-height: 30px;
   margin-top: 10px;
   background-color: antiquewhite;

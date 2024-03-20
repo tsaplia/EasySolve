@@ -24,7 +24,7 @@ export function tryTemplete(template: Template): Formula | null {
     return replace(formula, structure, resultExpression);
 }
 
-export function tryFormulaTemplate(template: FormulaTemplate): Formula | null {
+export function tryFormulaTemplate(template: FormulaTemplate): Formula[] | null {
     if(selected.type != "formula") return null;
     let formulas = selected.selectedFormulas as Formula[];
     if(formulas.length!=template.from.length) return null;
@@ -35,7 +35,7 @@ export function tryFormulaTemplate(template: FormulaTemplate): Formula | null {
         if(!curResult || !matchRusults.extend(curResult)) return null;
     }
     
-    return template.to.map(formula => substituteVariables(formula, matchRusults))[0];
+    return template.to.map(formula => substituteVariables(formula, matchRusults));
 }
 
 function match(template: MathStruct, struct: MathStruct): MatchResult | null {
