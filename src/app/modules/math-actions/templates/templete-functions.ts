@@ -117,10 +117,18 @@ function replace(formula: Formula, from: Term | Multiplier, to: Term | Multiplie
     if(from instanceof Term) to = toTerm(to); 
     else if(from instanceof Expression) to = toExpression(to);
     else to = toMultiplier(to);
+    let changedParent: MathStruct | null = null;
 
     const callback = (struct: MathStruct): MathStruct => {
-        if(struct === from) return to;
-        return struct.changeStructure(callback);
+        if(struct === from) {
+            changedParent = struct.parent;
+            return to;
+        }
+        let newStruct = struct.changeStructure(callback);
+        if(struct == changedParent){
+            return removeExtraGroups(newStruct);
+        }
+        return newStruct;
     };
     return formula.changeStructure(callback);
 }

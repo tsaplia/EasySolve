@@ -67,7 +67,7 @@ export class InteractionComponent implements AfterViewInit {
     if(formulas) {
       this.preview = formulas;
     }else{
-      alert("can not use this template");
+      console.log("can not use this template");
     }
   }
 }

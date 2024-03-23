@@ -22,5 +22,19 @@
     "type":"formula",
     "body":"[a]=[b];[c]=[d]=>[a]+[c]=[b]+[d]",
     "name": "Add formulas"
+  },
+  {
+    "id":"sub-1",
+    "categoryId": 4,
+    "template":false,
+    "type":"formula",
+    "name": "Subtitute from"
+  },
+  {
+    "id":"sub-2",
+    "categoryId": 4,
+    "template":false,
+    "type":"formula",
+    "name": "Subtitute to"
   }
 ]
