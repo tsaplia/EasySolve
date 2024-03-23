@@ -4,7 +4,7 @@
 .dictionary-card {
   border-bottom-left-radius: 5%;
   border-top-left-radius: 5%;
-  background-color: #bbddd4;
+  background-color: $primary;
   
   @extend .p-4;
   @extend .h-100;
@@ -13,6 +13,7 @@
 
 #dictionary {
   font-family: monospace;
+  color: $textColor;
 }
 hr {
   border-color: azure;

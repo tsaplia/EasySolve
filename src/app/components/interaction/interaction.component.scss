@@ -4,7 +4,7 @@
 .interaction-card {
   border-bottom-right-radius: 5%;
   border-top-right-radius: 5%;
-  background-color: #bbddd4;
+  background-color: $primary;
   overflow: hidden;
   
   @extend .p-4;
@@ -14,32 +14,25 @@
 
 #interaction {
   font-family: monospace;
+  color: $textColor
 }
-
-.btn-row {
-  display: flex;
-  flex-direction: column;
+hr {
+  border-color: azure;
+  border-width: 5px;
 }
-
-.btn-row > button, .btn-row > div > button{
-  margin-top: 10px;
-  font-family: monospace;
-  @extend .btn;
-  @extend .btn-secondary;
-}
-
 #input, #output {
   @extend .p-1;
   min-height: 30px;
   margin-top: 10px;
   background-color: antiquewhite;
 }
-
-h2 {
-  color: var(--bs-gray-800);
+.btn-row {
+  display: flex;
+  flex-direction: column;
 }
-
-hr {
-  border-color: azure;
-  border-width: 5px;
+.btn-row > button, .btn-row > div > button{
+  margin-top: 10px;
+  font-family: monospace;
+  @extend .btn;
+  @extend .btn-secondary;
 }

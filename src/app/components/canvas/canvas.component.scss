@@ -1,6 +1,10 @@
 @import "/src/assets/variables.scss";
 @import "bootstrap";
 
+#canvas {
+  color: $textColor;
+}
+
 .btn-row {
   display: flex;
   justify-content: space-between;
@@ -9,13 +13,9 @@
 .btn-row > button, .btn-row > div > button{
   margin: 0px 10px;
   font-family: monospace;
+  color: $textColor;
   @extend .btn;
   @extend .btn-primary;
-}
-
-.w-0 {
-  width: 0%;
-  overflow: hidden;
 }
 .body {
   max-height: 100%;
@@ -32,6 +32,15 @@
   border: none;
   margin-top: 10px;
   width: 100%;
+  color: $textColor;
+}
+mat-icon {
+  color:$textColor;
+}
+hr {
+  opacity: 0.1;
+  border-style: dashed;
+  @extend .my-0;
 }
 
 .cdk-drag-preview {

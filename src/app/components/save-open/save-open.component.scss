@@ -1,3 +1,6 @@
+@import "/src/assets/variables.scss";
+
 span {
+  color: $textColor;
   font-family: monospace;
 }

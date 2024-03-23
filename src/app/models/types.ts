@@ -11,4 +11,5 @@ export interface FormulaDefinition {
     id: string,
     categoryId: number,
     text: string
+    formula: string;
 }
