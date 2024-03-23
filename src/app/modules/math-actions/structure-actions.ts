@@ -48,6 +48,7 @@ export function toTerm(mult: Multiplier | Term): Term {
 }
 
 export function removeExtraGroups(struct: MathStruct): MathStruct {
+    console.log("removeExtraGroups", struct);
     if(struct instanceof Term){
         let content: Multiplier[] = [];
         let modified = false;
