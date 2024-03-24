@@ -6,18 +6,22 @@
 }
 
 #canvas {
+  will-change: width transition;
   transition: width 1s;
 }
 #dictionary {
+  will-change: width transition;
   z-index: 1;
   overflow: hidden;
   transition: width 1s;
 }
 #interaction {
+  will-change: width transition;
   z-index: 1;
   overflow: hidden;
   transition: width 1s;
 }
 #invisible-div {
+  will-change: width transition;
   transition: width 1s;
 }

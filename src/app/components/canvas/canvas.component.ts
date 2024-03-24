@@ -2,13 +2,14 @@ import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit, Output } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ClipboardService } from "ngx-clipboard";
-import { AddingModalComponent } from "../adding-modal/adding-modal.component";
 import { formulaFromTeX } from "src/app/modules/math-actions/from-tex";
 import { prepareHTML } from "src/app/modules/math-actions/selection/selection-listeners";
 import { CanvasLine } from "src/app/models/canvasLine";
 import { ToastrService } from "ngx-toastr";
 import { Formula } from "src/app/modules/math-structures/formula";
 import { StorageService } from "src/app/services/storage.service";
+import { AddingModalFormulaComponent } from "../adding-modals/adding-modal-f.component";
+import { AddingModalTextComponent } from "../adding-modals/adding-modal-t.component";
 
 declare let MathJax: any;
 
@@ -64,28 +65,22 @@ export class MathCanvasComponent implements OnInit {
   }
 
   openAddModal(type: "formula" | "text", line: string = '') {
-    let checkLine = (line: string) => {
-      try{
-        formulaFromTeX(line.slice(1, -1));
-      }catch(e) {
-        return false;
-      }
-      return true;
-    }
-
-    let formulaDialog = this.dialog.open(AddingModalComponent, {data: {type: type, line: line}});
-    formulaDialog.afterClosed().subscribe(resp => {
-      if(!resp || resp.line == '$$') return;
-      line = resp.line
-      if(checkLine(line))
+    if(type == 'formula') {
+      let formulaDialog = this.dialog.open(AddingModalFormulaComponent);
+      formulaDialog.afterClosed().subscribe(resp => {
+        if(!resp || resp.line == '$$') return;
+        line = resp.line
         this.addNewLine(line, type);
-      else {
-        this.toast.clear();
-        this.toast.error("","Uncorrect formula");
-        this.openAddModal(type, line);
-        // I would change this
-      }
-    });
+      });
+    }
+    else {
+      let formulaDialog = this.dialog.open(AddingModalTextComponent);
+      formulaDialog.afterClosed().subscribe(resp => {
+        if(!resp || resp.line == '$$') return;
+        line = resp.line;
+        this.addNewLine(line, type);
+      });
+    }
   }
 
   clear() {
