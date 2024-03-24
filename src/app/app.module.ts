@@ -10,7 +10,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon'
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { AddingModalComponent} from './components/adding-modal/adding-modal.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { CdkDrag, CdkDragHandle, CdkDropList } from '@angular/cdk/drag-drop'
 import { MathCanvasComponent } from './components/canvas/canvas.component';
@@ -19,13 +18,16 @@ import { InteractionComponent } from './components/interaction/interaction.compo
 import { ToastrModule } from 'ngx-toastr';
 import { SaveOpenComponent } from './components/save-open/save-open.component';
 import { ListComponent } from './components/list/list.component';
+import { AddingModalFormulaComponent } from './components/adding-modals/adding-modal-f.component';
+import { AddingModalTextComponent } from './components/adding-modals/adding-modal-t.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    AddingModalComponent,
+    AddingModalFormulaComponent,
+    AddingModalTextComponent,
     MathCanvasComponent,
     DictionaryComponent,
     InteractionComponent,

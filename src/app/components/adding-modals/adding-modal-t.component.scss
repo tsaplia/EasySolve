@@ -1,0 +1,54 @@
+@import "/src/assets/variables.scss";
+@import "bootstrap";
+
+#adding-modal {
+  color: $textColor;
+  width: 80vw; 
+  max-width: 500px;
+  border-radius: 10px;
+  //  @extend .rounded;
+  @extend .bg-light;
+}
+
+h1 {
+  margin-bottom: 0;
+}
+
+.head {
+  padding: 10px 30px 5px 30px;
+  background-color: $primary;
+}
+.body {
+  @extend .mt-3;
+  @extend .p-3;
+}
+.finput {
+  width: 100%;
+
+  color: $textColor;
+  font-size: 22px;
+  display: inline-block;
+
+  border: none;
+  border-bottom: 2px solid #777777;
+  background-color: #f8f9fa;
+  padding: 3px;
+  outline: 0;
+}
+.finput:focus {
+  background-color: #0d6dfd10;
+}
+button.btn-primary {
+  color: $textColor;
+}
+
+:host {
+  font-family: monospace;
+}
+
+:host ::ng-deep .mq-editable-field.mq-focused {
+  -webkit-box-shadow: none;
+  -moz-box-shadow:none;
+  box-shadow: none;
+  border-radius: 1px;
+}

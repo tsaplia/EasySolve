@@ -1,0 +1,17 @@
+<div id="adding-modal">
+  <div class="head">
+    <h1>Add Text</h1>
+  </div>
+  <div class="body">
+    <div>
+      <!-- <input type="text" class="finput" [(ngModel)]="formula" (keyup.enter)="add()"> -->
+      <div>
+        <span class="finput" id="math-field" (keyup.enter)="add()"></span>
+      </div>
+    </div>
+    <div class="mt-3 d-flex justify-content-between">
+      <button class="btn btn-primary" (click)="add()">Add</button>
+      <button class="btn btn-secondary" (click)="close()">Close</button>
+    </div>
+  </div>
+</div>

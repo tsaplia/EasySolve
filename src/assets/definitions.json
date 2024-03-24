@@ -10,5 +10,17 @@
     "categoryId": 1,
     "text": "Abbreviated multiplication:",
     "formula": "$\\left(a-b\\right)^2=a^2-2ab+b^2$"
+  },
+  {
+    "id": "multi-3",
+    "categoryId": 1,
+    "text": "Abbreviated multiplication:",
+    "formula": "$\\left(a\\cdot b\\right)^2=a^2b^2$"
+  },
+  {
+    "id": "multi-4",
+    "categoryId": 1,
+    "text": "Abbreviated multiplication:",
+    "formula": "$\\left(a\\div b\\right)^2=a^2\\div b^2$"
   }
 ]
