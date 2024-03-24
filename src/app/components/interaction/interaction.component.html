@@ -5,17 +5,28 @@
     <hr>
     
     <div id="input">
-      <div *ngFor="let line of lines">
+      <div *ngFor="let line of selLines">
         {{line ? line.line : ''}}
       </div>
+      <span class="text-muted user-select-none" *ngIf="!selLines.length">Input</span>
     </div>
     <div id="output">
       <div *ngFor="let formula of preview">
         {{formula ? "$"+formula.toTex()+"$" : ''}}
       </div>
+      <span class="text-muted user-select-none" *ngIf="!preview.length">Output</span>
     </div>
     <div class="btn-row">
-      <button type="button" (click)="addOutputToLines()">add to lines</button>
+      <span class="me-auto">Addition mode:</span>
+      <button (click)="addOutputToLines('addToEnd')" [disabled]="!availibleModes.addToEnd">
+        <mat-icon aria-hidden="false" fontIcon="start"></mat-icon>
+      </button>
+      <button (click)="addOutputToLines('newLine')" [disabled]="!availibleModes.newLine">
+        <mat-icon aria-hidden="false" fontIcon="subdirectory_arrow_right"></mat-icon>
+      </button>
+      <button (click)="addOutputToLines('replace')" [disabled]="!availibleModes.replace">
+        <mat-icon aria-hidden="false" fontIcon="compare_arrows"></mat-icon>
+      </button>
     </div>
     <app-list [mode]="'interaction'" (ActionSelected)="useTemplate($event)"></app-list>
   </div>

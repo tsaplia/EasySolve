@@ -111,6 +111,7 @@ export class MathCanvasComponent implements OnInit {
   
   copyFunction(index: number) {
     if(index < 0) return;
+    // TODO: fix text copy
     const text = this.lines[index].line.slice(1, this.lines[index].line.length-1);
     this.clipboardService.copy(text);
     
@@ -126,6 +127,7 @@ export class MathCanvasComponent implements OnInit {
     if(type == 'formula') {
       let elem = document.querySelector(`#line-${cLine.id}`) as HTMLElement;
       prepareHTML(elem, formulaFromTeX(line.slice(1, -1)));
+      console.log(formulaFromTeX(line.slice(1, -1)).toTex());
     }
   }
 //#endregion help functions

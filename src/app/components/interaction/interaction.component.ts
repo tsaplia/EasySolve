@@ -1,7 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { CanvasLine } from "src/app/models/canvasLine";
 import { availibleActions } from "src/app/modules/math-actions/actions";
-import { clearSelected, selected } from "src/app/modules/math-actions/selection/selected";
+import { clearSelected } from "src/app/modules/math-actions/selection/selected";
+import { SubPartModes, availableModes, useMode,  } from "src/app/modules/math-actions/templates/part-substitution";
 import { Formula } from "src/app/modules/math-structures/formula";
 import { StorageService } from "src/app/services/storage.service";
 import templates from "src/assets/actions.json";
@@ -17,30 +18,27 @@ declare let MathJax: any;
 export class InteractionComponent implements AfterViewInit {
   templates = templates;
   private _preview: Formula[] = [];
-  private _lines: CanvasLine[] = [];
+  public selLines: CanvasLine[] = [];
+  public availibleModes: SubPartModes = availableModes();
 
   @Output() ActionEvent = new EventEmitter<Formula[]>();
 
 
   set preview(formulas: Formula[]) {
     this._preview = [...formulas];
+    this.availibleModes =  this._preview.length > 0 ? availableModes() : {newLine: false, replace: false, addToEnd: false};
     this.updateMJ();
   }
-  get preview(): Formula[] {
-    return this._preview;
-  }
-
-  get lines() {
-    return this._lines;
-  }
+  get preview(): Formula[] { return this._preview; }
 
   constructor(private cdRef: ChangeDetectorRef,
               private storage: StorageService) { }
 
   ngDoCheck(){
     let newLines = this.storage.selectedLines;
-    if(newLines.length != this._lines.length || newLines.some((newLine, index) => newLine.line != this._lines[index].line)) {
-      this._lines = [...newLines];
+    if(newLines.length != this.selLines.length || newLines.some((newLine, index) => newLine.line != this.selLines[index].line)) {
+      this.selLines = [...newLines];
+      this._preview = [];
       this.updateMJ();
     }
   }
@@ -49,8 +47,8 @@ export class InteractionComponent implements AfterViewInit {
       this.updateMJ();
   }
 
-  addOutputToLines() {
-    this.ActionEvent.emit(this.preview);
+  addOutputToLines(mode: keyof SubPartModes) {
+    this.ActionEvent.emit(useMode(mode, this.preview));
     this.preview = [];
     clearSelected();
   }

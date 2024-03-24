@@ -1,4 +1,5 @@
 @import "/src/assets/variables.scss";
+@import "bootstrap";
 
 .category {
   color: $textColor;
@@ -12,7 +13,7 @@
   margin-right: 5px;
 }
 .category:hover > mat-icon {
-  background-color: azure;
+  background-color: tint-color($primary, $btn-hover-bg-shade-amount);
   border-radius: 15px;
 }
 .list-item-intercation {

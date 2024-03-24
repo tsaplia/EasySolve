@@ -28,14 +28,19 @@ export class SelectedStructures extends Map<HTMLElement, MathStruct>{
         return Array.from(this.values());
     }
 
-    getStructureData(): {formula: Formula, structure: Multiplier | Term}{
+    getStructureData(): {formula: Formula, structure: Multiplier | Term, partIndex: number} {
         if(this.type != "structure") throw new Error("Selected type must be 'structure'");
         let structures: MathStruct[] = Array.from(this.values());
+
+        let parents = [structures[0], ...getParents(structures[0])];
         let formula = getParents(structures[0]).at(-1) || structures[0];
         if(!(formula instanceof Formula)) throw new Error("Formula not found");
+        let partIndex = formula.equalityParts.indexOf(parents.at(-2) as Expression || formula.equalityParts[0]);
+        if(partIndex == -1) throw new Error("Equality part not found");
+
         if(structures.length == 1){
             let structure = structures[0] instanceof Formula ? structures[0].equalityParts[0] : structures[0];
-            return {formula, structure};
+            return {formula, structure, partIndex};
         }
         let newStruct: Term | Expression;
         if(structures[0] instanceof Term){
@@ -54,6 +59,6 @@ export class SelectedStructures extends Map<HTMLElement, MathStruct>{
                 return new Expression(children as Term[]);
             }
         }
-        return {formula: formula.changeStructure(callback), structure: newStruct};
+        return {formula: formula.changeStructure(callback), structure: newStruct, partIndex};
     }
 }

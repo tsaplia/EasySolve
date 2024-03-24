@@ -12,16 +12,16 @@ import { Term } from "../../math-structures/term";
 import { Expression } from "../../math-structures/expression";
 import { FormulaTemplate } from "../../math-structures/formula-template";
 
-export function tryTemplete(template: Template): Formula | null {
+export function tryTemplete(template: Template): Expression | null {
     if(selected.type != "structure") return null;
-    let {formula, structure} = selected.getStructureData();
+    let {formula, structure, partIndex} = selected.getStructureData();
     let selectedExpression = toExpression(structure);
 
     let matchRusult = match(template.from, selectedExpression);
     if(!matchRusult) return null;
     let resultExpression = substituteVariables(template.to, matchRusult);
 
-    return replace(formula, structure, resultExpression);
+    return replace(formula.equalityParts[partIndex], structure, resultExpression);
 }
 
 export function tryFormulaTemplate(template: FormulaTemplate): Formula[] | null {
@@ -55,6 +55,12 @@ function match(template: MathStruct, struct: MathStruct): MatchResult | null {
     
     let tChildren = template.children;
     let sChildren = struct.children;
+
+    // for formulas with many equality parts
+    if(template instanceof Formula){
+        if(sChildren.length == 1) return null;
+        sChildren = [sChildren[0], sChildren[sChildren.length-1]];
+    }
     
     // wrap /unwrap children
     if(tChildren.length != sChildren.length) {
@@ -113,13 +119,13 @@ function substituteVariables<T extends MathStruct>(template: T, match: MatchResu
     return template.changeStructure(callback) as T;
 }
 
-function replace(formula: Formula, from: Term | Multiplier, to: Term | Multiplier): Formula {
+function replace(part: Expression, from: Term | Multiplier, to: Term | Multiplier): Expression {
     if(from instanceof Term) to = toTerm(to); 
     else if(from instanceof Expression) to = toExpression(to);
     else to = toMultiplier(to);
     let changedParent: MathStruct | null = null;
 
-    const callback = (struct: MathStruct): MathStruct => {
+    const callback = (struct: MathStruct) => {
         if(struct === from) {
             changedParent = struct.parent;
             return to;
@@ -130,5 +136,5 @@ function replace(formula: Formula, from: Term | Multiplier, to: Term | Multiplie
         }
         return newStruct;
     };
-    return formula.changeStructure(callback);
+    return callback(part) as Expression;
 }

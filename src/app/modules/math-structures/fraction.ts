@@ -1,3 +1,4 @@
+import { toExpression } from "../math-actions/structure-actions";
 import { Expression } from "./expression";
 import { MathStruct, Multiplier } from "./math-structure";
 import { Term } from "./term";
@@ -13,17 +14,8 @@ export class Frac extends Multiplier {
         this.numerator.parent = this.denomerator.parent = this;
     }
     override toTex(): string {
-        let num = new Expression([this.numerator]).toTex();
-        let denom = new Expression([this.denomerator]).toTex();
-
-        if (this.numerator.content.length == 1 && this.numerator.sign == "+" &&
-            this.numerator.content[0] instanceof Expression) {
-            num = this.numerator.content[0].toTex();
-        }
-        if (this.denomerator.content.length == 1 && this.denomerator.sign == "+" &&
-            this.denomerator.content[0] instanceof Expression) {
-            denom = this.denomerator.content[0].toTex();
-        }
+        let num = toExpression(this.numerator).toTex();
+        let denom = toExpression(this.denomerator).toTex();
 
         return `\\frac{${num}}{${denom}}`;
     }

@@ -13,8 +13,8 @@ templates.forEach((action) => {
     if(action.type == "expression"){
         let template = templateFromTeX(action.body as string);
         availibleActions.set(action.id, ()=>{
-            let res = tryTemplete(template)
-            return res ? [res] : null;
+            let expr = tryTemplete(template)
+            return expr ? [new Formula([expr])] : null;
         });
     }else{
         let template = formulaTemplateFromTeX(action.body as string);
@@ -29,8 +29,8 @@ availibleActions.set("sub-1", ()=>{
     if(!formulas || formulas.length != 1) return null;
     let template = new Template(formulas[0].equalityParts[0].copy(), formulas[0].equalityParts.at(-1)?.copy() as Expression);
     availibleActions.set("custom", ()=>{
-        let res = tryTemplete(template)
-        return res ? [res] : null;
+        let expr = tryTemplete(template)
+        return expr ? [new Formula([expr])] : null;
     });
     clearSelected();
     return null;

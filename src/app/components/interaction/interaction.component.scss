@@ -21,18 +21,26 @@ hr {
   border-width: 5px;
 }
 #input, #output {
-  @extend .p-1;
+  @extend .p-2;
+  @extend .rounded;
+  @extend .overflow-hidden;
   min-height: 30px;
   margin-top: 10px;
   background-color: antiquewhite;
 }
 .btn-row {
-  display: flex;
-  flex-direction: column;
+  @extend .d-flex ;
+  @extend .justify-content-end; 
+  @extend .my-2; 
+  @extend .ps-1;
+  @extend .overflow-hidden;
 }
-.btn-row > button, .btn-row > div > button{
-  margin-top: 10px;
-  font-family: monospace;
+
+.btn-row > button{
   @extend .btn;
-  @extend .btn-secondary;
+  @extend .btn-outline-secondary;
+  @extend .d-flex;
+  @extend .p-0;
+  @extend .mx-1;
+  @extend .my-auto;
 }
