@@ -34,7 +34,28 @@
     "id":"sub-2",
     "categoryId": 4,
     "template":false,
-    "type":"formula",
+    "type":"expression",
     "name": "Subtitute to"
+  },
+  {
+    "id":"group",
+    "categoryId": 5,
+    "template":false,
+    "type":"expression",
+    "name": "Group"
+  },
+  {
+    "id": "move-l",
+    "categoryId": 5,
+    "template":false,
+    "type":"expression",
+    "name": "Move left"
+  },
+  {
+    "id": "move-r",
+    "categoryId": 5,
+    "template":false,
+    "type":"expression",
+    "name": "Move Right"
   }
 ]

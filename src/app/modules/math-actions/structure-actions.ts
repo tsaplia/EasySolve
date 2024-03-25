@@ -47,19 +47,21 @@ export function toTerm(mult: Multiplier | Term): Term {
     return new Term([mult.copy()]);
 }
 
-export function removeExtraGroups(struct: MathStruct): MathStruct {
+export function removeExtraGroups(struct: MathStruct, rmNegative = false): MathStruct {
     if(struct instanceof Term){
+        let sign = struct.sign;
         let content: Multiplier[] = [];
         let modified = false;
         for(let mult of struct.content){
-            if(mult instanceof Expression && mult.content.length == 1 && mult.content[0].sign == "+"){
+            if(mult instanceof Expression && mult.content.length == 1 && (mult.content[0].sign == "+" || rmNegative)){
                 content.push(...mult.content[0].content);
+                if(mult.content[0].sign == "-") sign = sign == "+" ? "-" : "+";
                 modified = true;
             }else{
                 content.push(mult);
             }
         }
-        return modified ? new Term(content.map((mult) => mult.copy())) : struct;
+        return modified ? new Term(content.map((mult) => mult.copy()), sign) : struct;
     }if(struct instanceof Expression){
         let content: Term[] = [];
         let modified = false;

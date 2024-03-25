@@ -28,7 +28,7 @@ export class SelectedStructures extends Map<HTMLElement, MathStruct>{
         return Array.from(this.values());
     }
 
-    getStructureData(): {formula: Formula, structure: Multiplier | Term, partIndex: number} {
+    getStructureData(): {formula: Formula, structure: Multiplier | Term, partIndex: number, subFormula?: Formula} {
         if(this.type != "structure") throw new Error("Selected type must be 'structure'");
         let structures: MathStruct[] = Array.from(this.values());
 
@@ -59,6 +59,6 @@ export class SelectedStructures extends Map<HTMLElement, MathStruct>{
                 return new Expression(children as Term[]);
             }
         }
-        return {formula: formula.changeStructure(callback), structure: newStruct, partIndex};
+        return {subFormula: formula.changeStructure(callback), formula: formula, structure: newStruct, partIndex};
     }
 }

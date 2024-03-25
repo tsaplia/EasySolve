@@ -1,18 +1,18 @@
 [
   {
     "id": 1,
-    "name": "algebra"
+    "name": "Algebra"
   },
   {
     "id": 3,
-    "name": "formulas"
-  },
-  {
-    "id": 2,
-    "name": "trigonometry"
+    "name": "Formulas"
   },
   {
     "id": 4,
-    "name": "substitution"
+    "name": "Substitution"
+  },
+  {
+    "id": 5,
+    "name": "Moving&Groupping"
   }
 ]
