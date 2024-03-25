@@ -24,10 +24,11 @@ export class MathCanvasComponent implements OnInit {
   @Output() interactionEvent = new EventEmitter<boolean>();
 
   @Input() set newFormulas(formulas: Formula[] | null) {
+    //replace 
     if(!formulas) return;
     formulas.forEach(f => {
-      this.addNewLine(`$${f.toTex()}$`, 'formula');
-    })
+      this.addNewLine('formula',`$${f.toTex()}$`);
+    });
     this.newFormulas = null;
   }
 
@@ -64,13 +65,13 @@ export class MathCanvasComponent implements OnInit {
     this.interactionEvent.emit(this.interaction);
   }
 
-  openAddModal(type: "formula" | "text", line: string = '') {
+  newLineInput(type: "formula" | "text", line: string = '', index?: number, replace?:boolean) {
     if(type == 'formula') {
-      let formulaDialog = this.dialog.open(AddingModalFormulaComponent);
+      let formulaDialog = this.dialog.open(AddingModalFormulaComponent, {data: {formula: line}});
       formulaDialog.afterClosed().subscribe(resp => {
         if(!resp || resp.line == '$$') return;
         line = resp.line
-        this.addNewLine(line, type);
+        this.addNewLine(type, line, index, replace);
       });
     }
     else {
@@ -78,7 +79,7 @@ export class MathCanvasComponent implements OnInit {
       formulaDialog.afterClosed().subscribe(resp => {
         if(!resp || resp.line == '$$') return;
         line = resp.line;
-        this.addNewLine(line, type);
+        this.addNewLine(type, line, index, replace);
       });
     }
   }
@@ -110,19 +111,25 @@ export class MathCanvasComponent implements OnInit {
   }
   
   copyFunction(index: number) {
-    if(index < 0) return;
+    if(index < 0 || index >= this.lines.length) return;
     // TODO: fix text copy
-    const text = this.lines[index].line.slice(1, this.lines[index].line.length-1);
+    const text = this.lines[index].line;
     this.clipboardService.copy(text);
     
     this.toast.clear();
     this.toast.success("Copy succes"); // can add in 3rd param {positionClass: 'toast-bottom-right'}
   }
+
+  editFunction(index: number) {
+    if(index < 0 || index >= this.lines.length) return;
+    this.newLineInput(this.lines[index].type, this.lines[index].line, index, true);
+  }
+
 //#endregion line's functionality
 //#region help functions
-  addNewLine(line: string, type:"formula" | "text") {
+  addNewLine(type:"formula" | "text", line: string, index?: number, replace?: boolean) {
     let cLine = new CanvasLine({line: line, type: type});
-    this.storage.addLine(cLine)
+    this.storage.addLine(cLine, index, replace);
     this.updateMJ();
     if(type == 'formula') {
       let elem = document.querySelector(`#line-${cLine.id}`) as HTMLElement;

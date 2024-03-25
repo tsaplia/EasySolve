@@ -7,7 +7,8 @@
       <!-- <input type="text" class="finput" [(ngModel)]="formula" (keyup.enter)="add()"> -->
       <div>
         <label for="math-field" class="form-label">Enter formula</label>
-        <span class="form-control" (keyup.enter)="add()"><span id="math-field"></span></span>
+        <div class="form-control" (keyup.enter)="add()"><span class="w-100" id="math-field"></span></div>
+        <div *ngIf="error" class="text-danger mt-1">{{error}}</div>
       </div>
     </div>
     <div class="d-flex mt-3 justify-content-end">

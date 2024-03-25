@@ -12,8 +12,14 @@ export class StorageService {
   get lines(): CanvasLine[] {
     return this._lines;  
   }
-  addLine(line: CanvasLine) {
-    this._lines.push(line);
+  addLine(line: CanvasLine, index?: number, replace?: boolean) {
+    if(index!=null && index < this._lines.length && index >= 0) {
+      if(replace){
+        this.deleteLine(index);
+      }
+      this._lines.splice(index, 0, line);
+    }
+    else this._lines.push(line);
   }
   setLines(lines: CanvasLine[]) {
     this.clearLines();

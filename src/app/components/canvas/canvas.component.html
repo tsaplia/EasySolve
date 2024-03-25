@@ -3,8 +3,8 @@
     <div class="btn-row" id="btn-row">
       <button type="button" (click)="interactionToggle()">Interaction</button>
       <div>
-        <button type="button" (click)="openAddModal('formula')">Add furmula</button>
-        <button type="button" (click)="openAddModal('text')">Add text</button>
+        <button type="button" (click)="newLineInput('formula')">Add furmula</button>
+        <button type="button" (click)="newLineInput('text')">Add text</button>
         <button type="button" (click)="clear()">Clear</button>
       </div>
       <button type="button" (click)="dictionaryToggle()">Dictionary</button>
@@ -26,6 +26,9 @@
           <div class="d-flex">
             <button class="btn btn-outline-secondary d-flex p-0 mx-1 my-auto border-0" (click)="copyFunction(i)">
               <mat-icon aria-hidden="false" fontIcon="file_copy"></mat-icon>
+            </button>
+            <button class="btn btn-outline-secondary d-flex p-0 mx-1 my-auto border-0" (click)="editFunction(i)">
+              <mat-icon aria-hidden="false" fontIcon="edit"></mat-icon>
             </button>
             <button class="btn btn-outline-secondary d-flex p-0 my-auto border-0" (click)="deleteFunction(i)">
               <mat-icon aria-hidden="false" fontIcon="close"></mat-icon>

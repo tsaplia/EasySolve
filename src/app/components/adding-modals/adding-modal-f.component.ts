@@ -2,7 +2,6 @@ import { AfterViewInit, Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MathQuillService } from "src/app/services/mathquill.service";
 import { formulaFromTeX } from "src/app/modules/math-actions/from-tex";
-import { ToastrService } from "ngx-toastr";
 
 @Component({
   templateUrl: 'adding-modal-f.component.html',
@@ -11,17 +10,19 @@ import { ToastrService } from "ngx-toastr";
 
 export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
   mathField: MQ.MathField;
-  
+  error: string = '';
   
   constructor(private dialogRef: MatDialogRef<AddingModalFormulaComponent>, 
-              @Inject(MAT_DIALOG_DATA) public data: any, // don't use it now
-              private MQ: MathQuillService,
-              private toast: ToastrService) {}
+              @Inject(MAT_DIALOG_DATA) public data: {formula?: string}, // don't use it now
+              private MQ: MathQuillService) {}
   
   ngOnInit(): void {
   }
   ngAfterViewInit(): void {
     this.mathField = this.MQ.createMathField(document.getElementById("math-field") as HTMLSpanElement);
+    if(this.data?.formula && this.data.formula.match(/\$.*\$/)) {
+      this.mathField.latex(this.data.formula.slice(1, -1));
+    }
   }
 
   close() {
@@ -29,21 +30,11 @@ export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
   }
 
   add() {
-    if(!this.checkLine(this.mathField.latex())) {
-      this.toast.clear();
-      this.toast.error("","Uncorrect formula");
-    }
-    else
-      this.dialogRef.close({line: `$${this.mathField.latex()}$`});
-  }
-
-  checkLine(line: string)  {
     try{
-      formulaFromTeX(line);
-    }catch(e) {
-      return false;
+      formulaFromTeX(this.mathField.latex());
+      this.dialogRef.close({line: `$${this.mathField.latex()}$`});
+    }catch(e: any) {
+      this.error = e.message;
     }
-    return true;
   }
-
 }
