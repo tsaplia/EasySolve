@@ -34,7 +34,7 @@
   width: 100%;
   color: $textColor;
 }
-mat-icon {
+.drag-item {
   color:#6c757d; //TODO: create variable
 }
 hr {
@@ -44,6 +44,7 @@ hr {
 }
 
 .cdk-drag-preview {
+  font-family: monospace;
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),

@@ -75,9 +75,9 @@ export class MathCanvasComponent implements OnInit {
       });
     }
     else {
-      let formulaDialog = this.dialog.open(AddingModalTextComponent);
+      let formulaDialog = this.dialog.open(AddingModalTextComponent, {data: {line: line}, height:'300px', width: '800px'});
       formulaDialog.afterClosed().subscribe(resp => {
-        if(!resp || resp.line == '$$') return;
+        if(!resp) return;
         line = resp.line;
         this.addNewLine(type, line, index, replace);
       });
@@ -112,7 +112,7 @@ export class MathCanvasComponent implements OnInit {
   
   copyFunction(index: number) {
     if(index < 0 || index >= this.lines.length) return;
-    // TODO: fix text copy
+    // TODO: fix text copy P: what's a problem with clipboard?
     const text = this.lines[index].line;
     this.clipboardService.copy(text);
     

@@ -27,13 +27,14 @@ export class MainComponent implements OnInit {
     // next code is for beauty closing and opening
     let int: HTMLElement | null = document.getElementById('dictionary');
     if(int && value) {
+      int?.setAttribute("style", "overflow: hidden")
       setTimeout(() => {
-        int?.setAttribute("style", "overflow: visible")
-      }, 100);
+        if(this.dictionary) int?.setAttribute("style", "overflow: visible")
+      }, 200);
     }
     if(int && !value) {
       setTimeout(() => {
-        int?.setAttribute("style", "overflow: hidden")
+        if(!this.dictionary) int?.setAttribute("style", "overflow: hidden")
       }, 500);
     }
   }
@@ -43,13 +44,14 @@ export class MainComponent implements OnInit {
     // next code is for beauty closing and opening (that fucking line disappered)
     let int: HTMLElement | null = document.getElementById('interaction');
     if(int && value) {
+      int?.setAttribute("style", "overflow: hidden")
       setTimeout(() => {
-        int?.setAttribute("style", "overflow: visible")
-      }, 100);
+        if(this.interaction) int?.setAttribute("style", "overflow: visible")
+      }, 200);
     }
     if(int && !value) {
       setTimeout(() => {
-        int?.setAttribute("style", "overflow: hidden")
+        if(!this.interaction) int?.setAttribute("style", "overflow: hidden")
       }, 500);
     }
   }

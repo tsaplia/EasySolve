@@ -22,10 +22,6 @@ h1 {
   margin-bottom: 0;
 }
 
-:host {
-  font-family: monospace;
-}
-
 .form-control:has(.mq-editable-field.mq-focused) {
   color: $input-focus-color;
   background-color: $input-focus-bg;
@@ -37,6 +33,10 @@ h1 {
     // Avoid using mixin so we can pass custom focus shadow properly
     box-shadow: $input-focus-box-shadow;
   }
+}
+
+:host {
+  font-family: monospace;
 }
 
 :host ::ng-deep .mq-editable-field {

@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MathQuillService } from "src/app/services/mathquill.service";
+import { AddingModalFormulaComponent } from "./adding-modal-f.component";
 
 @Component({
   templateUrl: 'adding-modal-t.component.html',
@@ -8,24 +9,35 @@ import { MathQuillService } from "src/app/services/mathquill.service";
 })
 
 export class AddingModalTextComponent implements OnInit, AfterViewInit {
-  mathField: MQ.MathField;
+  line: string = '';
   
   constructor(private dialogRef: MatDialogRef<AddingModalTextComponent>, 
-              @Inject(MAT_DIALOG_DATA) public data: any, // don't use it now
-              private MQ: MathQuillService) {}
+              @Inject(MAT_DIALOG_DATA) public data: {line: string}, 
+              private dialog: MatDialog) {
+                this.line = data.line;
+              }
   
   ngOnInit(): void {
+  
   }
   ngAfterViewInit(): void {
-    this.mathField = this.MQ.createMathField(document.getElementById("math-field") as HTMLSpanElement);
+
   }
 
-  close() {
+  addFormula(): void {
+    let formulaDialog = this.dialog.open(AddingModalFormulaComponent, {data: {formula: ''}});
+    formulaDialog.afterClosed().subscribe(resp => {
+      if(!resp || resp.line == '$$') return;
+      this.line += resp.line;
+    });
+  }
+
+  close(): void {
     this.dialogRef.close();
   }
 
-  add() {
-    this.dialogRef.close({line: `$${this.mathField.latex()}$`});
+  add(): void {
+    this.dialogRef.close({line: this.line});
   }
 
 }

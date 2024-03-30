@@ -1,12 +1,12 @@
 <div id="adding-modal">
   <div class="head">
-    <h1>Add Formula</h1>
+    <h1>Enter Formula</h1>
   </div>
-  <div class="body p-3">
+  <div class="p-3">
     <div>
       <!-- <input type="text" class="finput" [(ngModel)]="formula" (keyup.enter)="add()"> -->
       <div>
-        <label for="math-field" class="form-label">Enter formula</label>
+        <!-- <label for="math-field" class="form-label">Enter formula</label> -->
         <div class="form-control" (keyup.enter)="add()"><span class="w-100" id="math-field"></span></div>
         <div *ngIf="error" class="text-danger mt-1">{{error}}</div>
       </div>
