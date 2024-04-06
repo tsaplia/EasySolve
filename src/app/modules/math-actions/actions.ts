@@ -8,7 +8,7 @@ import { Term } from "../math-structures/term";
 import { formulaTemplateFromTeX, templateFromTeX } from "./from-tex";
 import { clearSelected, selected } from "./selection/selected";
 import { StructureData } from "./selection/selected-structures";
-import { removeExtraGroups, toMultiplier, toTerm } from "./structure-actions";
+import { changeTermSign, removeExtraGroups, toMultiplier, toTerm } from "./structure-actions";
 import { replace, tryFormulaTemplate, tryTemplete } from "./templates/templete-functions";
 import templates from "src/assets/actions.json";
 
@@ -93,10 +93,33 @@ function move(direction: "l" | "r"){
     return [new Formula([replace((data.subFormula || data.formula).equalityParts[data.partIndex], data.structure.parent, newParent)])];
 }
 
-availibleActions.set("move-l", ()=> {
+availibleActions.set("move-l", () => {
     return move("l");
 });
 
-availibleActions.set("move-r", ()=> {
+availibleActions.set("move-r", () => {
     return move("r");
+});
+
+availibleActions.set("change-part", ()=> {
+    let structures = selected.selectedStructures as Term[];
+    if(structures?.[0] instanceof Expression){
+        if(structures.length != 1) return null;
+        structures = structures[0].children as Term[];
+    }
+    if(!(structures?.[0].parent?.parent instanceof Formula)) return null;
+    let formula = structures[0].parent.parent;
+    if(formula.equalityParts.length < 2) return null;
+    let partIndex = formula.equalityParts.indexOf(structures[0].parent as Expression);
+
+    let secondPartIndex = partIndex == 0 ? formula.equalityParts.length-1 : 0;
+    let leftChildren = formula.equalityParts[secondPartIndex].content.map(child => child.copy());
+    structures.forEach((struct)=>leftChildren.push(changeTermSign(struct)));
+
+    let rightChildren = formula.equalityParts[partIndex].content
+        .filter(child => !structures?.includes(child)).map(child => child.copy());
+
+    if(partIndex == 0) [leftChildren, rightChildren] = [rightChildren, leftChildren];
+
+    return [new Formula([new Expression(leftChildren), new Expression(rightChildren)])];
 });

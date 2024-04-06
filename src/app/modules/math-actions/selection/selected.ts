@@ -1,6 +1,7 @@
 import { Func } from "../../math-structures/function";
 import { MathStruct } from "../../math-structures/math-structure";
 import { Sqrt } from "../../math-structures/sqrt";
+import { Term } from "../../math-structures/term";
 import { getParents, getChildren } from "../structure-actions";
 import { SelectedStructures } from "./selected-structures";
 
@@ -30,9 +31,11 @@ function removeSelected(struct: MathStruct){
     elem.classList.remove("selected");
 }
 
+// Select element if all children are selected 
 function checkParentSelection(struct: MathStruct | null){
     if(!struct || struct instanceof Func || struct instanceof Sqrt) return;
     if(struct.children.every(child => selected.has(allStructures.get(child) as HTMLElement))){ 
+        if(struct instanceof Term && struct.sign == '-') return; // do not select term with '- sign
         addSelected(struct);
         struct.children.forEach((child)=>removeSelected(child));
         checkParentSelection(struct.parent);
@@ -48,6 +51,7 @@ export function removeStruct(elem: HTMLElement): void{
     });
 }
 
+// get HTML (MJX element) with selected structures
 export function getSelectedElement(){
     if(selected.type != "structure") return null;
     let formula = selected.getStructureData().formula;
@@ -74,7 +78,7 @@ export function setListener(struct: MathStruct, elem: HTMLElement){
             event.stopPropagation();
         }
     });
-    elem.addEventListener('mouseover', (event) => {
+    elem.addEventListener('mousemove', (event) => {
         if(!targetCheck(event.target as HTMLElement) || event.buttons !== 1) return;
         if(selected.has(elem)){
             if(event.ctrlKey) removeSelected(struct);
