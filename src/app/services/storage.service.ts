@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { CanvasLine } from "../models/canvasLine";
-import { clearSelected, removeStruct, selected } from "../modules/math-actions/selection/selected";
+import { clearSelected, getSelectedElement, removeStruct, selected } from "../modules/math-actions/selection/selected";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class StorageService {
   get lines(): CanvasLine[] {
     return this._lines;  
   }
-  addLine(line: CanvasLine, index?: number, replace?: boolean) {
+  addLine(line: CanvasLine, index?: number|null, replace?: boolean) {
     if(index!=null && index < this._lines.length && index >= 0) {
       if(replace){
         this.deleteLine(index);
@@ -61,5 +61,13 @@ export class StorageService {
       }
     }
     return this._selectedLines;
+  }
+
+  get selectionLineIndex(): number | null {
+    let elem = getSelectedElement();
+    if(!elem || !elem.id.match(/^line-\d+$/)) return null;
+    let id = Number(elem.id.match(/^line-(\d+)$/)?.[1]);
+    let index = this._lines.findIndex(line => line.id == id);
+    return index == -1 ? null : index;
   }
 }

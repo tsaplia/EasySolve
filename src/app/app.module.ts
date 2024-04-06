@@ -20,6 +20,7 @@ import { SaveOpenComponent } from './components/save-open/save-open.component';
 import { ListComponent } from './components/list/list.component';
 import { AddingModalFormulaComponent } from './components/adding-modals/adding-modal-f.component';
 import { AddingModalTextComponent } from './components/adding-modals/adding-modal-t.component';
+import { CanvasLineComponent } from './components/canvas-line/canvas-line.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { AddingModalTextComponent } from './components/adding-modals/adding-moda
     DictionaryComponent,
     InteractionComponent,
     SaveOpenComponent,
-    ListComponent
+    ListComponent,
+    CanvasLineComponent
   ],
   imports: [
     BrowserModule,

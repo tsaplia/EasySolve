@@ -11,8 +11,6 @@ import { StorageService } from "src/app/services/storage.service";
 import { AddingModalFormulaComponent } from "../adding-modals/adding-modal-f.component";
 import { AddingModalTextComponent } from "../adding-modals/adding-modal-t.component";
 
-declare let MathJax: any;
-
 @Component({
   selector: 'app-math-canvas',
   templateUrl: 'canvas.component.html',
@@ -22,15 +20,6 @@ export class MathCanvasComponent implements OnInit {
   
   @Output() dictionaryEvent = new EventEmitter<boolean>();
   @Output() interactionEvent = new EventEmitter<boolean>();
-
-  @Input() set newFormulas(formulas: Formula[] | null) {
-    //replace 
-    if(!formulas) return;
-    formulas.forEach(f => {
-      this.addNewLine('formula',`$${f.toTex()}$`);
-    });
-    this.newFormulas = null;
-  }
 
   title: string = '';
   dictionary: boolean = false;
@@ -50,15 +39,6 @@ export class MathCanvasComponent implements OnInit {
   ngOnInit() {
   }
 
-  ngAfterViewInit(): void {
-    this.updateMJ();
-  }
-  // update MathJax
-  updateMJ() { 
-    this.cdRef.detectChanges();
-    MathJax.typeset([document.getElementById("body")]);
-  }
-
 //#region buttons' functionality
   interactionToggle() {
     this.interaction = !this.interaction;
@@ -67,19 +47,17 @@ export class MathCanvasComponent implements OnInit {
 
   newLineInput(type: "formula" | "text", line: string = '', index?: number, replace?:boolean) {
     if(type == 'formula') {
-      let formulaDialog = this.dialog.open(AddingModalFormulaComponent, {data: {formula: line}});
+      let formulaDialog = this.dialog.open(AddingModalFormulaComponent, {data: {formula: line, checkFormula: true}});
       formulaDialog.afterClosed().subscribe(resp => {
         if(!resp || resp.line == '$$') return;
-        line = resp.line
-        this.addNewLine(type, line, index, replace);
+        this.storage.addLine(new CanvasLine({line: resp.line, type}), index, replace);
       });
     }
     else {
       let formulaDialog = this.dialog.open(AddingModalTextComponent, {data: {line: line}, height:'300px', width: '800px'});
       formulaDialog.afterClosed().subscribe(resp => {
         if(!resp) return;
-        line = resp.line;
-        this.addNewLine(type, line, index, replace);
+        this.storage.addLine(new CanvasLine({line: resp.line, type}), index, replace);
       });
     }
   }
@@ -97,7 +75,6 @@ export class MathCanvasComponent implements OnInit {
   linesFromFile(value: any) {
     this.title = value.title;
     this.storage.setLines(value.lines);
-    this.updateMJ();
   }
 //#endregion buttons' functionality
 //#region line's functionality 
@@ -107,7 +84,6 @@ export class MathCanvasComponent implements OnInit {
   
   deleteFunction(index: number) {
     this.storage.deleteLine(index);
-    this.updateMJ();
   }
   
   copyFunction(index: number) {
@@ -124,18 +100,5 @@ export class MathCanvasComponent implements OnInit {
     if(index < 0 || index >= this.lines.length) return;
     this.newLineInput(this.lines[index].type, this.lines[index].line, index, true);
   }
-
-//#endregion line's functionality
-//#region help functions
-  addNewLine(type:"formula" | "text", line: string, index?: number, replace?: boolean) {
-    let cLine = new CanvasLine({line: line, type: type});
-    this.storage.addLine(cLine, index, replace);
-    this.updateMJ();
-    if(type == 'formula') {
-      let elem = document.querySelector(`#line-${cLine.id}`) as HTMLElement;
-      prepareHTML(elem, formulaFromTeX(line.slice(1, -1)));
-      console.log(formulaFromTeX(line.slice(1, -1)).toTex());
-    }
-  }
-//#endregion help functions
+  //#endregion line's functionality
 }

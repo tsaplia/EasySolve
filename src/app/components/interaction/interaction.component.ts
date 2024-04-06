@@ -21,9 +21,6 @@ export class InteractionComponent implements AfterViewInit {
   public selLines: CanvasLine[] = [];
   public availibleModes: SubPartModes = availableModes();
 
-  @Output() ActionEvent = new EventEmitter<Formula[]>();
-
-
   set preview(formulas: Formula[]) {
     this._preview = [...formulas];
     this.availibleModes =  this._preview.length > 0 ? availableModes() : {newLine: false, replace: false, addToEnd: false};
@@ -48,7 +45,15 @@ export class InteractionComponent implements AfterViewInit {
   }
 
   addOutputToLines(mode: keyof SubPartModes) {
-    this.ActionEvent.emit(useMode(mode, this.preview));
+    let formulas = useMode(mode, this._preview);
+    if(mode == "newLine") {
+      formulas.forEach(formula => {
+        this.storage.addLine(new CanvasLine({line: `$${formula.toTex()}$`, type: 'formula'}));
+      });
+    }else{
+      this.storage.addLine(new CanvasLine({line: `$${formulas[0].toTex()}$`, type: 'formula'}), 
+        this.storage.selectionLineIndex, true);
+    }
     this.preview = [];
     clearSelected();
   }
@@ -65,7 +70,7 @@ export class InteractionComponent implements AfterViewInit {
     if(formulas) {
       this.preview = formulas;
     }else{
-      console.log("can not use this template");
+      console.log("Can't use this template");
     }
   }
 }

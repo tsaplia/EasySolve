@@ -13,7 +13,7 @@ export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
   error: string = '';
   
   constructor(private dialogRef: MatDialogRef<AddingModalFormulaComponent>, 
-              @Inject(MAT_DIALOG_DATA) public data: {formula?: string}, // don't use it now
+              @Inject(MAT_DIALOG_DATA) public data: {formula?: string, checkFormula?: boolean}, 
               private MQ: MathQuillService) {}
   
   ngOnInit(): void {
@@ -30,11 +30,18 @@ export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
   }
 
   add() {
+    if(!this.data?.checkFormula || this._checkFormula()) {
+      this.dialogRef.close({line: `$${this.mathField.latex()}$`});
+    }
+  }
+
+  _checkFormula(): boolean {
     try{
       formulaFromTeX(this.mathField.latex());
-      this.dialogRef.close({line: `$${this.mathField.latex()}$`});
+      return true;
     }catch(e: any) {
       this.error = e.message;
+      return false;
     }
   }
 }

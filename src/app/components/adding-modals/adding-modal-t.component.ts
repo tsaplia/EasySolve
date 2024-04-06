@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { MathQuillService } from "src/app/services/mathquill.service";
 import { AddingModalFormulaComponent } from "./adding-modal-f.component";
 
 @Component({

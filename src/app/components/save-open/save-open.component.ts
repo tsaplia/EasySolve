@@ -62,6 +62,7 @@ export class SaveOpenComponent {
       let newLines: CanvasLine[] = [];
       for(let item of objects)
         newLines.push(new CanvasLine(item));
+      // NOTE: it's better to use regex
       if(title.substring(title.length-5, title.length) == ".json") title = title.substring(0, title.length-5);
       if(title.substring(title.length-4, title.length) == ".txt") title = title.substring(0, title.length-4);
       this.openEvent.emit({title: title, lines: newLines});

@@ -1,16 +1,15 @@
 <div class="h-100 w-100" style="overflow-x: hidden;">
   <div class="h-100 d-flex bg-light">
 
-    <app-interaction id="interaction" (ActionEvent)="this.newCanvasFormulas = $event"
-        [ngClass]="{'w-0': !interaction, 'col-3': interaction}"></app-interaction>
+    <app-interaction id="interaction" [ngClass]="{'w-0': !interaction, 'col-3': interaction}"></app-interaction>
     
     <div id="invisible-div" [ngClass]="{'col-2': !interaction, 'w-0': interaction}"></div>
 
     <app-math-canvas id="canvas" class=""
         [ngClass]="{'col-8': !dictionary && !interaction,'col-7': dictionary ? !interaction : interaction, 'col-6': dictionary && interaction}"
         (dictionaryEvent)="dictionaryToggle($event)"
-        (interactionEvent)="interactionToggle($event)"
-        [newFormulas]="newCanvasFormulas"></app-math-canvas>
+        (interactionEvent)="interactionToggle($event)">
+    </app-math-canvas>
 
     <div id="invisible-div" [ngClass]="{'col-2': !dictionary, 'w-0': dictionary}"></div>
 

@@ -10,12 +10,8 @@ declare let MathJax: any;
   styleUrls: ['main.component.scss']
 })
 export class MainComponent implements OnInit {
-
-  lines: string[] = [];
-
   dictionary: boolean = false;
   interaction: boolean = false;
-  newCanvasFormulas: Formula[] | null = null;
 
   constructor() {}
 

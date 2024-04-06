@@ -20,9 +20,7 @@
     <div cdkDropList (cdkDropListDropped)="drop($event)">
       <ng-container *ngFor="let line of lines; index as i">
         <div [id]="line.id" cdkDrag class="d-flex justify-content-between bg-white p-1">
-          <div class="my-auto" id="line-{{line.id}}">
-            {{line.line}}
-          </div>
+          <app-canvas-line [line]="line"></app-canvas-line>
           <div class="d-flex">
             <button class="btn btn-outline-secondary d-flex p-0 mx-1 my-auto border-0" (click)="copyFunction(i)">
               <mat-icon aria-hidden="false" fontIcon="file_copy"></mat-icon>
@@ -38,10 +36,6 @@
         </div>
         <hr>
       </ng-container>
-    </div>
-
-    <div>
-      \(px^2 + qx + r = 0\) 
     </div>
   </div>
 </div>

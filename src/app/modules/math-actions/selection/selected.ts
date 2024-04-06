@@ -48,6 +48,12 @@ export function removeStruct(elem: HTMLElement): void{
     });
 }
 
+export function getSelectedElement(){
+    if(selected.type != "structure") return null;
+    let formula = selected.getStructureData().formula;
+    return allStructures.get(formula)?.parentElement?.parentElement as HTMLElement;
+}
+
 export function setListener(struct: MathStruct, elem: HTMLElement){
     let findSelected = (structures: MathStruct[]) => structures.find(struct => selected.has(allStructures.get(struct) as HTMLElement));
     let targetCheck = (t: HTMLElement) => t.localName == "mjx-c" && !disabledTargets.includes(getComputedStyle(t, 'before').content);
