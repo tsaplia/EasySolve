@@ -4,6 +4,8 @@ import { MathStruct, Multiplier } from "../../math-structures/math-structure";
 import { Term } from "../../math-structures/term";
 import { getParents } from "../structure-actions";
 
+export type StructureData = {formula: Formula, structure: Multiplier | Term, partIndex: number, subFormula?: Formula}
+
 export class SelectedStructures extends Map<HTMLElement, MathStruct>{
     constructor(){
         super();
@@ -28,7 +30,7 @@ export class SelectedStructures extends Map<HTMLElement, MathStruct>{
         return Array.from(this.values());
     }
 
-    getStructureData(): {formula: Formula, structure: Multiplier | Term, partIndex: number, subFormula?: Formula} {
+    getStructureData(): StructureData {
         if(this.type != "structure") throw new Error("Selected type must be 'structure'");
         let structures: MathStruct[] = Array.from(this.values());
 

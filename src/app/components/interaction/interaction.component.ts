@@ -23,7 +23,8 @@ export class InteractionComponent implements AfterViewInit {
 
   set preview(formulas: Formula[]) {
     this._preview = [...formulas];
-    this.availibleModes =  this._preview.length > 0 ? availableModes() : {newLine: false, replace: false, addToEnd: false};
+    let type: "formula" | "structure" = formulas.at(0)?.equalityParts?.length == 1 ? "structure" : "formula";
+    this.availibleModes = this._preview.length > 0 ? availableModes(type) : {newLine: false, replace: false, addToEnd: false};
     this.updateMJ();
   }
   get preview(): Formula[] { return this._preview; }

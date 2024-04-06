@@ -1,9 +1,14 @@
 import { Expression } from "../math-structures/expression";
 import { Formula } from "../math-structures/formula";
+import { Frac } from "../math-structures/fraction";
+import { Multiplier } from "../math-structures/math-structure";
+import { Num } from "../math-structures/number";
 import { Template } from "../math-structures/template";
 import { Term } from "../math-structures/term";
 import { formulaTemplateFromTeX, templateFromTeX } from "./from-tex";
 import { clearSelected, selected } from "./selection/selected";
+import { StructureData } from "./selection/selected-structures";
+import { removeExtraGroups, toMultiplier, toTerm } from "./structure-actions";
 import { replace, tryFormulaTemplate, tryTemplete } from "./templates/templete-functions";
 import templates from "src/assets/actions.json";
 
@@ -50,26 +55,48 @@ availibleActions.set("group", ()=>{
     return [new Formula([data.subFormula.equalityParts[0].copy()])];
 });
 
-availibleActions.set("move-l", ()=> {
-    if(selected.selectedStructures?.length != 1) return null;
+function _moveOutofFrac(direction: "l" | "r", data: StructureData){
+    if(!(data.structure.parent instanceof Term && data.structure.parent.parent instanceof Frac)) return null;
+
+    let frac = data.structure.parent.parent;
+    let numChildren = data.structure.parent.parent.numerator.children;
+    let denChildren = data.structure.parent.parent.denomerator.children;
+    let newMult: Multiplier;
+    if(data.structure.parent.parent.numerator == data.structure.parent) {
+        numChildren.splice(numChildren.indexOf(data.structure), 1);
+        newMult = toMultiplier(data.structure);
+    }else{
+        denChildren.splice(denChildren.indexOf(data.structure), 1);
+        newMult = new Frac(new Term([new Num(1)]), toTerm(data.structure));
+    }
+    let newFrac = new Frac(new Term(numChildren.map(child => toTerm(child))), new Term(denChildren.map(child => toTerm(child))));
+
+    let newChildren = direction == "l" ? [newMult, newFrac] : [newFrac, newMult];
+    let children = (frac.parent as Term).children;
+    children.splice(children.indexOf(frac), 1, ...newChildren);
+    return [new Formula([
+        replace((data.subFormula || data.formula).equalityParts[data.partIndex], frac.parent as Term, removeExtraGroups(new Term(children)))
+    ])];
+}
+
+function move(direction: "l" | "r"){
     let data = selected.getStructureData();
+    if(!data) return null;
     if(!(data.structure.parent instanceof Term || data.structure.parent instanceof Expression)) return null;
     let children = data.structure.parent.children.map(child => child.copy());
     let index = data.structure.parent.children.indexOf(data.structure);
-    if(index == 0) return null;
-    children.splice(index-1, 0, children.splice(index, 1)[0]);
-    let newParent = data.structure.parent instanceof Term ? new Term(children) : new Expression(children as Term[]);
-    return [new Formula([replace(data.formula.equalityParts[0], data.structure.parent, newParent)])];
+    if(direction == "l" && index == 0 || direction == "r" && index == children.length-1) {
+        return _moveOutofFrac(direction, data);
+    }
+    children.splice(direction == "l" ? index-1 : index+1, 0, children.splice(index, 1)[0]);
+    let newParent = removeExtraGroups(data.structure.parent instanceof Term ? new Term(children) : new Expression(children as Term[]));
+    return [new Formula([replace((data.subFormula || data.formula).equalityParts[data.partIndex], data.structure.parent, newParent)])];
+}
+
+availibleActions.set("move-l", ()=> {
+    return move("l");
 });
 
 availibleActions.set("move-r", ()=> {
-    if(selected.selectedStructures?.length != 1) return null;
-    let data = selected.getStructureData();
-    if(!(data.structure.parent instanceof Term || data.structure.parent instanceof Expression)) return null;
-    let children = data.structure.parent.children.map(child => child.copy());
-    let index = data.structure.parent.children.indexOf(data.structure);
-    if(index == children.length - 1) return null;
-    children.splice(index+1, 0, children.splice(index, 1)[0]);
-    let newParent = data.structure.parent instanceof Term ? new Term(children) : new Expression(children as Term[]);
-    return [new Formula([replace(data.formula.equalityParts[0], data.structure.parent, newParent)])];
+    return move("r");
 });

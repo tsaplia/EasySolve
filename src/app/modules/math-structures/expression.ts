@@ -1,4 +1,5 @@
 import { MathStruct, Multiplier } from "./math-structure";
+import { Num } from "./number";
 import { Term } from "./term";
 
 
@@ -7,6 +8,7 @@ export class Expression extends Multiplier{
     constructor(content: Term[]) {
         super();
         this.content = [...content]; // inner terms of block
+        if(this.content.length == 0) this.content = [new Term([new Num(0)])];
         this.content.forEach((term)=>term.parent = this);
     }
 
@@ -19,8 +21,6 @@ export class Expression extends Multiplier{
 
             str += this.content[i].toTex();
         }
-
-        console.assert(!!this.content.length, "Empty block content");
 
         return str;
     }

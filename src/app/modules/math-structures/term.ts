@@ -1,5 +1,6 @@
 import { Expression } from "./expression";
 import { MathStruct, Multiplier } from "./math-structure";
+import { Num } from "./number";
 
 
 export class Term extends MathStruct {
@@ -9,6 +10,7 @@ export class Term extends MathStruct {
         super();
         this.sign = sign; // plus(+) or minus(-)
         this.content = [...content]; // inner multipliers
+        if(this.content.length == 0) this.content = [new Num(1)];
         this.content.forEach((mult)=>mult.parent = this);
     }
 
