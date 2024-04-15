@@ -50,6 +50,7 @@ availibleActions.set("sub-2", ()=>{
 });
 
 availibleActions.set("group", ()=>{
+    if(selected.type != 'structure') return null;
     let data = selected.getStructureData();
     if(!data || !data.subFormula) return null;
     return [new Formula([data.subFormula.equalityParts[0].copy()])];
@@ -80,8 +81,8 @@ function _moveOutofFrac(direction: "l" | "r", data: StructureData){
 }
 
 function move(direction: "l" | "r"){
+    if(selected.type != 'structure') return null;
     let data = selected.getStructureData();
-    if(!data) return null;
     if(!(data.structure.parent instanceof Term || data.structure.parent instanceof Expression)) return null;
     let children = data.structure.parent.children.map(child => child.copy());
     let index = data.structure.parent.children.indexOf(data.structure);

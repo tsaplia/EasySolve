@@ -10,6 +10,7 @@ import { Formula } from "src/app/modules/math-structures/formula";
 import { StorageService } from "src/app/services/storage.service";
 import { AddingModalFormulaComponent } from "../adding-modals/adding-modal-f.component";
 import { AddingModalTextComponent } from "../adding-modals/adding-modal-t.component";
+import { formulaTemplate } from "src/app/configs/config";
 
 @Component({
   selector: 'app-math-canvas',
@@ -65,6 +66,12 @@ export class MathCanvasComponent implements OnInit {
   clear() {
     this.storage.clearLines();
     this.cdRef.detectChanges();
+  }
+
+  async paste(event: ClipboardEvent) {
+    const text = await navigator.clipboard.readText();
+    let type: 'text'|'formula' = text.match(formulaTemplate) && formulaFromTeX(text.slice(1, -1)) ? 'formula' : 'text';
+    this.storage.addLine(new CanvasLine({line: text, type}));
   }
 
   dictionaryToggle() {
