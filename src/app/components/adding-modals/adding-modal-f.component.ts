@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MathQuillService } from "src/app/services/mathquill.service";
-import { formulaFromTeX } from "src/app/modules/math-actions/from-tex";
+import { checkFormula, formulaFromTeX } from "src/app/modules/math-actions/from-tex";
 
 @Component({
   templateUrl: 'adding-modal-f.component.html',
@@ -30,18 +30,8 @@ export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
   }
 
   add() {
-    if(!this.data?.checkFormula || this._checkFormula()) {
+    if(!this.data?.checkFormula || checkFormula(this.mathField.latex())) {
       this.dialogRef.close({line: `$${this.mathField.latex()}$`});
-    }
-  }
-
-  _checkFormula(): boolean {
-    try{
-      formulaFromTeX(this.mathField.latex());
-      return true;
-    }catch(e: any) {
-      this.error = e.message;
-      return false;
     }
   }
 }

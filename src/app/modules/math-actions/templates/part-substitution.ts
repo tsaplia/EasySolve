@@ -21,7 +21,7 @@ export function availableModes(type?: "formula" | "structure"): SubPartModes{
 
 export function useMode(mode: keyof SubPartModes, results: Formula[]): Formula[]{;
     if(!selected.type) throw new Error("Nothing selected");
-    if(selected.type == 'formula') return results;
+    if(results[0].equalityParts.length > 1) return results;
     let data = selected.getStructureData();
     let newPart = results[0].equalityParts[0].copy();
     switch(mode){

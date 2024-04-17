@@ -44,7 +44,6 @@ class IterStr {
     }
 }
 
-
 export function templateFromTeX(tex: string): Template {
     let parts = tex.split("=>");
     if(parts.length != 2) throw new Error("Incorrect template string");
@@ -309,4 +308,13 @@ function deleteExtraBlocks(str: string): string {
         str = str.replace(match[0], "\\"+match[2]);
     }
     return str;
+}
+
+export function checkFormula(str: string): boolean {
+    try{
+        formulaFromTeX(str);
+        return true;
+    }catch(e: any) {
+        return false;
+    }
 }

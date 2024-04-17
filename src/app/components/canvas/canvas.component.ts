@@ -1,12 +1,10 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit, Output } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ClipboardService } from "ngx-clipboard";
-import { formulaFromTeX } from "src/app/modules/math-actions/from-tex";
-import { prepareHTML } from "src/app/modules/math-actions/selection/selection-listeners";
+import { checkFormula } from "src/app/modules/math-actions/from-tex";
 import { CanvasLine } from "src/app/models/canvasLine";
 import { ToastrService } from "ngx-toastr";
-import { Formula } from "src/app/modules/math-structures/formula";
 import { StorageService } from "src/app/services/storage.service";
 import { AddingModalFormulaComponent } from "../adding-modals/adding-modal-f.component";
 import { AddingModalTextComponent } from "../adding-modals/adding-modal-t.component";
@@ -74,7 +72,7 @@ export class MathCanvasComponent implements OnInit {
 
   async paste(event: ClipboardEvent) {
     const text = await navigator.clipboard.readText();
-    let type: 'text'|'formula' = text.match(formulaTemplate) && formulaFromTeX(text.slice(1, -1)) ? 'formula' : 'text';
+    let type: 'text'|'formula' = text.match(formulaTemplate) && checkFormula(text.slice(1, -1)) ? 'formula' : 'text';
     this.storage.addLine(new CanvasLine({line: text, type}));
   }
 
