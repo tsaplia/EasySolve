@@ -14,6 +14,8 @@ export const availibleMathFunc = {
   "arctan":Math.atan
 }
 
+export const formulaTemplate = /^\$[^$]*\$$/;
+
 export class idCounter {
   static id: number = 0;
   static getId(): number {

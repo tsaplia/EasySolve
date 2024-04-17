@@ -141,9 +141,8 @@ function prepareFormula(root: Element, formula: Formula) {
             group.appendChild(next);
             next = group.nextElementSibling;
         }
-        if (i==0 || i==formula.equalityParts.length-1) {
-            prepareExpression(group, formula.equalityParts[i]);
-        }
+        
+        prepareExpression(group, formula.equalityParts[i]);
 
         if (i < formula.equalityParts.length - 1) {
             group = wrap(next?.nextElementSibling as Element, ClassNames.expr);

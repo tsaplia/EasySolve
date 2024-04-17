@@ -9,7 +9,7 @@ export type SubPartModes = {
 
 export function availableModes(type?: "formula" | "structure"): SubPartModes{
     let res: SubPartModes = {newLine: false, replace: false, addToEnd: false};
-    let selectedType = type ||selected.type;
+    let selectedType = type || selected.type;
     if(selectedType) res.newLine = true;
     if(selectedType == 'structure'){
         res.replace = true;

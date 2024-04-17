@@ -57,5 +57,12 @@
     "template":false,
     "type":"expression",
     "name": "Move Right"
+  },
+  {
+    "id": "change-part",
+    "categoryId": 5,
+    "template":false,
+    "type":"formula",
+    "name": "To another part"
   }
 ]

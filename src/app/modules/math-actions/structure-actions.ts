@@ -77,3 +77,7 @@ export function removeExtraGroups(struct: MathStruct, rmNegative = false): MathS
     }
     return struct;
 }
+
+export function changeTermSign(struct: Term): Term {
+    return new Term(struct.content.map((mult) => mult.copy()), struct.sign == "+" ? "-" : "+");
+}

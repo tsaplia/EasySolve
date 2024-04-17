@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MathQuill as MathQuillInterface } from '@trevorhanus/mathquill-types';
-import { availibleMathFunc } from '../configs/config';
+import { availibleMathFunc, formulaTemplate } from '../configs/config';
 declare let MathQuill: any;
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,16 @@ export class MathQuillService {
   }
 
   createMathField(elem: HTMLSpanElement) {
-    return this.MQ.MathField(elem, this.mqConfigs);
+    let mathField = this.MQ.MathField(elem, this.mqConfigs);
+    this._setPaste(elem);
+    return mathField
+  }
+
+  private _setPaste(elem: HTMLSpanElement) {
+    let input = elem.querySelector('textarea');
+    input?.addEventListener('input', async ()=>{
+      if(!input?.value.match(formulaTemplate)) return;
+      input.value = input.value.slice(1, -1);
+    });
   }
 }
