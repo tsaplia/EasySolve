@@ -5,6 +5,7 @@
   border-bottom-left-radius: 5%;
   border-top-left-radius: 5%;
   background-color: $primary;
+  overflow: hidden;
   
   @extend .p-4;
   @extend .h-100;

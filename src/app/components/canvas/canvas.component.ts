@@ -51,6 +51,8 @@ export class MathCanvasComponent implements OnInit {
       formulaDialog.afterClosed().subscribe(resp => {
         if(!resp || resp.line == '$$') return;
         this.storage.addLine(new CanvasLine({line: resp.line, type}), index, replace);
+        this.cdRef.detectChanges();
+        document.getElementById('line-'+this.lines[this.lines.length-1].id)?.scrollIntoView();
       });
     }
     else {
@@ -58,6 +60,8 @@ export class MathCanvasComponent implements OnInit {
       formulaDialog.afterClosed().subscribe(resp => {
         if(!resp) return;
         this.storage.addLine(new CanvasLine({line: resp.line, type}), index, replace);
+        this.cdRef.detectChanges();
+        document.getElementById('line-'+this.lines[this.lines.length-1].id)?.scrollIntoView();
       });
     }
   }

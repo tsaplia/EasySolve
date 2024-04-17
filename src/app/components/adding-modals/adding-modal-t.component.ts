@@ -20,14 +20,17 @@ export class AddingModalTextComponent implements OnInit, AfterViewInit {
   
   }
   ngAfterViewInit(): void {
-
+    var textArea = document.getElementById('myInput') as HTMLTextAreaElement;
+    textArea.focus();
   }
 
   addFormula(): void {
+    var textArea = document.getElementById('myInput') as HTMLTextAreaElement;
     let formulaDialog = this.dialog.open(AddingModalFormulaComponent, {data: {formula: ''}});
     formulaDialog.afterClosed().subscribe(resp => {
       if(!resp || resp.line == '$$') return;
-      this.line += resp.line;
+      this.line = this.line.substring(0, textArea.selectionStart) + resp.line + this.line.substring(textArea.selectionStart);
+      textArea.focus();
     });
   }
 

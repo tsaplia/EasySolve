@@ -73,3 +73,6 @@ hr {
 :host ::ng-deep mjx-container .selected {
   background-color: #bcf3fa;
 }
+:host ::ng-deep mjx-container mjx-math {
+  white-space: normal;
+}

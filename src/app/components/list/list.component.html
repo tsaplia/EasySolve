@@ -1,4 +1,4 @@
-<div [id]="mode+'-list'" style="max-width: 100%;" *ngIf="mode">
+<div [id]="mode+'-list'" class="list-body" *ngIf="mode">
   <div *ngFor="let category of categories">
     <div (click)="openCategory(category.id)" class="category">
       <mat-icon>{{openCategories.get(category.id) ? "expand_more" : "chevron_right"}}</mat-icon>
