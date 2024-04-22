@@ -3,6 +3,12 @@
     <mat-icon>more_horiz</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
+    
+    <button mat-menu-item (click)="openInfoModal()">
+      <mat-icon>info</mat-icon>
+      <span>info</span>
+    </button>
+
     <button mat-menu-item [matMenuTriggerFor]="save">
       <mat-icon>save</mat-icon>
       <span>Save As...</span>
@@ -15,6 +21,14 @@
       <button mat-menu-item (click)="dowload('txt')">
         <mat-icon>save_alt</mat-icon>
         <span>txt</span>
+      </button>
+      <button mat-menu-item (click)="dowload('latex')">
+        <mat-icon>save_alt</mat-icon>
+        <span>latex</span>
+      </button>
+      <button mat-menu-item (click)="createImage()">
+        <mat-icon>save_alt</mat-icon>
+        <span>as picture</span>
       </button>
     </mat-menu>
     

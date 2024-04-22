@@ -1,8 +1,10 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
+import html2canvas from "html2canvas";
 import { ClipboardService } from "ngx-clipboard";
 import { ToastrService } from "ngx-toastr";
 import { CanvasLine } from "src/app/models/canvasLine";
+import { InfoModalComponent } from "../info-modal/info-modal.component";
 
 @Component({
   selector: 'app-save-open',
@@ -24,6 +26,14 @@ export class SaveOpenComponent {
               private dialog: MatDialog) {
   }
 
+  openInfoModal() {
+    console.log("openInfoModal");
+    var modal = this.dialog.open(InfoModalComponent, {width: '800px', height: '300px'});
+    modal.afterClosed().subscribe(() => {
+      console.log("closed");
+    })
+  }
+
   dowload(type: string) {
     const blob = new Blob([JSON.stringify(this.lines, null, 2)], {type: 'application/json'})
     let url = window.URL.createObjectURL(blob);
@@ -36,6 +46,20 @@ export class SaveOpenComponent {
     a.click();
     window.URL.revokeObjectURL(url);
     a.remove();
+  }
+
+  createImage() {
+    if(document.querySelector("#capture"))
+      html2canvas(document.querySelector("#capture") ? document.querySelector("#capture") as HTMLElement : document.body).then((canvas) => {
+        const fileName = (this.title=='' ? 'project' : this.title);
+        const link = document.createElement("a");
+        link.download = fileName + ".png";
+        canvas.toBlob((blob) => {
+          const _blob = new Blob([blob ? blob : '']);
+          link.href = URL.createObjectURL(_blob);
+          link.click();
+        });
+    })
   }
 
   async dataFromClipboard() { // doesn't work
@@ -65,6 +89,7 @@ export class SaveOpenComponent {
       // NOTE: it's better to use regex
       if(title.substring(title.length-5, title.length) == ".json") title = title.substring(0, title.length-5);
       if(title.substring(title.length-4, title.length) == ".txt") title = title.substring(0, title.length-4);
+      if(title.substring(title.length-6, title.length) == ".latex") title = title.substring(0, title.length-6);
       this.openEvent.emit({title: title, lines: newLines});
     }
     catch(error) {

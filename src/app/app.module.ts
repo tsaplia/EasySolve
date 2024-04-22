@@ -21,6 +21,7 @@ import { ListComponent } from './components/list/list.component';
 import { AddingModalFormulaComponent } from './components/adding-modals/adding-modal-f.component';
 import { AddingModalTextComponent } from './components/adding-modals/adding-modal-t.component';
 import { CanvasLineComponent } from './components/canvas-line/canvas-line.component';
+import { InfoModalComponent } from './components/info-modal/info-modal.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { CanvasLineComponent } from './components/canvas-line/canvas-line.compon
     InteractionComponent,
     SaveOpenComponent,
     ListComponent,
-    CanvasLineComponent
+    CanvasLineComponent,
+    InfoModalComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,25 @@
+@import "/src/assets/variables.scss";
+@import "bootstrap";
+
+#adding-modal {
+  color: $textColor;
+  width: 80vw; 
+  max-width: 800px; // TODO: create a custom class for text modal
+  border-radius: 10px;
+  font-family: monospace;
+  //  @extend .rounded;
+}
+
+.head {
+  padding: 10px 30px 5px 30px;
+  background-color: $primary;
+}
+button.btn-primary {
+  color: $textColor;
+}
+h1 {
+  margin-bottom: 0;
+}
+.settings > div > div:first-child {
+  font-weight: 800;
+}
