@@ -1,3 +1,4 @@
+import { from } from "rxjs";
 import { Expression } from "../math-structures/expression";
 import { Formula } from "../math-structures/formula";
 import { Frac } from "../math-structures/fraction";
@@ -8,7 +9,7 @@ import { Term } from "../math-structures/term";
 import { formulaTemplateFromTeX, templateFromTeX } from "./from-tex";
 import { clearSelected, selected } from "./selection/selected";
 import { StructureData } from "./selection/selected-structures";
-import { changeTermSign, removeExtraGroups, toMultiplier, toTerm } from "./structure-actions";
+import { addFractions, changeTermSign, fromCompInfo, getCompInfo, removeExtraGroups, toMultiplier, toTerm } from "./structure-actions";
 import { replace, tryFormulaTemplate, tryTemplete } from "./templates/templete-functions";
 import templates from "src/assets/actions.json";
 
@@ -123,4 +124,33 @@ availibleActions.set("change-part", ()=> {
     if(partIndex == 0) [leftChildren, rightChildren] = [rightChildren, leftChildren];
 
     return [new Formula([new Expression(leftChildren), new Expression(rightChildren)])];
+});
+
+availibleActions.set("simp-terms", ()=>{
+    if(selected.type != 'structure') return null;
+    let data = selected.getStructureData();
+    let expression: Expression;
+    if(data.structure instanceof Term && data.grouped) {
+        expression = data.structure.content[0] as Expression;
+    }else if(data.structure instanceof Expression){
+        expression = data.structure;
+    }else return null;
+
+    let children = expression.content.map(child => getCompInfo(child));
+    let content: Term[] = [];
+    while(children.length){
+        let curChild = children[0];
+        children.shift();
+        for(let i=children.length-1; i>=0; i--){
+            let compChild = children[i];
+            if(curChild.frac.isEqual(compChild.frac)) {
+                children.splice(i, 1);
+                curChild.coef = addFractions(curChild.coef, compChild.coef);
+            }
+        }
+        content.push(fromCompInfo(curChild.frac, curChild.coef));
+    }
+    return [
+        new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, new Expression(content))])
+    ]
 });

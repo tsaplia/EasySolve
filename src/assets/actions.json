@@ -64,5 +64,12 @@
     "template":false,
     "type":"formula",
     "name": "To another part"
+  },
+  {
+    "id": "simp-terms",
+    "categoryId": 6,
+    "template":false,
+    "type":"expression",
+    "name": "Simplify terms"
   }
 ]

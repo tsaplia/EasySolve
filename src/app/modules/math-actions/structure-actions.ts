@@ -1,5 +1,7 @@
 import { Expression } from "../math-structures/expression";
+import { Frac } from "../math-structures/fraction";
 import { MathStruct, Multiplier } from "../math-structures/math-structure";
+import { Num } from "../math-structures/number";
 import { Term } from "../math-structures/term";
 
 export function getParents(struct: MathStruct): MathStruct[] {
@@ -80,4 +82,64 @@ export function removeExtraGroups(struct: MathStruct, rmNegative = false): MathS
 
 export function changeTermSign(struct: Term): Term {
     return new Term(struct.content.map((mult) => mult.copy()), struct.sign == "+" ? "-" : "+");
+}
+
+
+export function getCompInfo(term: Term): {frac: Frac, coef: [number, number]} {
+    let numContent: Multiplier[] = [];
+    let denContent: Multiplier[] = [];
+    let numCoef = term.sign == "+" ? 1 : -1;
+    let denCoef = 1;
+    for(let mult of term.content){
+        if(!(mult instanceof Frac)) {
+            if(mult instanceof Num) numCoef *= mult.value;
+            else numContent.push(mult.copy());
+            continue;
+        }
+        mult.numerator.content.forEach((mult)=>{
+            if(mult instanceof Num) numCoef *= mult.value;
+            else numContent.push(mult.copy());
+        });
+        mult.denomerator.content.forEach((mult)=>{
+            if(mult instanceof Num) denCoef *= mult.value;
+            else denContent.push(mult.copy());
+        });
+        if(mult.numerator.sign != mult.denomerator.sign) numCoef *= -1;
+    }
+    numContent.sort((a, b) => a.toTex().localeCompare(b.toTex()));
+    denContent.sort((a, b) => a.toTex().localeCompare(b.toTex()));
+    return {frac: new Frac(new Term(numContent), new Term(denContent)), coef: [numCoef, denCoef]};
+}
+
+export function fromCompInfo(frac: Frac, coef: [number, number]): Term {
+    let numContent = frac.numerator.content.filter(mult => !(mult instanceof Num)).map(mult => mult.copy());
+    let denContent = frac.denomerator.content.filter(mult => !(mult instanceof Num)).map(mult => mult.copy());
+    let termContent: Multiplier[] = [];
+    if(denContent.length){
+        if(Math.abs(coef[0]) != 1 ) numContent.splice(0, 0, new Num(Math.abs(coef[0])));
+        if(coef[1] != 1) denContent.splice(0, 0, new Num(coef[1]));
+        termContent.push(new Frac(new Term(numContent), new Term(denContent)));
+    }else{
+        if(coef[1] != 1) {
+            termContent.push(new Frac(toTerm(new Num(Math.abs(coef[0]))), toTerm(new Num(coef[1]))));
+        }else if(Math.abs(coef[0]) != 1){
+            termContent.push(new Num(Math.abs(coef[0])));
+        }
+        termContent.push(...numContent);
+    }
+    return new Term(termContent, coef[0] >= 0 ? "+" : "-");
+}
+
+export function addFractions(a: [number, number], b: [number, number]): [number, number] {
+    let [num, den] = [a[0]*b[1]+b[0]*a[1], a[1]*b[1]];
+    let g = gcd(num, den);
+    return [num/g, den/g];
+}
+
+function gcd(a: number, b: number): number {
+    while(b){
+        a = a%b;
+        [a, b] = [b, a];
+    }
+    return a;
 }
