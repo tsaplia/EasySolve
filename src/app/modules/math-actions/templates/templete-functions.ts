@@ -14,14 +14,14 @@ import { FormulaTemplate } from "../../math-structures/formula-template";
 
 export function tryTemplete(template: Template): Expression | null {
     if(selected.type != "structure") return null;
-    let {formula, structure, partIndex, subFormula} = selected.getStructureData();
+    let {formula, structure, partIndex} = selected.getStructureData();
     let selectedExpression = toExpression(structure);
 
     let matchRusult = match(template.from, selectedExpression);
     if(!matchRusult) return null;
     let resultExpression = substituteVariables(template.to, matchRusult);
 
-    return replace((subFormula || formula).equalityParts[partIndex], structure, resultExpression);
+    return replace(formula.equalityParts[partIndex], structure, resultExpression);
 }
 
 export function tryFormulaTemplate(template: FormulaTemplate): Formula[] | null {

@@ -52,8 +52,8 @@ availibleActions.set("sub-2", ()=>{
 availibleActions.set("group", ()=>{
     if(selected.type != 'structure') return null;
     let data = selected.getStructureData();
-    if(!data || !data.subFormula) return null;
-    return [new Formula([data.subFormula.equalityParts[0].copy()])];
+    if(!data || !data.grouped) return null;
+    return [new Formula([data.formula.equalityParts[data.partIndex].copy()])];
 });
 
 function _moveOutofFrac(direction: "l" | "r", data: StructureData){
@@ -76,7 +76,7 @@ function _moveOutofFrac(direction: "l" | "r", data: StructureData){
     let children = (frac.parent as Term).children;
     children.splice(children.indexOf(frac), 1, ...newChildren);
     return [new Formula([
-        replace((data.subFormula || data.formula).equalityParts[data.partIndex], frac.parent as Term, removeExtraGroups(new Term(children)))
+        replace(data.formula.equalityParts[data.partIndex], frac.parent as Term, removeExtraGroups(new Term(children)))
     ])];
 }
 
@@ -91,7 +91,7 @@ function move(direction: "l" | "r"){
     }
     children.splice(direction == "l" ? index-1 : index+1, 0, children.splice(index, 1)[0]);
     let newParent = removeExtraGroups(data.structure.parent instanceof Term ? new Term(children) : new Expression(children as Term[]));
-    return [new Formula([replace((data.subFormula || data.formula).equalityParts[data.partIndex], data.structure.parent, newParent)])];
+    return [new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure.parent, newParent)])];
 }
 
 availibleActions.set("move-l", () => {
