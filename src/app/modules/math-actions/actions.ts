@@ -32,7 +32,7 @@ templates.forEach((action) => {
 });
 
 availibleActions.set("sub-1", ()=>{
-    let formulas = selected.selectedFormulas;
+    let formulas = selected.formulas;
     if(!formulas || formulas.length != 1) return null;
     let template = new Template(formulas[0].equalityParts[0].copy(), formulas[0].equalityParts.at(-1)?.copy() as Expression);
     availibleActions.set("custom", ()=>{
@@ -104,7 +104,7 @@ availibleActions.set("move-r", () => {
 });
 
 availibleActions.set("change-part", ()=> {
-    let structures = selected.selectedStructures as Term[];
+    let structures = selected.structures as Term[];
     if(structures?.[0] instanceof Expression){
         if(structures.length != 1) return null;
         structures = structures[0].children as Term[];

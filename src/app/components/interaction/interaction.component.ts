@@ -36,7 +36,7 @@ export class InteractionComponent implements AfterViewInit {
     let newLines = this.storage.selectedLines;
     if(newLines.length != this.selLines.length || newLines.some((newLine, index) => newLine.line != this.selLines[index].line)) {
       this.selLines = [...newLines];
-      this._preview = [];
+      this.preview = [];
       this.updateMJ();
     }
   }
@@ -46,7 +46,7 @@ export class InteractionComponent implements AfterViewInit {
   }
 
   addOutputToLines(mode: keyof SubPartModes) {
-    let formulas = useMode(mode, this._preview);
+    let formulas = useMode(mode, this.preview);
     if(mode == "newLine") {
       formulas.forEach(formula => {
         this.storage.addLine(new CanvasLine({line: `$${formula.toTex()}$`, type: 'formula'}));

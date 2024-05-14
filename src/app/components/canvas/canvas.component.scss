@@ -77,3 +77,7 @@ hr {
 :host ::ng-deep mjx-container mjx-math {
   white-space: normal;
 }
+
+:host ::ng-deep .line-formula mjx-container {
+  font-size: 150%!important;
+}

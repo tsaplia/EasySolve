@@ -11,8 +11,8 @@ const allStructures: Map<MathStruct, HTMLElement> = new Map();
 const disabledTargets = ['(', ')'];
 
 export function clearSelected(){
-    Array.from(selected.keys()).forEach(elem => {
-        elem.classList.remove("selected");
+    Array.from(selected.keys()).forEach(struct => {
+        allStructures.get(struct)?.classList.remove("selected");
     });
     selected.clear();
 }
@@ -20,47 +20,48 @@ export function clearSelected(){
 function addSelected(struct: MathStruct){
     let elem = allStructures.get(struct) as HTMLElement;
     if(!elem) throw new Error("Element not found");
-    selected.set(elem, struct);
+    selected.add(struct);
     elem.classList.add("selected");
 }
 
 function removeSelected(struct: MathStruct){
+    selected.delete(struct);
     let elem = allStructures.get(struct) as HTMLElement;
     if(!elem) throw new Error("Element not found");
-    selected.delete(elem);
     elem.classList.remove("selected");
 }
 
 // Select element if all children are selected 
 function checkParentSelection(struct: MathStruct | null){
     if(!struct || struct instanceof Func || struct instanceof Sqrt) return;
-    if(struct.children.every(child => selected.has(allStructures.get(child) as HTMLElement))){ 
+    if(struct.children.every(child => selected.has(child))){ 
         if(struct instanceof Term && struct.sign == '-') return; // do not select term with '- sign
-        addSelected(struct);
         struct.children.forEach((child)=>removeSelected(child));
+        addSelected(struct);
         checkParentSelection(struct.parent);
     }
 }
 
 export function removeStruct(elem: HTMLElement): void{
     elem.querySelectorAll('.struct').forEach((structEl)=>{
-        selected.delete(structEl as HTMLElement);
         Array.from(allStructures.entries()).forEach(([key, val])=>{
-            if(val == structEl) allStructures.delete(key);
+            if(val == structEl) {
+                allStructures.delete(key);
+                selected.delete(key);
+            }
         });
     });
 }
 
 // get HTML (MJX element) with selected structures
 export function getSelectedElement(){
-    if(selected.type != "structure") return null;
-    let selStruct: MathStruct = selected.values().next().value;
-    let formula = getParents(selStruct).at(-1) || selStruct;
+    let formula = selected.structuresParent;
+    if(!formula) return null;
     return allStructures.get(formula)?.parentElement?.parentElement as HTMLElement;
 }
 
 export function setListener(struct: MathStruct, elem: HTMLElement){
-    let findSelected = (structures: MathStruct[]) => structures.find(struct => selected.has(allStructures.get(struct) as HTMLElement));
+    let findSelected = (structures: MathStruct[]) => structures.find(struct => selected.has(struct));
     let targetCheck = (t: HTMLElement) => t.localName == "mjx-c" && !disabledTargets.includes(getComputedStyle(t, 'before').content);
 
     elem.classList.add("struct");
@@ -69,7 +70,7 @@ export function setListener(struct: MathStruct, elem: HTMLElement){
     let children = getChildren(struct);
     elem.addEventListener("click", (event) => {
         if(!targetCheck(event.target as HTMLElement)) return;
-        if(selected.has(elem)){
+        if(selected.has(struct)){
             removeSelected(struct);
             event.stopPropagation();
         }else if(!findSelected(parents)){
@@ -81,7 +82,7 @@ export function setListener(struct: MathStruct, elem: HTMLElement){
     });
     elem.addEventListener('mousemove', (event) => {
         if(!targetCheck(event.target as HTMLElement) || event.buttons !== 1) return;
-        if(selected.has(elem)){
+        if(selected.has(struct)){
             if(event.ctrlKey) removeSelected(struct);
             event.stopPropagation();
         }else if(!findSelected(parents) && !event.ctrlKey){

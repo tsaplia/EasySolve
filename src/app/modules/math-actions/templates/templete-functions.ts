@@ -26,7 +26,7 @@ export function tryTemplete(template: Template): Expression | null {
 
 export function tryFormulaTemplate(template: FormulaTemplate): Formula[] | null {
     if(selected.type != "formula") return null;
-    let formulas = selected.selectedFormulas as Formula[];
+    let formulas = selected.formulas as Formula[];
     if(formulas.length!=template.from.length) return null;
 
     let matchRusults = new MatchResult();

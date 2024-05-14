@@ -23,15 +23,16 @@ export function useMode(mode: keyof SubPartModes, results: Formula[]): Formula[]
     if(!selected.type) throw new Error("Nothing selected");
     if(results[0].equalityParts.length > 1) return results;
     let data = selected.getStructureData();
+    let originalFormula = selected.structuresParent as Formula;
     let newPart = results[0].equalityParts[0].copy();
     switch(mode){
         case "newLine": 
-            return [new Formula([data.formula.equalityParts[0].copy(), newPart])];
+            return [new Formula([originalFormula.equalityParts[0].copy(), newPart])];
         case "replace": 
             return [new Formula(
-                data.formula.equalityParts.map((part, i) => i == data.partIndex ? newPart : part.copy())
+                originalFormula.equalityParts.map((part, i) => i == data.partIndex ? newPart : part.copy())
             )];
         case "addToEnd": 
-            return [new Formula([...data.formula.equalityParts.map(part=>part.copy()), newPart])];
+            return [new Formula([...originalFormula.equalityParts.map(part=>part.copy()), newPart])];
     }
 }

@@ -7,7 +7,7 @@ import { getParents, toExpression } from "../structure-actions";
 
 export type StructureData = {formula: Formula, structure: Multiplier | Term, partIndex: number, grouped: boolean};
 
-export class SelectedStructures extends Map<HTMLElement, MathStruct>{
+export class SelectedStructures extends Set<MathStruct>{
     constructor(){
         super();
     }
@@ -25,14 +25,20 @@ export class SelectedStructures extends Map<HTMLElement, MathStruct>{
             struct.parent instanceof Frac || struct.parent?.parent instanceof Frac) ? "structure" : null; 
     }
 
-    get selectedFormulas(): Formula[] | null{
+    get formulas(): Formula[] | null{
         if(this.type != "formula") return null;
         return Array.from(this.values()) as Formula[];
     }
 
-    get selectedStructures(): MathStruct[] | null{
+    get structures(): MathStruct[] | null{
         if(this.type != "structure") return null;
         return Array.from(this.values());
+    }
+
+    get structuresParent(): Formula | null{
+        if(this.type != "structure") return null;
+        let selStruct: MathStruct = this.values().next().value;
+        return getParents(selStruct).at(-1) as Formula || selStruct;
     }
 
     getStructureData(): StructureData {

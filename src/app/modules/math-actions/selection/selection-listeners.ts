@@ -130,8 +130,6 @@ function wrapExprParts(elem: Element): Element {
 
 // TODO: prepare  power groupping in var with primes
 
-
-
 function prepareFormula(root: Element, formula: Formula) {
     setListener(formula, root as HTMLElement);
     let group = wrap(root.firstElementChild as Element, ClassNames.expr);
@@ -208,7 +206,7 @@ function prepareFrac(root: Element, frac: Frac) {
     }
 
     let num = root.querySelector(`${MJXTags.num}`)?.lastElementChild;
-    let den = root?.lastElementChild?.querySelector(`${MJXTags.den}`)?.lastElementChild;
+    let den = root?.firstElementChild?.lastElementChild?.querySelector(`${MJXTags.den}`)?.lastElementChild;
     prepNumDen(num as Element, frac.numerator);
     prepNumDen(den as Element, frac.denomerator);
 };

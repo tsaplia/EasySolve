@@ -41,7 +41,7 @@ export class StorageService {
       return [];
     }
     if(selected.type == 'formula'){
-      let selTex = selected.selectedFormulas?.map(formula => formula.toTex());
+      let selTex = selected.formulas?.map(formula => formula.toTex());
       for(let i=0; i<this._selectedLines.length; i++) {
         if(selTex?.includes(this._selectedLines[i].line)) {
           selTex.splice(selTex.indexOf(this._selectedLines[i].line), 1);
