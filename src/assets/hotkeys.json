@@ -1,0 +1,36 @@
+{
+  "canvas":
+  [
+    {
+      "id": "add-formula",
+      "key": "b",
+      "ctrl": true,
+      "alt": false,
+      "shift": false
+    },
+    {
+      "id": "add-text",
+      "key": "m",
+      "ctrl": true,
+      "alt": false,
+      "shift": false
+    }
+  ],
+  "saveOpen":
+  [
+    {
+      "id": "add-formula",
+      "key": "n",
+      "ctrl": true,
+      "alt": false,
+      "shift": false
+    },
+    {
+      "id": "add-text",
+      "key": "m",
+      "ctrl": true,
+      "alt": false,
+      "shift": false
+    }
+  ]
+}

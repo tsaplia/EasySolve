@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, HostListener, OnInit, Output } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ClipboardService } from "ngx-clipboard";
 import { checkFormula } from "src/app/modules/math-actions/from-tex";
@@ -9,6 +9,7 @@ import { StorageService } from "src/app/services/storage.service";
 import { AddingModalFormulaComponent } from "../adding-modals/adding-modal-f.component";
 import { AddingModalTextComponent } from "../adding-modals/adding-modal-t.component";
 import { formulaTemplate } from "src/app/configs/config";
+import hotkeys from "src/assets/hotkeys.json"
 
 @Component({
   selector: 'app-math-canvas',
@@ -23,6 +24,8 @@ export class MathCanvasComponent implements OnInit {
   title: string = '';
   dictionary: boolean = false;
   interaction: boolean = false;
+
+  hotkeys: any = hotkeys.canvas;
 
   get lines() {
     return this.storage.lines;
@@ -110,4 +113,21 @@ export class MathCanvasComponent implements OnInit {
     this.newLineInput(this.lines[index].type, this.lines[index].line, index, true);
   }
   //#endregion line's functionality
+
+  @HostListener('window:keydown', ['$event'])
+  activeHotkeys(event: KeyboardEvent) {
+    // event.preventDefault(); TODO: maybe it works only with presetted hotkeys, not just window:keydown
+    this.hotkeys.forEach((e: any) => {
+      if(e.key == event.key && e.ctrl == event.ctrlKey) {
+          switch (e.id) {
+            case "add-formula":
+              this.newLineInput('formula');
+              break;
+            case "add-text":
+              this.newLineInput('text');
+              break;
+          }
+      }
+    })
+  }
 }
