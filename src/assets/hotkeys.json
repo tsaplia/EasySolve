@@ -19,15 +19,15 @@
   "saveOpen":
   [
     {
-      "id": "add-formula",
-      "key": "n",
+      "id": "save",
+      "key": "q",
       "ctrl": true,
       "alt": false,
       "shift": false
     },
     {
-      "id": "add-text",
-      "key": "m",
+      "id": "open",
+      "key": "z",
       "ctrl": true,
       "alt": false,
       "shift": false

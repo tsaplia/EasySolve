@@ -1,10 +1,11 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import html2canvas from "html2canvas";
 import { ClipboardService } from "ngx-clipboard";
 import { ToastrService } from "ngx-toastr";
 import { CanvasLine } from "src/app/models/canvasLine";
 import { InfoModalComponent } from "../info-modal/info-modal.component";
+import hotkeys from "src/assets/hotkeys.json"
 
 @Component({
   selector: 'app-save-open',
@@ -19,6 +20,8 @@ export class SaveOpenComponent {
   @Output() openEvent = new EventEmitter<any>();
 
   file: File;
+
+  hotkeys: any = hotkeys.saveOpen;
 
   constructor(private clipboardService: ClipboardService,
               private cdRef: ChangeDetectorRef,
@@ -66,7 +69,7 @@ export class SaveOpenComponent {
   }
 
   dataFromFolder() {
-      if(confirm("If you open the file, the information already entered will be erased. You want open the file?"))
+    if(confirm("If you open the file, the information already entered will be erased. You want open the file?"))
       document.getElementById('file')?.click();
   }
 
@@ -97,5 +100,22 @@ export class SaveOpenComponent {
       this.toast.error("Program takes only .json and .txt file formats, and files with correct structure.", "File incorrect");
       console.log(error);
     }
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  activeHotkeys(event: KeyboardEvent) {
+    // event.preventDefault(); TODO: maybe it works only with presetted hotkeys, not just window:keydown
+    this.hotkeys.forEach((e: any) => {
+      if(e.key == event.key && e.ctrl == event.ctrlKey) {
+          switch (e.id) {
+            case "save":
+              this.dowload('json');
+              break;
+            case "open": // doesn't work
+              this.dataFromFolder();
+              break;
+          }
+      }
+    })
   }
 }
