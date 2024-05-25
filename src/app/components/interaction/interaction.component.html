@@ -6,7 +6,7 @@
     
     <div id="input">
       <div *ngFor="let line of selLines">
-        {{line ? line.line : ''}}
+        {{line ?  "$"+line+"$" : ''}}
       </div>
       <span class="text-muted user-select-none" *ngIf="!selLines.length">Input</span>
     </div>

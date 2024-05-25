@@ -18,7 +18,7 @@ declare let MathJax: any;
 export class InteractionComponent implements AfterViewInit {
   templates = templates;
   private _preview: Formula[] = [];
-  public selLines: CanvasLine[] = [];
+  public selLines: string[] = [];
   public availibleModes: SubPartModes = availableModes();
 
   set preview(formulas: Formula[]) {
@@ -34,7 +34,7 @@ export class InteractionComponent implements AfterViewInit {
 
   ngDoCheck(){
     let newLines = this.storage.selectedLines;
-    if(newLines.length != this.selLines.length || newLines.some((newLine, index) => newLine.line != this.selLines[index].line)) {
+    if(newLines.length != this.selLines.length || newLines.some((newLine, index) => newLine!= this.selLines[index])) {
       this.selLines = [...newLines];
       this.preview = [];
       this.updateMJ();

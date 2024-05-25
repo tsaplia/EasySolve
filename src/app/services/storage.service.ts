@@ -7,7 +7,12 @@ import { clearSelected, getSelectedElement, removeStruct, selected } from "../mo
 })
 export class StorageService {
   private _lines: CanvasLine[] = [];
-  private _selectedLines: CanvasLine[] = [];
+  private _selectedLines: string[] = [];
+  private _selectionChanged: boolean = false;
+
+  constructor() {
+    selected.addListener(() => this._selectionChanged = true);
+  }
 
   get lines(): CanvasLine[] {
     return this._lines;  
@@ -35,31 +40,19 @@ export class StorageService {
     clearSelected();
   }
 
-  get selectedLines(): CanvasLine[] {
+  get selectedLines(): string[] {
+    if(!this._selectionChanged) return this._selectedLines;
+
     if(selected.type == null) {
       this._selectedLines = [];
       return [];
+    }else if(selected.type == 'formula'){
+      this._selectedLines = selected.formulas?.map(formula => formula.toTex()) as string[];
+    }else if(selected.type == 'structure'){
+      this._selectedLines = [selected.getStructureData().structure.toTex()];
     }
-    if(selected.type == 'formula'){
-      let selTex = selected.formulas?.map(formula => formula.toTex());
-      for(let i=0; i<this._selectedLines.length; i++) {
-        if(selTex?.includes(this._selectedLines[i].line)) {
-          selTex.splice(selTex.indexOf(this._selectedLines[i].line), 1);
-        }else{
-          this._selectedLines.splice(i, 1);
-          i--;
-        }
-      }
-      selTex?.forEach(tex => {
-        this._selectedLines.push(new CanvasLine({line: `$${tex}$`, type: 'formula'}));
-      });
-    }
-    if(selected.type == 'structure'){
-      let tex = selected.getStructureData().structure.toTex();
-      if(this._selectedLines?.[0]?.line != tex){
-        this._selectedLines = [new CanvasLine({line: `$${tex}$`, type: 'formula'})];
-      }
-    }
+
+    this._selectionChanged = false;
     return this._selectedLines;
   }
 

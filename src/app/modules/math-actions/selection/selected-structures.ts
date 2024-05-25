@@ -8,10 +8,37 @@ import { getParents, toExpression } from "../structure-actions";
 export type StructureData = {formula: Formula, structure: Multiplier | Term, partIndex: number, grouped: boolean};
 
 export class SelectedStructures extends Set<MathStruct>{
+    _listeners: Function[] = [];
+
     constructor(){
         super();
     }
-    
+
+
+    /* change listeners */
+    addListener(listener: Function){
+        this._listeners.push(listener);
+    }
+
+    private _activateListeners(){
+        this._listeners.forEach(listener => listener());
+    }
+
+    override add(struct: MathStruct){
+        this._activateListeners();
+        return super.add(struct);
+    }
+
+    override delete(struct: MathStruct){
+        this._activateListeners();
+        return super.delete(struct);
+    }
+
+    override clear(){
+        this._activateListeners();
+        return super.clear();
+    }
+
     get type(): "formula" | "structure" | null{
         if(!this.size) return null;
         if(Array.from(this.values()).every(struct => struct instanceof Formula && struct.equalityParts.length >= 2)) 
