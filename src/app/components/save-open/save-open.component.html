@@ -1,3 +1,4 @@
+<input type="file" id="file" style="display: none;" (change)="handleFile($event)">
 <div>
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>more_horiz</mat-icon>
@@ -42,7 +43,6 @@
         <span>clipboard</span>
       </button> -->
       <button mat-menu-item (click)="dataFromFolder()">
-        <input type="file" id="file" style="display: none;" (change)="handleFile($event)">
         <mat-icon>folder</mat-icon>
         <span>folder</span>
       </button>

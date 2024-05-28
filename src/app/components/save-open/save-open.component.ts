@@ -69,7 +69,7 @@ export class SaveOpenComponent {
   }
 
   dataFromFolder() {
-    if(confirm("If you open the file, the information already entered will be erased. You want open the file?"))
+        if(confirm("If you open the file, the information already entered will be erased. You want open the file?"))
       document.getElementById('file')?.click();
   }
 

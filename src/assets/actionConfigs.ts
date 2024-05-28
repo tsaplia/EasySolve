@@ -1,4 +1,6 @@
-[
+import { FormulaAction } from "src/app/models/types";
+
+export let templates: FormulaAction[] = [
   {
     "id":"algebra-1",
     "categoryId": 1,
@@ -22,6 +24,23 @@
     "type":"formula",
     "body":"[a]=[b];[c]=[d]=>[a]+[c]=[b]+[d]",
     "name": "Add formulas"
+  },
+  {
+    id: "formula-2",
+    categoryId: 3,
+    template: true,
+    type: "formula",
+    body: "[a]=[b];[c]=[d]=>[a]-[c]=[b]-[d]",
+    name: "Subtract formulas"
+  },
+  {
+    id: "formula-3",
+    categoryId: 3,
+    template: true,
+    type: "formula",
+    body: "[a]=[b]=>[_in][a]=[_in][b]",
+    name: "Multiply by k",
+    requireInput: true
   },
   {
     "id":"sub-1",
@@ -79,5 +98,20 @@
     "type": "expression",
     "body": "\\frac{\\frac{[a]}{[b]}}{[c]}=>\\frac{[a]}{[b][c]}",
     "name": "Simplify fraction"
+  }, 
+  {
+    "id": "destribute",
+    "categoryId": 1,
+    "template":false,
+    "type":"expression",
+    "name": "Open brackets"
+  },
+  {
+    "id": "move-out",
+    "categoryId": 1,
+    "template": false,
+    "type": "expression",
+    "name": "Move outof breacket",
+    "requireInput": true
   }
 ]

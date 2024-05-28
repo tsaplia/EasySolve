@@ -9,24 +9,26 @@ import { Term } from "../math-structures/term";
 import { formulaTemplateFromTeX, templateFromTeX } from "./from-tex";
 import { clearSelected, selected } from "./selection/selected";
 import { StructureData } from "./selection/selected-structures";
-import { addFractions, changeTermSign, fromCompInfo, getCompInfo, removeExtraGroups, toMultiplier, toTerm } from "./structure-actions";
+import { addFractions, changeTermSign, fromCompInfo, getCompInfo, multTerms, removeExtraGroups, toFrac, toMultiplier, toTerm } from "./structure-actions";
 import { replace, tryFormulaTemplate, tryTemplete } from "./templates/templete-functions";
-import templates from "src/assets/actions.json";
+import {templates} from "src/assets/actionConfigs";
 
-export let availibleActions = new Map<String, ()=>Formula[] | null>
+export let availibleActions = new Map<String, (input?:Expression)=>Formula[] | null>
 
 templates.forEach((action) => {
     if(!action.template) return;
     if(action.type == "expression"){
         let template = templateFromTeX(action.body as string);
-        availibleActions.set(action.id, ()=>{
-            let expr = tryTemplete(template)
+        availibleActions.set(action.id, (input?:Expression)=>{
+            if(action.requireInput && !input) return null;
+            let expr = tryTemplete(template, input)
             return expr ? [new Formula([expr])] : null;
         });
     }else{
-        let template = formulaTemplateFromTeX(action.body as string);
-        availibleActions.set(action.id, ()=>{
-            return tryFormulaTemplate(template);
+        let template = formulaTemplateFromTeX(action.body as string, );
+        availibleActions.set(action.id, (input?:Expression)=>{
+            if(action.requireInput && !input) return null;
+            return tryFormulaTemplate(template, input);
         });
     }
 });
@@ -104,6 +106,7 @@ availibleActions.set("move-r", () => {
 });
 
 availibleActions.set("change-part", ()=> {
+    if(selected.type != 'structure') return null;
     let structures = selected.structures as Term[];
     if(structures?.[0] instanceof Expression){
         if(structures.length != 1) return null;
@@ -154,3 +157,35 @@ availibleActions.set("simp-terms", ()=>{
         new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, new Expression(content))])
     ]
 });
+
+availibleActions.set("destribute", ()=>{
+    if(selected.type != 'structure') return null;
+    let data = selected.getStructureData();
+    if(data.grouped || !(data.structure instanceof Expression)) return null;
+    let parent = data.structure.parent;
+    if(!(parent instanceof Term)) return null;
+    let dTerm = new Term(parent.content.filter(child => child != data.structure).map(child => child.copy()), parent.sign);
+    let content = data.structure.content.map(child => multTerms(child, dTerm));
+    return [
+        new Formula([replace(data.formula.equalityParts[data.partIndex], parent, new Expression(content))])
+    ]
+});
+
+availibleActions.set("move-out", (input?: Expression)=>{
+    if(!input || selected.type != 'structure') return null;
+    let data = selected.getStructureData();
+    
+    if(data.grouped && data.structure instanceof Term) data.structure = data.structure.content[0];
+    if(!(data.structure instanceof Expression)) return null;
+
+    let inputTerm = toTerm(input);
+    let [inputFrac, inputSign] = toFrac(inputTerm);
+    let revInputTerm = new Term([ new Frac(inputFrac.denomerator.copy(), inputFrac.numerator.copy()) ], inputSign)
+    let breacketContent = data.structure.content.map(child => multTerms(revInputTerm, child));
+    let fullTerm = multTerms(inputTerm, new Term([new Expression(breacketContent)]));
+    return [
+        new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, fullTerm)])
+    ]
+});
+
+

@@ -8,7 +8,7 @@
       <ng-container *ngIf="mode=='interaction'">
         <div *ngFor="let action of actionsByCategory.get(category.id)" class="list-item-intercation">
           <div class="text-nowrap">{{action.name}}</div>
-          <button (click)="useAction(action.id)" class="btn btn-outline-secondary d-flex p-0 mx-1 my-auto"><mat-icon>play_arrow</mat-icon></button>
+          <button (click)="useAction(action.id, action.requireInput)" class="btn btn-outline-secondary d-flex p-0 mx-1 my-auto"><mat-icon>play_arrow</mat-icon></button>
         </div>
       </ng-container>
 

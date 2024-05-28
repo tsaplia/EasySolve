@@ -282,7 +282,7 @@ function specialNameFromTeX(itStr: IterStr): Variable | Func {
 function templateVarFromTeX(itStr: IterStr): TemplateVar {
     itStr.add();
     let start = itStr.it;
-    while (!itStr.finished() && itStr.cur.match(/[A-Za-z]/i)) itStr.add();
+    while (!itStr.finished() && itStr.cur.match(/[_A-Za-z]/i)) itStr.add();
     let name = itStr.str.slice(start, itStr.it);
     if(!name || !itStr.startsWith("]")) throw new Error("Incorrect input string");
     itStr.add();

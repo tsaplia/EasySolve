@@ -84,6 +84,34 @@ export function changeTermSign(struct: Term): Term {
     return new Term(struct.content.map((mult) => mult.copy()), struct.sign == "+" ? "-" : "+");
 }
 
+export function multTerms(a: Term, b: Term): Term {
+    return new Term(a.content.concat(b.content).map(mult => mult.copy()), a.sign == b.sign ? "+" : "-");
+} 
+
+export function toFrac(term: Term): [Frac, "+" | "-"] {
+    let numContent: Multiplier[] = [];
+    let denContent: Multiplier[] = [];
+    let sign = term.sign;
+
+    for(let mult of term.content){
+        if(!(mult instanceof Frac)) {
+            numContent.push(mult.copy());
+            continue;
+        }
+        numContent.push(...mult.numerator.content.map(mult=>mult.copy()));
+        denContent.push(...mult.denomerator.content.map(mult=>mult.copy()));
+        if(mult.numerator.sign != mult.denomerator.sign) sign = sign == "+" ? "-" : "+";
+    }
+    return [new Frac(new Term(numContent), new Term(denContent)), sign];
+}
+
+export function fracToTerm(frac: Frac, sign: "+" | "-" = "+"): Term {
+    if(frac.denomerator.toTex() == "1") {
+        if(frac.numerator.sign != frac.denomerator.sign) sign = sign == "+" ? "-" : "+";
+        return new Term(frac.numerator.content.map(mult => mult.copy()), sign);
+    }
+    return new Term([frac.copy()], sign);
+}
 
 export function getCompInfo(term: Term): {frac: Frac, coef: [number, number]} {
     let numContent: Multiplier[] = [];
