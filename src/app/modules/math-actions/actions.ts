@@ -9,9 +9,10 @@ import { Term } from "../math-structures/term";
 import { formulaTemplateFromTeX, templateFromTeX } from "./from-tex";
 import { clearSelected, selected } from "./selection/selected";
 import { StructureData } from "./selection/selected-structures";
-import { addFractions, changeTermSign, fromCompInfo, getCompInfo, multTerms, removeExtraGroups, toFrac, toMultiplier, toTerm } from "./structure-actions";
+import { addFractions, changeTermSign, fracToTerm, fromCompInfo, getCompInfo, multTerms, removeExtraGroups, reverseTerm, termAsFracContent, termToFrac, toExpression, toMultiplier, toTerm } from "./structure-actions";
 import { replace, tryFormulaTemplate, tryTemplete } from "./templates/templete-functions";
 import {templates} from "src/assets/actionConfigs";
+import { content } from "html2canvas/dist/types/css/property-descriptors/content";
 
 export let availibleActions = new Map<String, (input?:Expression)=>Formula[] | null>
 
@@ -175,16 +176,55 @@ availibleActions.set("move-out", (input?: Expression)=>{
     if(!input || selected.type != 'structure') return null;
     let data = selected.getStructureData();
     
-    if(data.grouped && data.structure instanceof Term) data.structure = data.structure.content[0];
-    if(!(data.structure instanceof Expression)) return null;
+    let structure = (data.grouped && data.structure instanceof Term) ? data.structure.content[0] : data.structure;
+    if(!(structure instanceof Expression)) return null;
 
     let inputTerm = toTerm(input);
-    let [inputFrac, inputSign] = toFrac(inputTerm);
-    let revInputTerm = new Term([ new Frac(inputFrac.denomerator.copy(), inputFrac.numerator.copy()) ], inputSign)
-    let breacketContent = data.structure.content.map(child => multTerms(revInputTerm, child));
+    let revInputTerm = reverseTerm(inputTerm);
+    let breacketContent = structure.content.map(child => multTerms(revInputTerm, child));
     let fullTerm = multTerms(inputTerm, new Term([new Expression(breacketContent)]));
     return [
         new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, fullTerm)])
+    ]
+});
+
+availibleActions.set("separate", ()=>{
+    if(selected.type != 'structure') return null;
+    let {partIndex, structure, formula} = selected.getStructureData();
+    if(formula.equalityParts[partIndex].content.length != 1) return null;
+    let {num: numContent, den: denContent, sign: partSign} = termAsFracContent(formula.equalityParts[partIndex].content[0]);
+
+    let reverse = false
+    if(numContent.includes(structure)){
+        numContent = numContent.filter(mult => mult != structure);
+    }else if(structure instanceof Term && numContent.includes(structure.content[0])){
+        numContent = numContent.filter(mult => !(structure as Term).content.includes(mult));
+        if(structure.sign == '-') partSign = partSign == "+" ? "-" : "+";
+    }else if(denContent.includes(structure)){
+        denContent = denContent.filter(mult => mult != structure);
+        reverse = true;
+    }else if(structure instanceof Term && denContent.includes(structure.content[0])){
+        denContent = denContent.filter(mult => !(structure as Term).content.includes(mult));
+        if(structure.sign == '-') partSign = partSign == "+" ? "-" : "+"; 
+        reverse = true;
+    }else if(structure instanceof Frac && numContent.includes(structure.numerator.content[0])) {
+        numContent = numContent.filter(mult => mult != (structure as Frac).numerator.content[0]);
+        denContent = denContent.filter(mult => mult != (structure as Frac).denomerator.content[0]);
+        if(structure.numerator.sign != structure.denomerator.sign) partSign = partSign == "+" ? "-" : "+";
+    }else return null;
+
+    let mTerm = new Term([
+        new Frac(new Term(denContent.map(m => m.copy())), new Term(numContent.map(m => m.copy())))
+    ], partSign); // reversed term
+
+    let secondPartIndex = partIndex == 0 ? formula.equalityParts.length-1 : 0;
+    let otherPartTerm = toTerm(formula.equalityParts[secondPartIndex]); // other part as term
+    otherPartTerm = termToFrac(multTerms(otherPartTerm, mTerm)); // complete other part as frac
+
+    if(reverse) otherPartTerm = reverseTerm(otherPartTerm);
+    otherPartTerm = fracToTerm(otherPartTerm.content[0] as Frac, otherPartTerm.sign);
+    return [
+        new Formula([toExpression(structure), toExpression(otherPartTerm)]),
     ]
 });
 

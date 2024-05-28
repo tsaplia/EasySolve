@@ -86,23 +86,39 @@ export function changeTermSign(struct: Term): Term {
 
 export function multTerms(a: Term, b: Term): Term {
     return new Term(a.content.concat(b.content).map(mult => mult.copy()), a.sign == b.sign ? "+" : "-");
-} 
+}
 
-export function toFrac(term: Term): [Frac, "+" | "-"] {
-    let numContent: Multiplier[] = [];
-    let denContent: Multiplier[] = [];
+// doesn't return copies
+export function termAsFracContent(term: Term): {num: Multiplier[], den: Multiplier[], sign: "+" | "-"} {
+    let num: Multiplier[] = [];
+    let den: Multiplier[] = [];
     let sign = term.sign;
 
     for(let mult of term.content){
         if(!(mult instanceof Frac)) {
-            numContent.push(mult.copy());
+            num.push(mult);
             continue;
         }
-        numContent.push(...mult.numerator.content.map(mult=>mult.copy()));
-        denContent.push(...mult.denomerator.content.map(mult=>mult.copy()));
+        num.push(...mult.numerator.content);
+        den.push(...mult.denomerator.content);
         if(mult.numerator.sign != mult.denomerator.sign) sign = sign == "+" ? "-" : "+";
     }
-    return [new Frac(new Term(numContent), new Term(denContent)), sign];
+    num = num.filter(mult => !(mult instanceof Num) || mult.value != 1);
+    den = den.filter(mult => !(mult instanceof Num) || mult.value != 1);
+    return {num, den, sign};
+}
+
+export function termToFrac(term: Term): Term {
+    let {num, den, sign} = termAsFracContent(term);
+    return new Term( [new Frac(new Term(num.map(mult => mult.copy())), new Term(den.map(mult => mult.copy())))], sign);
+}
+
+export function reverseTerm(term: Term): Term {
+    if(term.content.length > 1 || !(term.content[0] instanceof Frac)) {
+        term = termToFrac(term);
+    }
+    let frac = term.content[0] as Frac;
+    return new Term([new Frac(frac.denomerator.copy(), frac.numerator.copy())], term.sign);
 }
 
 export function fracToTerm(frac: Frac, sign: "+" | "-" = "+"): Term {
@@ -114,29 +130,19 @@ export function fracToTerm(frac: Frac, sign: "+" | "-" = "+"): Term {
 }
 
 export function getCompInfo(term: Term): {frac: Frac, coef: [number, number]} {
-    let numContent: Multiplier[] = [];
-    let denContent: Multiplier[] = [];
-    let numCoef = term.sign == "+" ? 1 : -1;
+    let {num, den, sign} = termAsFracContent(term);
+    let numCoef = sign == "+" ? 1 : -1;
     let denCoef = 1;
-    for(let mult of term.content){
-        if(!(mult instanceof Frac)) {
-            if(mult instanceof Num) numCoef *= mult.value;
-            else numContent.push(mult.copy());
-            continue;
-        }
-        mult.numerator.content.forEach((mult)=>{
-            if(mult instanceof Num) numCoef *= mult.value;
-            else numContent.push(mult.copy());
-        });
-        mult.denomerator.content.forEach((mult)=>{
-            if(mult instanceof Num) denCoef *= mult.value;
-            else denContent.push(mult.copy());
-        });
-        if(mult.numerator.sign != mult.denomerator.sign) numCoef *= -1;
-    }
-    numContent.sort((a, b) => a.toTex().localeCompare(b.toTex()));
-    denContent.sort((a, b) => a.toTex().localeCompare(b.toTex()));
-    return {frac: new Frac(new Term(numContent), new Term(denContent)), coef: [numCoef, denCoef]};
+    num.forEach(mult => numCoef *= mult instanceof Num ? mult.value : 1);
+    den.forEach(mult => denCoef *= mult instanceof Num ? mult.value : 1);
+    num = num.filter(mult => !(mult instanceof Num));
+    den = den.filter(mult => !(mult instanceof Num));
+    num.sort((a, b) => a.toTex().localeCompare(b.toTex()));
+    den.sort((a, b) => a.toTex().localeCompare(b.toTex()));
+    return {
+        frac: new Frac(new Term(num.map(mult => mult.copy())), 
+        new Term(den.map(mult => mult.copy()))), coef: [numCoef, denCoef]
+    };
 }
 
 export function fromCompInfo(frac: Frac, coef: [number, number]): Term {

@@ -111,7 +111,14 @@ export let templates: FormulaAction[] = [
     "categoryId": 1,
     "template": false,
     "type": "expression",
-    "name": "Move outof breacket",
+    "name": "Move out of breacket",
     "requireInput": true
+  },
+  {
+    id: "separate",
+    categoryId: 1,
+    template: false,
+    type: "formula",
+    name: "Separate multiplier",
   }
 ]
