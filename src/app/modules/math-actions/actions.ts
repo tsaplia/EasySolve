@@ -1,4 +1,4 @@
-import { from } from "rxjs";
+import { Exponent } from "../math-structures/exponent";
 import { Expression } from "../math-structures/expression";
 import { Formula } from "../math-structures/formula";
 import { Frac } from "../math-structures/fraction";
@@ -9,10 +9,9 @@ import { Term } from "../math-structures/term";
 import { formulaTemplateFromTeX, templateFromTeX } from "./from-tex";
 import { clearSelected, selected } from "./selection/selected";
 import { StructureData } from "./selection/selected-structures";
-import { addFractions, changeTermSign, fracToTerm, fromCompInfo, getCompInfo, multTerms, removeExtraGroups, reverseTerm, termAsFracContent, termToFrac, toExpression, toMultiplier, toTerm } from "./structure-actions";
+import { changeTermSign, fracToTerm, multTerms, multiplyPowers, removeExtraGroups, reverseTerm, simplifyTerms, simplyfyFrac as simplifyFrac, termAsFracContent, termToFrac, toExpression, toMultiplier, toTerm } from "./structure-actions";
 import { replace, tryFormulaTemplate, tryTemplete } from "./templates/templete-functions";
 import {templates} from "src/assets/actionConfigs";
-import { content } from "html2canvas/dist/types/css/property-descriptors/content";
 
 export let availibleActions = new Map<String, (input?:Expression)=>Formula[] | null>
 
@@ -140,22 +139,8 @@ availibleActions.set("simp-terms", ()=>{
         expression = data.structure;
     }else return null;
 
-    let children = expression.content.map(child => getCompInfo(child));
-    let content: Term[] = [];
-    while(children.length){
-        let curChild = children[0];
-        children.shift();
-        for(let i=children.length-1; i>=0; i--){
-            let compChild = children[i];
-            if(curChild.frac.isEqual(compChild.frac)) {
-                children.splice(i, 1);
-                curChild.coef = addFractions(curChild.coef, compChild.coef);
-            }
-        }
-        content.push(fromCompInfo(curChild.frac, curChild.coef));
-    }
     return [
-        new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, new Expression(content))])
+        new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, simplifyTerms(expression))])
     ]
 });
 
@@ -176,7 +161,7 @@ availibleActions.set("move-out", (input?: Expression)=>{
     if(!input || selected.type != 'structure') return null;
     let data = selected.getStructureData();
     
-    let structure = (data.grouped && data.structure instanceof Term) ? data.structure.content[0] : data.structure;
+    let structure = data.structure instanceof Term ? data.structure.content[0] : data.structure;
     if(!(structure instanceof Expression)) return null;
 
     let inputTerm = toTerm(input);
@@ -225,6 +210,39 @@ availibleActions.set("separate", ()=>{
     otherPartTerm = fracToTerm(otherPartTerm.content[0] as Frac, otherPartTerm.sign);
     return [
         new Formula([toExpression(structure), toExpression(otherPartTerm)]),
+    ]
+});
+
+availibleActions.set("toCDen", ()=>{
+    if(selected.type != 'structure') return null;
+    let data = selected.getStructureData();
+    
+    let structure = data.structure instanceof Term ? data.structure.content[0] : data.structure;
+    if(!(structure instanceof Expression)) return null;
+
+    let structContent = structure.content.map(t => termToFrac(t));
+
+    let den = new Term([]);
+
+    for(let curTerm of structContent){
+        let frac = curTerm.content[0] as Frac;
+        let simlified = simplifyFrac(new Term([new Frac(frac.denomerator.copy(), den.copy())]));
+        let content = (simlified.content[0] as Frac).numerator.content
+            .filter(m => !(m instanceof Exponent) || m.exponent.content.length > 1 || m.exponent.content[0].sign == "+");
+        den = multTerms(den, new Term(content.map(m => m.copy())));
+    }
+
+    let numContent: Term[] = [];
+    for(let curTerm of structContent){
+        let curMult = multTerms(den, reverseTerm((curTerm.content[0] as Frac).denomerator));
+        let curNum = (curTerm.content[0] as Frac).numerator;
+        if(curTerm.sign == '-') curNum = changeTermSign(curNum);
+        numContent.push(multTerms(curNum, curMult));
+    }
+
+    let newStruct = new Term([new Frac(new Term([new Expression(numContent)]), den)]);
+    return [
+        new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, newStruct)])
     ]
 });
 
