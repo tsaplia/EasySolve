@@ -6,9 +6,7 @@
     <div id="invisible-div" [ngClass]="{'col-2': !interaction, 'w-0': interaction}"></div>
 
     <app-math-canvas id="canvas" class=""
-        [ngClass]="{'col-8': !dictionary && !interaction,'col-7': dictionary ? !interaction : interaction, 'col-6': dictionary && interaction}"
-        (dictionaryEvent)="dictionaryToggle($event)"
-        (interactionEvent)="interactionToggle($event)">
+        [ngClass]="{'col-8': !dictionary && !interaction,'col-7': dictionary ? !interaction : interaction, 'col-6': dictionary && interaction}">
     </app-math-canvas>
 
     <div id="invisible-div" [ngClass]="{'col-2': !dictionary, 'w-0': dictionary}"></div>

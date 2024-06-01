@@ -8,18 +8,23 @@
 #canvas {
   will-change: width transition;
   transition: width 1s;
+  color: $textColor;
 }
 #dictionary {
   will-change: width transition;
   z-index: 1;
   overflow: hidden;
   transition: width 1s;
+  font-family: monospace;
+  color: $textColor;
 }
 #interaction {
   will-change: width transition;
   z-index: 1;
   overflow: hidden;
   transition: width 1s;
+  font-family: monospace;
+  color: $textColor
 }
 #invisible-div {
   will-change: width transition;

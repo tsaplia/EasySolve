@@ -10,6 +10,7 @@ import { AddingModalFormulaComponent } from "../adding-modals/adding-modal-f.com
 import { AddingModalTextComponent } from "../adding-modals/adding-modal-t.component";
 import { formulaTemplate } from "src/app/configs/config";
 import hotkeys from "src/assets/hotkeys.json"
+import { StatusService } from "src/app/services/status.service";
 
 @Component({
   selector: 'app-math-canvas',
@@ -17,9 +18,6 @@ import hotkeys from "src/assets/hotkeys.json"
   styleUrls: ['canvas.component.scss']
 })
 export class MathCanvasComponent implements OnInit {
-  
-  @Output() dictionaryEvent = new EventEmitter<boolean>();
-  @Output() interactionEvent = new EventEmitter<boolean>();
 
   title: string = '';
   dictionary: boolean = false;
@@ -35,7 +33,8 @@ export class MathCanvasComponent implements OnInit {
               private cdRef: ChangeDetectorRef,
               private clipboardService: ClipboardService,
               private toast: ToastrService,
-              private storage: StorageService
+              private storage: StorageService,
+              private statusService: StatusService,
               ) {}
 
   ngOnInit() {
@@ -43,14 +42,15 @@ export class MathCanvasComponent implements OnInit {
 
 //#region buttons' functionality
   interactionToggle() {
-    this.interaction = !this.interaction;
-    this.interactionEvent.emit(this.interaction);
+    this.statusService.toggleInteraction();
   }
 
   newLineInput(type: "formula" | "text", line: string = '', index?: number, replace?:boolean) {
     if(type == 'formula') {
       let formulaDialog = this.dialog.open(AddingModalFormulaComponent, {data: {formula: line, checkFormula: true}});
+      this.statusService.toggleFormulaAdding();
       formulaDialog.afterClosed().subscribe(resp => {
+        this.statusService.toggleFormulaAdding();
         if(!resp || resp.line == '$$') return;
         this.storage.addLine(new CanvasLine({line: resp.line, type}), index, replace);
         this.cdRef.detectChanges();
@@ -59,7 +59,9 @@ export class MathCanvasComponent implements OnInit {
     }
     else {
       let formulaDialog = this.dialog.open(AddingModalTextComponent, {data: {line: line}, height:'300px', width: '800px'});
+      this.statusService.toggleTextAdding();
       formulaDialog.afterClosed().subscribe(resp => {
+        this.statusService.toggleTextAdding();
         if(!resp) return;
         this.storage.addLine(new CanvasLine({line: resp.line, type}), index, replace);
         this.cdRef.detectChanges();
@@ -80,8 +82,7 @@ export class MathCanvasComponent implements OnInit {
   }
 
   dictionaryToggle() {
-    this.dictionary = !this.dictionary;
-    this.dictionaryEvent.emit(this.dictionary);
+    this.statusService.toggleDictionary();
   }
 
   linesFromFile(value: any) {
@@ -121,10 +122,10 @@ export class MathCanvasComponent implements OnInit {
       if(e.key == event.key && e.ctrl == event.ctrlKey) {
           switch (e.id) {
             case "add-formula":
-              this.newLineInput('formula');
+              this.statusService.formulaAdding ? '' : this.newLineInput('formula');
               break;
             case "add-text":
-              this.newLineInput('text');
+              this.statusService.textAdding ? '' : this.newLineInput('text');
               break;
           }
       }
