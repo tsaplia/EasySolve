@@ -5,7 +5,11 @@ import { clearSelected } from "src/app/modules/math-actions/selection/selected";
 import { SubPartModes, availableModes, useMode,  } from "src/app/modules/math-actions/templates/part-substitution";
 import { Formula } from "src/app/modules/math-structures/formula";
 import { StorageService } from "src/app/services/storage.service";
-import templates from "src/assets/actions.json";
+import {templates} from "src/assets/actionConfigs";
+import { AddingModalFormulaComponent } from "../adding-modals/adding-modal-f.component";
+import { MatDialog } from "@angular/material/dialog";
+import { formulaFromTeX } from "src/app/modules/math-actions/from-tex";
+import { Expression } from "src/app/modules/math-structures/expression";
 
 declare let MathJax: any;
 
@@ -30,7 +34,8 @@ export class InteractionComponent implements AfterViewInit {
   get preview(): Formula[] { return this._preview; }
 
   constructor(private cdRef: ChangeDetectorRef,
-              private storage: StorageService) { }
+              private storage: StorageService,
+              private dialog: MatDialog) { }
 
   ngDoCheck(){
     let newLines = this.storage.selectedLines;
@@ -64,10 +69,31 @@ export class InteractionComponent implements AfterViewInit {
     MathJax.typeset([document.getElementById("interaction")]);
   }
 
-  useTemplate(id: string) {
+  async inputFormula(): Promise<Expression | null> {
+    return new Promise((resolve) => {
+      let formulaDialog = this.dialog.open(AddingModalFormulaComponent, {data: {checkFormula: true}});
+      formulaDialog.afterClosed().subscribe(resp => {
+        if(!resp || resp.line == '$$') resolve(null);
+        let formula = formulaFromTeX(resp.line.slice(1,-1));
+        return formula.equalityParts.length == 1 ? resolve(formula.equalityParts[0]) : resolve(null);
+      });
+    });
+  }
+
+  async useTemplate(id: string, requireInput?: boolean) {
     let action = availibleActions.get(id);
     if(!action) return;
-    let formulas = action();
+
+    let input;
+    if(requireInput) {
+      input = await this.inputFormula();
+      if(!input) {
+        console.log("Not a valid expression");
+        return;
+      }
+    };
+  
+    let formulas = action(input);
     if(formulas) {
       this.preview = formulas;
     }else{

@@ -1,3 +1,4 @@
+import { readonlyArray } from "src/app/configs/utils";
 import { MathStruct, Multiplier } from "./math-structure";
 import { Num } from "./number";
 import { Term } from "./term";
@@ -7,7 +8,7 @@ export class Expression extends Multiplier{
     content: Term[]
     constructor(content: Term[]) {
         super();
-        this.content = [...content]; // inner terms of block
+        this.content = readonlyArray(content); // inner terms of block
         if(this.content.length == 0) this.content = [new Term([new Num(0)])];
         this.content.forEach((term)=>term.parent = this);
     }

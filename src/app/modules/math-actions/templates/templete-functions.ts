@@ -12,19 +12,20 @@ import { Term } from "../../math-structures/term";
 import { Expression } from "../../math-structures/expression";
 import { FormulaTemplate } from "../../math-structures/formula-template";
 
-export function tryTemplete(template: Template): Expression | null {
+export function tryTemplete(template: Template, input?: Expression): Expression | null {
     if(selected.type != "structure") return null;
     let {formula, structure, partIndex} = selected.getStructureData();
     let selectedExpression = toExpression(structure);
 
     let matchRusult = match(template.from, selectedExpression);
     if(!matchRusult) return null;
+    if(input) matchRusult.extend(new MatchResult({_in: input.copy()}));
     let resultExpression = substituteVariables(template.to, matchRusult);
 
     return replace(formula.equalityParts[partIndex], structure, resultExpression);
 }
 
-export function tryFormulaTemplate(template: FormulaTemplate): Formula[] | null {
+export function tryFormulaTemplate(template: FormulaTemplate, input?: Expression): Formula[] | null {
     if(selected.type != "formula") return null;
     let formulas = selected.formulas as Formula[];
     if(formulas.length!=template.from.length) return null;
@@ -34,6 +35,7 @@ export function tryFormulaTemplate(template: FormulaTemplate): Formula[] | null 
         let curResult = match(template.from[i], formulas[i]);
         if(!curResult || !matchRusults.extend(curResult)) return null;
     }
+    if(input) matchRusults.extend(new MatchResult({_in: input.copy()}));
     
     return template.to.map(formula => substituteVariables(formula, matchRusults));
 }

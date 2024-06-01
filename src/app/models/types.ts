@@ -3,8 +3,9 @@ export interface FormulaAction {
     categoryId: number,
     template: boolean,
     type: "formula" | "expression",
-    body: string | null,
-    name: string
+    name: string,
+    body?: string,
+    requireInput?: boolean
 }
 
 export interface FormulaDefinition {

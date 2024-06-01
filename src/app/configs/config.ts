@@ -15,11 +15,3 @@ export const availibleMathFunc = {
 }
 
 export const formulaTemplate = /^\$[^$]*\$$/;
-
-export class idCounter {
-  static id: number = 0;
-  static getId(): number {
-    this.id+=1;
-    return this.id;
-  }
-}
