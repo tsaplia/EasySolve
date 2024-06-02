@@ -1,8 +1,8 @@
 import { Expression } from "./expression";
 
 export class Template {
-    from: Expression;
-    to: Expression;
+    readonly from: Expression;
+    readonly to: Expression;
     constructor(from: Expression, to: Expression) {
         this.from = from;
         this.to = to;

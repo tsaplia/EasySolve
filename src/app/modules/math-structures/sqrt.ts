@@ -4,8 +4,8 @@ import { MathStruct, Multiplier } from "./math-structure";
 import { Num } from "./number";
 
 export class Sqrt extends Multiplier {
-    content: Multiplier;
-    root: Expression
+    readonly content: Multiplier;
+    readonly root: Expression
     constructor(content: Multiplier, root: Expression = toExpression(new Num(2))) {
         super();
         this.root = root;

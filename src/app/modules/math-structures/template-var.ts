@@ -2,7 +2,7 @@ import { MathStruct, Multiplier } from "./math-structure";
 
 
 export class TemplateVar extends Multiplier {
-    name: string
+    readonly name: string
     constructor(name: string) {
         super();
         this.name = name;

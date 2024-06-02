@@ -6,7 +6,7 @@ import { Num } from "./number";
 
 export class Term extends MathStruct {
     readonly sign: "+" | "-";
-    content: Multiplier[];
+    readonly content: Multiplier[];
     constructor(content: Multiplier[], sign: '+' | '-' = '+') {
         super();
         this.sign = sign; // plus(+) or minus(-)

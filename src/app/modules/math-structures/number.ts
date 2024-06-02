@@ -2,7 +2,7 @@ import { MathStruct, Multiplier } from "./math-structure";
 
 
 export class Num extends Multiplier {
-    value: number;
+    readonly value: number;
     constructor(number: number | string) {
         super();
 

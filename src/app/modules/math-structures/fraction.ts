@@ -5,8 +5,8 @@ import { Term } from "./term";
 
 
 export class Frac extends Multiplier {
-    numerator: Term;
-    denomerator: Term;
+    readonly numerator: Term;
+    readonly denomerator: Term;
     constructor(numerator: Term, denomerator: Term) {
         super();
         this.numerator = numerator;

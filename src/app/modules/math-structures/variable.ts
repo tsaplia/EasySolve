@@ -1,7 +1,7 @@
 import {  MathStruct, Multiplier } from "./math-structure";
 
 export class Variable extends Multiplier {
-    name: string;
+    readonly name: string;
     index: string | null;
     vector: boolean;
     primeCount: number;

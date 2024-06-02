@@ -1,12 +1,13 @@
+import { readonlyArray } from "src/app/configs/utils";
 import { Expression } from "./expression";
 import { MathStruct } from "./math-structure";
 
 
 export class Formula extends MathStruct {
-    equalityParts: Expression[];
+    readonly equalityParts: Expression[];
     constructor(equalityParts:Expression[]) {
         super();
-        this.equalityParts = equalityParts;
+        this.equalityParts = readonlyArray(equalityParts);
         this.equalityParts.forEach((part) => part.parent = this);
     }
 

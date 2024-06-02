@@ -5,8 +5,8 @@ import { Num } from "./number";
 
 
 export class Exponent extends Multiplier {
-    base: Multiplier;
-    exponent: Expression;
+    readonly base: Multiplier;
+    readonly exponent: Expression;
     constructor(base: Multiplier, exponent: Expression) {
         super();
         this.base = base;

@@ -2,8 +2,8 @@ import { Formula } from "src/app/modules/math-structures/formula";
 
 
 export class FormulaTemplate {
-    from: Formula[];
-    to: Formula[];
+    readonly from: Formula[];
+    readonly to: Formula[];
     constructor(from: Formula[], to: Formula[]) {
         this.from = from;
         this.to = to;

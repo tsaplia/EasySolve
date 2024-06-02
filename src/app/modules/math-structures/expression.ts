@@ -5,7 +5,7 @@ import { Term } from "./term";
 
 
 export class Expression extends Multiplier{
-    content: Term[]
+    readonly content: Term[]
     constructor(content: Term[]) {
         super();
         this.content = readonlyArray(content); // inner terms of block

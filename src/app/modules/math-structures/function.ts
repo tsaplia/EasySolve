@@ -3,8 +3,8 @@ import { MathStruct, Multiplier } from "./math-structure";
 
 
 export class Func extends Multiplier {
-    name: string;
-    content: Expression;
+    readonly name: string;
+    readonly content: Expression;
     constructor(name: string, content: Expression) {
         super();
         this.name = name; // function name like "cos", "sin" ...
