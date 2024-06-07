@@ -11,12 +11,14 @@ import { checkFormula, formulaFromTeX } from "src/app/modules/math-actions/from-
 export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
   mathField: MQ.MathField;
   error: string = '';
+  description: string = '';
   
   constructor(private dialogRef: MatDialogRef<AddingModalFormulaComponent>, 
-              @Inject(MAT_DIALOG_DATA) public data: {formula?: string, checkFormula?: boolean}, 
+              @Inject(MAT_DIALOG_DATA) public data: {formula?: string, checkFormula?: boolean, description?: string}, 
               private MQ: MathQuillService) {}
   
   ngOnInit(): void {
+    this.description = this.data.description ? this.data.description : '';
   }
   ngAfterViewInit(): void {
     this.mathField = this.MQ.createMathField(document.getElementById("math-field") as HTMLSpanElement);

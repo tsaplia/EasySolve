@@ -47,7 +47,7 @@ export class MathCanvasComponent implements OnInit {
 
   newLineInput(type: "formula" | "text", line: string = '', index?: number, replace?:boolean) {
     if(type == 'formula') {
-      let formulaDialog = this.dialog.open(AddingModalFormulaComponent, {data: {formula: line, checkFormula: true}});
+      let formulaDialog = this.dialog.open(AddingModalFormulaComponent, {data: {formula: line, checkFormula: true, description: "Hello, add something?"}});
       this.statusService.toggleFormulaAdding();
       formulaDialog.afterClosed().subscribe(resp => {
         this.statusService.toggleFormulaAdding();

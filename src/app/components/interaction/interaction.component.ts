@@ -10,6 +10,7 @@ import { AddingModalFormulaComponent } from "../adding-modals/adding-modal-f.com
 import { MatDialog } from "@angular/material/dialog";
 import { formulaFromTeX } from "src/app/modules/math-actions/from-tex";
 import { Expression } from "src/app/modules/math-structures/expression";
+import { StatusService } from "src/app/services/status.service";
 
 declare let MathJax: any;
 
@@ -35,7 +36,8 @@ export class InteractionComponent implements AfterViewInit {
 
   constructor(private cdRef: ChangeDetectorRef,
               private storage: StorageService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private statusService: StatusService) { }
 
   ngDoCheck(){
     let newLines = this.storage.selectedLines;
@@ -72,7 +74,9 @@ export class InteractionComponent implements AfterViewInit {
   async inputFormula(): Promise<Expression | null> {
     return new Promise((resolve) => {
       let formulaDialog = this.dialog.open(AddingModalFormulaComponent, {data: {checkFormula: true}});
+      this.statusService.toggleFormulaAdding();
       formulaDialog.afterClosed().subscribe(resp => {
+        this.statusService.toggleFormulaAdding();
         if(!resp || resp.line == '$$') resolve(null);
         let formula = formulaFromTeX(resp.line.slice(1,-1));
         return formula.equalityParts.length == 1 ? resolve(formula.equalityParts[0]) : resolve(null);

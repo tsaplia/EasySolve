@@ -7,6 +7,9 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+.list-body::-webkit-scrollbar {
+  display: none;
+}
 .category {
   color: $textColor;
   font-size:20px;
