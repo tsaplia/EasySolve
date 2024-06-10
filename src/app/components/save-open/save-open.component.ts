@@ -6,6 +6,7 @@ import { ToastrService } from "ngx-toastr";
 import { CanvasLine } from "src/app/models/canvasLine";
 import { InfoModalComponent } from "../info-modal/info-modal.component";
 import hotkeys from "src/assets/hotkeys.json"
+import { latexWrap } from "src/app/configs/utils";
 
 @Component({
   selector: 'app-save-open',
@@ -37,10 +38,14 @@ export class SaveOpenComponent {
     })
   }
 
-  dowload(type: string) {
-    const blob = new Blob([JSON.stringify(this.lines, null, 2)], {type: 'application/json'})
+  dowload(type: "json" | "tex") {
+    let text: string;
+    if(type == "tex") text = latexWrap(this.lines.map(line => line.line).join('\\par\n'));
+    else text = JSON.stringify(this.lines, null, 2);
+    
+    const blob = new Blob([text], {type: 'application/json'})
     let url = window.URL.createObjectURL(blob);
-    let filename = (this.title=='' ? 'project' : this.title) + '.' + type;
+    let filename = `${this.title || 'project'}.${type}`;
     let a = document.createElement('a');
     document.body.appendChild(a);
     a.setAttribute('style', 'display: none');
@@ -89,10 +94,8 @@ export class SaveOpenComponent {
       let newLines: CanvasLine[] = [];
       for(let item of objects)
         newLines.push(new CanvasLine(item));
-      // NOTE: it's better to use regex
-      if(title.substring(title.length-5, title.length) == ".json") title = title.substring(0, title.length-5);
-      if(title.substring(title.length-4, title.length) == ".txt") title = title.substring(0, title.length-4);
-      if(title.substring(title.length-6, title.length) == ".latex") title = title.substring(0, title.length-6);
+      
+      title = title.substring(0, title.lastIndexOf('.'));
       this.openEvent.emit({title: title, lines: newLines});
     }
     catch(error) {

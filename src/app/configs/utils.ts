@@ -19,3 +19,14 @@ export function gcd(a: number, b: number): number {
     }
     return a;
 }
+
+export function latexWrap(body: string){
+    return `\\documentclass{article}
+\\usepackage[utf8]{inputenc}
+\\begin{document}
+${body}
+\\end{document}
+`;
+}
+
+    
