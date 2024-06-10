@@ -89,7 +89,7 @@ export let templates: FormulaAction[] = [
     categoryId: 6,
     template:false,
     type:"expression",
-    name: "Simplify terms"
+    name: "Collect like terms"
   },
   {
     id: "simp-frac-1",

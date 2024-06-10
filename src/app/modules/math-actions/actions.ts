@@ -9,7 +9,7 @@ import { Term } from "../math-structures/term";
 import { formulaTemplateFromTeX, templateFromTeX } from "./from-tex";
 import { clearSelected, selected } from "./selection/selected";
 import { StructureData } from "./selection/selected-structures";
-import { changeTermSign, fracToTerm, multTerms, multiplyPowers, removeExtraGroups, reverseTerm, simplifyTerms, simplyfyFrac as simplifyFrac, termAsFracContent, termToFrac, toExpression, toMultiplier, toTerm } from "./structure-actions";
+import { changeTermSign, fracToTerm, multTerms, removeExtraGroups, reverseTerm, simplifyTerms, simplyfyFrac as simplifyFrac, termAsFracContent, termToFrac, toExpression, toMultiplier, toTerm } from "./structure-actions";
 import { replace, tryFormulaTemplate, tryTemplete } from "./templates/templete-functions";
 import {templates} from "src/assets/actionConfigs";
 
@@ -118,7 +118,8 @@ availibleActions.set("change-part", ()=> {
     let partIndex = formula.equalityParts.indexOf(structures[0].parent as Expression);
 
     let secondPartIndex = partIndex == 0 ? formula.equalityParts.length-1 : 0;
-    let leftChildren = formula.equalityParts[secondPartIndex].content.map(child => child.copy());
+    let leftChildren = formula.equalityParts[secondPartIndex].content.map(child => child.copy())
+        .filter(child => child.toTex() != "0");
     structures.forEach((struct)=>leftChildren.push(changeTermSign(struct)));
 
     let rightChildren = formula.equalityParts[partIndex].content

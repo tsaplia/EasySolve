@@ -11,6 +11,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { formulaFromTeX } from "src/app/modules/math-actions/from-tex";
 import { Expression } from "src/app/modules/math-structures/expression";
 import { StatusService } from "src/app/services/status.service";
+import { ToastrService } from "ngx-toastr";
 
 declare let MathJax: any;
 
@@ -36,8 +37,9 @@ export class InteractionComponent implements AfterViewInit {
 
   constructor(private cdRef: ChangeDetectorRef,
               private storage: StorageService,
-              private dialog: MatDialog,
-              private statusService: StatusService) { }
+              private statusService: StatusService,
+              private toast: ToastrService,
+              private dialog: MatDialog) { }
 
   ngDoCheck(){
     let newLines = this.storage.selectedLines;
@@ -92,7 +94,8 @@ export class InteractionComponent implements AfterViewInit {
     if(requireInput) {
       input = await this.inputFormula();
       if(!input) {
-        console.log("Not a valid expression");
+        this.toast.clear();
+        this.toast.error("Not a valid expression");
         return;
       }
     };
@@ -101,7 +104,8 @@ export class InteractionComponent implements AfterViewInit {
     if(formulas) {
       this.preview = formulas;
     }else{
-      console.log("Can't use this template");
+      this.toast.clear();
+      this.toast.error("Can't use this template");
     }
   }
 }

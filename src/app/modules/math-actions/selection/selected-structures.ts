@@ -83,8 +83,9 @@ export class SelectedStructures extends Set<MathStruct>{
             return {formula, structure, partIndex, grouped: false};
         }
         let newStructs: (Term | Multiplier)[];
-        if(Array.from(this.values()).every(struct => struct.parent == parents[1])){
+        if(structures.every(struct => struct.parent == parents[1])){
             // if selected elements have common parent
+            structures = parents[1].children.filter(struct => structures.includes(struct));
             if(structures[0] instanceof Term){
                 newStructs = [ new Term([new Expression(structures.map(struct=>struct.copy() as Term))]) ];
             }else{
@@ -104,7 +105,7 @@ export class SelectedStructures extends Set<MathStruct>{
             if(!restNum) restNum = new Term([]);
             newStructs = [new Frac(selNum, selDen)];
             if(restDen) newStructs.push(new Frac(restNum, restDen));
-            else if (restNum.sign == '+') newStructs.push(...restNum.content.map(struct => struct.copy()));
+            else if(restNum.sign == '+') newStructs.push(...restNum.content.map(struct => struct.copy()));
             else newStructs.push(toExpression(restNum));
             structures = [frac];
         }

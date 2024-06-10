@@ -257,12 +257,17 @@ export function getCompInfo(term: Term): {frac: Frac, coef: [number, number]} {
     let {num, den, sign} = termAsFracContent(term);
     let numCoef = sign == "+" ? 1 : -1;
     let denCoef = 1;
+
     num.forEach(mult => numCoef *= mult instanceof Num ? mult.value : 1);
     den.forEach(mult => denCoef *= mult instanceof Num ? mult.value : 1);
     num = num.filter(mult => !(mult instanceof Num));
     den = den.filter(mult => !(mult instanceof Num));
     num.sort((a, b) => a.toTex().localeCompare(b.toTex()));
     den.sort((a, b) => a.toTex().localeCompare(b.toTex()));
+
+    let g = gcd(numCoef, denCoef);
+    numCoef /= g, denCoef /= g;
+
     return {
         frac: new Frac(new Term(num.map(mult => mult.copy())), 
         new Term(den.map(mult => mult.copy()))), coef: [numCoef, denCoef]
@@ -301,7 +306,7 @@ export function simplifyTerms(expr: Expression): Expression {
                 curChild.coef = addFractions(curChild.coef, compChild.coef);
             }
         }
-        content.push(fromCompInfo(curChild.frac, curChild.coef));
+        if(curChild.coef[0] != 0) content.push(fromCompInfo(curChild.frac, curChild.coef));
     }
     return new Expression(content);
 }

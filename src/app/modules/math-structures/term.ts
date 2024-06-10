@@ -27,7 +27,6 @@ export class Term extends MathStruct {
                 str += this.content[i].toTex();
             }
         }
-        console.assert(!!this.content.length, "Empty term content");
         return str;
     }
 
