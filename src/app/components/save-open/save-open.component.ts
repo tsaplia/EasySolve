@@ -42,7 +42,7 @@ export class SaveOpenComponent {
     let text: string;
     if(type == "tex") text = latexWrap(this.lines.map(line => line.line).join('\\par\n'));
     else text = JSON.stringify(this.lines, null, 2);
-    
+
     const blob = new Blob([text], {type: 'application/json'})
     let url = window.URL.createObjectURL(blob);
     let filename = `${this.title || 'project'}.${type}`;

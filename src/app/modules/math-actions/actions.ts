@@ -17,18 +17,26 @@ export let availibleActions = new Map<String, (input?:Expression)=>Formula[] | n
 
 templates.forEach((action) => {
     if(!action.template) return;
+    if(!action.body) throw new Error("template must have body");
     if(action.type == "expression"){
-        let template = templateFromTeX(action.body as string);
+        let templates = action.body?.map(b => templateFromTeX(b as string));
         availibleActions.set(action.id, (input?:Expression)=>{
             if(action.requireInput && !input) return null;
-            let expr = tryTemplete(template, input)
-            return expr ? [new Formula([expr])] : null;
+            for(let template of templates){
+                let expr = tryTemplete(template, input)
+                if(expr) return [new Formula([expr])];
+            }
+            return null;
         });
     }else{
-        let template = formulaTemplateFromTeX(action.body as string, );
+        let templates = action.body?.map(b => formulaTemplateFromTeX(b as string));
         availibleActions.set(action.id, (input?:Expression)=>{
             if(action.requireInput && !input) return null;
-            return tryFormulaTemplate(template, input);
+            for(let template of templates){
+                let result = tryFormulaTemplate(template, input);
+                if(result) return result;
+            }
+            return null;
         });
     }
 });

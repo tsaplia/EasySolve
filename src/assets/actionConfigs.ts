@@ -6,15 +6,15 @@ export let templates: FormulaAction[] = [
     categoryId: 1,
     template:true,
     type:"expression",
-    "body":"\\left([a]+[b]\\right)^2=>[a]^2+2[a][b]+[b]^2",
+    body: ["\\left([a]+[b]\\right)^2=>[a]^2+2[a][b]+[b]^2"],
     name:"$\\left(a+b\\right)^2=a^2+2ab+b^2$"
   },
   {
-    id:"algebra-2",
+    id: "algebra-2",
     categoryId: 1,
-    template:true,
+    template: true,
     type:"expression",
-    "body":"[a]^2-[b]^2=>\\left([a]-[b]\\right)\\left([a]+[b]\\right)",
+    body:["[a]^2-[b]^2=>\\left([a]-[b]\\right)\\left([a]+[b]\\right)"],
     name:"$a^2-b^2=\\left(a-b\\right)\\left(a+b\\right)$"
   },
   {
@@ -22,7 +22,7 @@ export let templates: FormulaAction[] = [
     categoryId: 3,
     template:true,
     type:"formula",
-    "body":"[a]=[b];[c]=[d]=>[a]+[c]=[b]+[d]",
+    body:["[a]=[b];[c]=[d]=>[a]+[c]=[b]+[d]"],
     name: "Add formulas"
   },
   {
@@ -30,7 +30,7 @@ export let templates: FormulaAction[] = [
     categoryId: 3,
     template: true,
     type: "formula",
-    body: "[a]=[b];[c]=[d]=>[a]-[c]=[b]-[d]",
+    body: ["[a]=[b];[c]=[d]=>[a]-[c]=[b]-[d]"],
     name: "Subtract formulas"
   },
   {
@@ -38,7 +38,7 @@ export let templates: FormulaAction[] = [
     categoryId: 3,
     template: true,
     type: "formula",
-    body: "[a]=[b]=>[_in][a]=[_in][b]",
+    body: ["[a]=[b]=>[_in][a]=[_in][b]"],
     name: "Multiply by k",
     requireInput: true
   },
@@ -96,7 +96,10 @@ export let templates: FormulaAction[] = [
     categoryId: 6,
     template: true,
     type: "expression",
-    "body": "\\frac{\\frac{[a]}{[b]}}{[c]}=>\\frac{[a]}{[b][c]}",
+    body: [
+      "\\frac{\\frac{[a]}{[b]}}{[c]}=>\\frac{[a]}{[b][c]}",
+      "\\frac{[a]}{\\frac{[b]}{[c]}}=>\\frac{[a][c]}{[b]}",
+    ],
     name: "Simplify fraction"
   }, 
   {
@@ -127,5 +130,13 @@ export let templates: FormulaAction[] = [
     template: false,
     type: "expression",
     name: "To common denominator",
+  },
+  {
+    id: "powers-1",
+    categoryId: 7,
+    template: true,
+    body: ["[a]^{[b]}=>\\frac{1}{a^{-[b]}}"],
+    type: "expression",
+    name: "$a^b=\\frac{1}{a^{-b}}$"
   }
 ]

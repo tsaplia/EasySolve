@@ -32,5 +32,47 @@
       "alt": false,
       "shift": false
     }
+  ],
+  "interaction": [
+    {
+      "id": "move-l",
+      "key": "ArrowLeft",
+      "ctrl": false,
+      "alt": false,
+      "shift": false,
+      "options": {
+        "mode": "replace"
+      }
+    },
+    {
+      "id": "move-r",
+      "key": "ArrowRight",
+      "ctrl": false,
+      "alt": false,
+      "shift": false,
+      "options": {
+        "mode": "replace"
+      }
+    },
+    {
+      "id": "group",
+      "key": "g",
+      "ctrl": false,
+      "alt": true,
+      "shift": false,
+      "options": {
+        "mode": "replace"
+      }
+    },
+    {
+      "id": "change-part",
+      "key": " ",
+      "ctrl": false,
+      "alt": false,
+      "shift": true,
+      "options": {
+        "mode": "newLine"
+      }
+    }
   ]
 }

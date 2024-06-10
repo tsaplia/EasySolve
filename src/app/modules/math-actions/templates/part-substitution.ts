@@ -1,14 +1,10 @@
 import { Formula } from "../../math-structures/formula";
 import { selected } from "../selection/selected";
 
-export type SubPartModes = {
-    newLine: boolean,
-    replace: boolean,
-    addToEnd: boolean
-};
+export type SubPartModes = "newLine" | "replace" | "addToEnd";
 
-export function availableModes(type?: "formula" | "structure"): SubPartModes{
-    let res: SubPartModes = {newLine: false, replace: false, addToEnd: false};
+export function availableModes(type?: "formula" | "structure") {
+    let res = {newLine: false, replace: false, addToEnd: false};
     let selectedType = type || selected.type;
     if(selectedType) res.newLine = true;
     if(selectedType == 'structure'){
@@ -19,7 +15,7 @@ export function availableModes(type?: "formula" | "structure"): SubPartModes{
     return res;
 }
 
-export function useMode(mode: keyof SubPartModes, results: Formula[]): Formula[]{;
+export function useMode(mode: SubPartModes, results: Formula[]): Formula[]{;
     if(!selected.type) throw new Error("Nothing selected");
     if(results[0].equalityParts.length > 1) return results;
     let data = selected.getStructureData();
