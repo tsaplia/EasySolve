@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit, Output } from "@angular/core";
 import { CanvasLine } from "src/app/models/canvasLine";
-import { availibleActions } from "src/app/modules/math-actions/actions";
+import { actionConfigs, availibleActions } from "src/app/modules/math-actions/actions";
 import { clearSelected } from "src/app/modules/math-actions/selection/selected";
 import { SubPartModes, availableModes, useMode,  } from "src/app/modules/math-actions/templates/part-substitution";
 import { Formula } from "src/app/modules/math-structures/formula";
@@ -81,7 +81,7 @@ export class InteractionComponent implements AfterViewInit {
 
   async inputFormula(): Promise<Expression | null> {
     return new Promise((resolve) => {
-      let formulaDialog = this.dialog.open(AddingModalFormulaComponent, {data: {checkFormula: true}});
+      let formulaDialog = this.dialog.open(AddingModalFormulaComponent, {data: {checkFormula: true, description: "Enter an expression"}});
       this.statusService.toggleFormulaAdding();
       formulaDialog.afterClosed().subscribe(resp => {
         this.statusService.toggleFormulaAdding();
@@ -92,12 +92,12 @@ export class InteractionComponent implements AfterViewInit {
     });
   }
 
-  async useTemplate(id: string, requireInput?: boolean): Promise<boolean> {
+  async useTemplate(id: string): Promise<boolean> {
     let action = availibleActions.get(id);
     if(!action) return false;
 
     let input;
-    if(requireInput) {
+    if(actionConfigs.get(id)?.requireInput) {
       input = await this.inputFormula();
       if(!input) {
         this.toast.clear();
@@ -108,7 +108,7 @@ export class InteractionComponent implements AfterViewInit {
   
     let formulas = action(input);
     if(formulas) {
-      this.preview = formulas;
+      if(formulas.length) this.preview = formulas;
       return true;
     }
     this.toast.clear();
@@ -122,7 +122,7 @@ export class InteractionComponent implements AfterViewInit {
     this.hotkeys.forEach(async (hk) => {
       if(hk.key != event.key || hk.ctrl != event.ctrlKey || hk.shift != event.shiftKey) return;
       console.log(event.key)
-      let used = await this.useTemplate(hk.id, hk.options?.requireInput);
+      let used = await this.useTemplate(hk.id);
       if(!used) return;
       this.addOutputToLines(hk.options.mode);
     });

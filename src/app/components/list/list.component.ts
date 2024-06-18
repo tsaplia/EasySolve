@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import type { FormulaAction, FormulaDefinition } from "src/app/models/types";
+import type { FormulaActionConfig, FormulaDefinition } from "src/app/models/types";
 
 import {templates as actions} from "src/assets/actionConfigs"
 import categories from "src/assets/categories.json"
@@ -14,13 +14,13 @@ declare let MathJax: any;
 })
 export class ListComponent implements OnInit {
   @Input() mode: "interaction" | "dictionary" | null = null;
-  @Output() ActionSelected = new EventEmitter<[string, boolean]>();
+  @Output() ActionSelected = new EventEmitter<string>();
 
   categories = categories;
   actions = actions;
   definitions: FormulaDefinition[] = definitions as FormulaDefinition[];
 
-  actionsByCategory = new Map<number, FormulaAction[]>;
+  actionsByCategory = new Map<number, FormulaActionConfig[]>;
   definitionsByCategory = new Map<number, FormulaDefinition[]>;
   openCategories = new Map<number, boolean>;
 
@@ -40,7 +40,7 @@ export class ListComponent implements OnInit {
   }
 
   useAction(id: string, input: boolean = false) {
-    this.ActionSelected.emit([id, input]);
+    this.ActionSelected.emit(id);
   }
 
   updateMJ() { // update MathJax  

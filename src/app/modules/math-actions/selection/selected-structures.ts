@@ -78,7 +78,7 @@ export class SelectedStructures extends Set<MathStruct>{
         let partIndex = formula.equalityParts.indexOf(parents.at(-2) as Expression || formula.equalityParts[0]);
         if(partIndex == -1) throw new Error("Equality part not found");
 
-        if(structures.length == 1){
+        if(structures.length == 1 && (!(structures[0] instanceof Term) || structures[0].sign == '+')){
             let structure = structures[0] instanceof Formula ? structures[0].equalityParts[0] : structures[0];
             return {formula, structure, partIndex, grouped: false};
         }

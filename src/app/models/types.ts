@@ -1,6 +1,8 @@
+import { Expression } from "@angular/compiler";
 import { SubPartModes } from "../modules/math-actions/templates/part-substitution";
+import { Formula } from "../modules/math-structures/formula";
 
-export interface FormulaAction {
+export interface FormulaActionConfig {
     id: string,
     categoryId: number,
     template: boolean,

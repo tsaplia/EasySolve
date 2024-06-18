@@ -1,3 +1,4 @@
+import { FormulaActionConfig } from "src/app/models/types";
 import { Exponent } from "../math-structures/exponent";
 import { Expression } from "../math-structures/expression";
 import { Formula } from "../math-structures/formula";
@@ -15,7 +16,12 @@ import {templates} from "src/assets/actionConfigs";
 
 export let availibleActions = new Map<String, (input?:Expression)=>Formula[] | null>
 
+export let actionConfigs = new Map<String, FormulaActionConfig>
+
+
 templates.forEach((action) => {
+    actionConfigs.set(action.id, action);
+
     if(!action.template) return;
     if(!action.body) throw new Error("template must have body");
     if(action.type == "expression"){
@@ -50,7 +56,7 @@ availibleActions.set("sub-1", ()=>{
         return expr ? [new Formula([expr])] : null;
     });
     clearSelected();
-    return null;
+    return [];
 });
 
 availibleActions.set("sub-2", ()=>{

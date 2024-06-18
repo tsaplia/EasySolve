@@ -1,6 +1,6 @@
-import { FormulaAction } from "src/app/models/types";
+import { FormulaActionConfig } from "src/app/models/types";
 
-export let templates: FormulaAction[] = [
+export let templates: FormulaActionConfig[] = [
   {
     id:"algebra-1",
     categoryId: 1,
