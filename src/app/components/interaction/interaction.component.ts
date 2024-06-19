@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit, Output } from "@angular/core";
 import { CanvasLine } from "src/app/models/canvasLine";
-import { actionConfigs, availibleActions } from "src/app/modules/math-actions/actions";
+import { actionConfigs, availibleActions } from "src/app/modules/math-actions/actions/actions";
 import { clearSelected } from "src/app/modules/math-actions/selection/selected";
 import { SubPartModes, availableModes, useMode,  } from "src/app/modules/math-actions/templates/part-substitution";
 import { Formula } from "src/app/modules/math-structures/formula";

@@ -11,21 +11,28 @@ import { removeExtraGroups, toExpression, toMultiplier, toTerm } from "../struct
 import { Term } from "../../math-structures/term";
 import { Expression } from "../../math-structures/expression";
 import { FormulaTemplate } from "../../math-structures/formula-template";
+import { FormulaReplacement, Simplifications } from "src/app/models/types";
+import { simplifications } from "../actions/simplifications";
 
-export function tryTemplete(template: Template, input?: Expression): Expression | null {
+type Substitution = {varName: string, mult: Multiplier};
+
+export function tryTemplete(template: Template, simp?: Simplifications, input?: Expression): Expression | null {
     if(selected.type != "structure") return null;
     let {formula, structure, partIndex} = selected.getStructureData();
     let selectedExpression = toExpression(structure);
 
     let matchRusult = match(template.from, selectedExpression);
     if(!matchRusult) return null;
-    if(input) matchRusult.extend(new MatchResult({_in: input.copy()}));
-    let resultExpression = substituteVariables(template.to, matchRusult);
+    
+    if(input) matchRusult.extend(new MatchResult({_in: toMultiplier(input)}));
+    let {struct: resultExpression, subs} = substituteVariables(template.to, matchRusult);
 
-    return replace(formula.equalityParts[partIndex], structure, resultExpression);
+    let replaced = replace(formula.equalityParts[partIndex], structure, resultExpression);
+
+    return simp ? applySimp(replaced, simp, subs) : replaced;
 }
 
-export function tryFormulaTemplate(template: FormulaTemplate, input?: Expression): Formula[] | null {
+export function tryFormulaTemplate(template: FormulaTemplate, simp?: Simplifications, input?: Expression): Formula[] | null {
     if(selected.type != "formula") return null;
     let formulas = selected.formulas as Formula[];
     if(formulas.length!=template.from.length) return null;
@@ -35,9 +42,12 @@ export function tryFormulaTemplate(template: FormulaTemplate, input?: Expression
         let curResult = match(template.from[i], formulas[i]);
         if(!curResult || !matchRusults.extend(curResult)) return null;
     }
-    if(input) matchRusults.extend(new MatchResult({_in: input.copy()}));
+    if(input) matchRusults.extend(new MatchResult({_in: toMultiplier(input)}));
     
-    return template.to.map(formula => substituteVariables(formula, matchRusults));
+    let subResults = template.to.map(formula => substituteVariables(formula, matchRusults));
+    if(!simp) return subResults.map(res => res.struct);
+
+    return subResults.map(({struct, subs}) => applySimp(struct, simp, subs));
 }
 
 function match(template: MathStruct, struct: MathStruct): MatchResult | null {
@@ -45,7 +55,7 @@ function match(template: MathStruct, struct: MathStruct): MatchResult | null {
 
     // type checks
     if(template instanceof TemplateVar){
-        return struct instanceof Multiplier ? new MatchResult({[template.name]: struct}) : null;
+        return struct instanceof Multiplier ? new MatchResult({[template.name]: toMultiplier(struct)}) : null;
     }
     if(template.constructor != struct.constructor) return null;
     if((template instanceof Variable || template instanceof Number)){
@@ -109,34 +119,57 @@ function match(template: MathStruct, struct: MathStruct): MatchResult | null {
     return recursiveMatch(0);
 }
 
-function substituteVariables<T extends MathStruct>(template: T, match: MatchResult): T{
+function substituteVariables<T extends MathStruct>(template: T, match: MatchResult): {struct: T, subs: Substitution[]} {
+    let subs: Substitution[] = [];
     function callback(struct: MathStruct): MathStruct {
         if(struct instanceof TemplateVar){
             if(!match.get(struct.name)) throw new Error("Template variable not found");
-            return match.get(struct.name)?.copy() as MathStruct;
+            let mult = match.get(struct.name)?.copy() as MathStruct;
+            subs.push({varName: struct.name, mult});
+            return mult;
         }
-        let newStruct: typeof struct = struct.changeStructure(callback);
-        return newStruct.isEqual(struct) ? newStruct : removeExtraGroups(newStruct);
+        return struct.changeStructure(callback)
     };
-    return template.changeStructure(callback) as T;
+    subs = subs.filter(sub=>!!sub.mult.parent);
+    return {struct: template.changeStructure(callback) as T, subs};
 }
 
 export function replace(part: Expression, from: Term | Multiplier, to: Term | Multiplier): Expression {
-    if(from instanceof Term) to = toTerm(to); 
-    else if(from instanceof Expression) to = toExpression(to);
-    else to = toMultiplier(to);
-    let changedParent: MathStruct | null = null;
+    return multipleReplace(part, [{from, to}]);
+}
+
+export function multipleReplace<T extends Formula | Expression>(struct: T, data: FormulaReplacement[]): T {
+    data.forEach((rep) => {
+        if(rep.from instanceof Term) rep.to = toTerm(rep.to); 
+        else if(rep.from instanceof Expression) rep.to = toExpression(rep.to);
+        else rep.to = toMultiplier(rep.to);
+    });
+
+    let changedParent: MathStruct[] = [];
 
     const callback = (struct: MathStruct) => {
-        if(struct === from) {
-            changedParent = struct.parent;
-            return to;
+        let rep = data.find((rep)=>rep.from == struct);
+        if(rep) {
+            if(struct.parent && struct.parent!=changedParent.at(-1)) changedParent.push(struct.parent);
+            return rep.to;
         }
         let newStruct = struct.changeStructure(callback);
-        if(struct == changedParent){
+        if(struct==changedParent.at(-1)){
+            changedParent.pop();
             return removeExtraGroups(newStruct);
         }
         return newStruct;
     };
-    return callback(part) as Expression;
+    return callback(struct) as T;
+}
+
+function applySimp<T extends Formula | Expression>(struct: T, simp: Simplifications, subs: Substitution[]): T {
+    let changes = subs.map(sub => {
+        if(simp[sub.varName]){
+            return simplifications[simp[sub.varName]](sub.mult);
+        }
+        return null;
+    }).filter(rep => !!rep) as FormulaReplacement[];
+    
+    return multipleReplace(struct, changes);
 }

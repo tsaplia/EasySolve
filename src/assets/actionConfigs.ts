@@ -40,7 +40,8 @@ export let templates: FormulaActionConfig[] = [
     type: "formula",
     body: ["[a]=[b]=>[_in][a]=[_in][b]"],
     name: "Multiply by k",
-    requireInput: true
+    requireInput: true,
+    simp: {"a": "distribute", "b": "distribute"}
   },
   {
     id:"sub-1",
@@ -103,7 +104,7 @@ export let templates: FormulaActionConfig[] = [
     name: "Simplify fraction"
   }, 
   {
-    id: "destribute",
+    id: "distribute",
     categoryId: 1,
     template:false,
     type:"expression",

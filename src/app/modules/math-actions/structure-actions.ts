@@ -51,7 +51,7 @@ export function toTerm(mult: Multiplier | Term): Term {
     return new Term([mult.copy()]);
 }
 
-export function removeExtraGroups(struct: MathStruct, rmNegative = false): MathStruct {
+export function removeExtraGroups<T extends MathStruct>(struct: T, rmNegative = false): T {
     if(struct instanceof Term){
         let sign = struct.sign;
         let content: Multiplier[] = [];
@@ -65,7 +65,7 @@ export function removeExtraGroups(struct: MathStruct, rmNegative = false): MathS
                 content.push(mult);
             }
         }
-        return modified ? new Term(content.map((mult) => mult.copy()), sign) : struct;
+        return modified ? new Term(content.map((mult) => mult.copy()), sign) as unknown as T : struct;
     }if(struct instanceof Expression){
         let content: Term[] = [];
         let modified = false;
@@ -77,7 +77,7 @@ export function removeExtraGroups(struct: MathStruct, rmNegative = false): MathS
                 content.push(term);
             }
         }
-        return modified ? new Expression(content.map((mult) => mult.copy())) : struct;
+        return modified ? new Expression(content.map((mult) => mult.copy())) as unknown as T : struct;
     }
     return struct;
 }
@@ -187,7 +187,7 @@ function _mergePowers(content: Multiplier[]) {
     }
 }
 
-export function simplyfyFrac(term: Term): Term {
+export function simplifyFrac(term: Term): Term {
     let info = termAsFracContent(term);
 
     let numCoef = info.num.reduce((acc, cur) => acc *= cur instanceof Num ? cur.value : 1, info.sign == "+" ? 1 : -1);
