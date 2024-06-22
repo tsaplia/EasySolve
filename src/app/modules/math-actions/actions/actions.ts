@@ -1,34 +1,49 @@
-import { Exponent } from "../math-structures/exponent";
-import { Expression } from "../math-structures/expression";
-import { Formula } from "../math-structures/formula";
-import { Frac } from "../math-structures/fraction";
-import { Multiplier } from "../math-structures/math-structure";
-import { Num } from "../math-structures/number";
-import { Template } from "../math-structures/template";
-import { Term } from "../math-structures/term";
-import { formulaTemplateFromTeX, templateFromTeX } from "./from-tex";
-import { clearSelected, selected } from "./selection/selected";
-import { StructureData } from "./selection/selected-structures";
-import { changeTermSign, fracToTerm, multTerms, multiplyPowers, removeExtraGroups, reverseTerm, simplifyTerms, simplyfyFrac as simplifyFrac, termAsFracContent, termToFrac, toExpression, toMultiplier, toTerm } from "./structure-actions";
-import { replace, tryFormulaTemplate, tryTemplete } from "./templates/templete-functions";
+import { FormulaActionConfig } from "src/app/models/types";
+import { Exponent } from "../../math-structures/exponent";
+import { Expression } from "../../math-structures/expression";
+import { Formula } from "../../math-structures/formula";
+import { Frac } from "../../math-structures/fraction";
+import { Multiplier } from "../../math-structures/math-structure";
+import { Num } from "../../math-structures/number";
+import { Template } from "../../math-structures/template";
+import { Term } from "../../math-structures/term";
+import { formulaTemplateFromTeX, templateFromTeX } from "../from-tex";
+import { clearSelected, selected } from "../selection/selected";
+import { StructureData } from "../selection/selected-structures";
+import { changeTermSign, fracToTerm, multTerms, removeExtraGroups, reverseTerm, simplifyTerms, simplifyFrac, termAsFracContent, termToFrac, toExpression, toMultiplier, toTerm } from "../structure-actions";
+import { replace, tryFormulaTemplate, tryTemplete } from "../templates/templete-functions";
 import {templates} from "src/assets/actionConfigs";
+import { simplifications } from "./simplifications";
 
 export let availibleActions = new Map<String, (input?:Expression)=>Formula[] | null>
 
+export let actionConfigs = new Map<String, FormulaActionConfig>
+
+
 templates.forEach((action) => {
+    actionConfigs.set(action.id, action);
+
     if(!action.template) return;
+    if(!action.body) throw new Error("template must have body");
     if(action.type == "expression"){
-        let template = templateFromTeX(action.body as string);
+        let templates = action.body?.map(b => templateFromTeX(b as string));
         availibleActions.set(action.id, (input?:Expression)=>{
             if(action.requireInput && !input) return null;
-            let expr = tryTemplete(template, input)
-            return expr ? [new Formula([expr])] : null;
+            for(let template of templates){
+                let expr = tryTemplete(template, action.simp, input)
+                if(expr) return [new Formula([expr])];
+            }
+            return null;
         });
     }else{
-        let template = formulaTemplateFromTeX(action.body as string, );
+        let templates = action.body?.map(b => formulaTemplateFromTeX(b as string));
         availibleActions.set(action.id, (input?:Expression)=>{
             if(action.requireInput && !input) return null;
-            return tryFormulaTemplate(template, input);
+            for(let template of templates){
+                let result = tryFormulaTemplate(template, action.simp, input);
+                if(result) return result;
+            }
+            return null;
         });
     }
 });
@@ -42,7 +57,7 @@ availibleActions.set("sub-1", ()=>{
         return expr ? [new Formula([expr])] : null;
     });
     clearSelected();
-    return null;
+    return [];
 });
 
 availibleActions.set("sub-2", ()=>{
@@ -59,7 +74,7 @@ availibleActions.set("group", ()=>{
     return [new Formula([data.formula.equalityParts[data.partIndex].copy()])];
 });
 
-function _moveOutofFrac(direction: "l" | "r", data: StructureData){
+function _moveOutOfFrac(direction: "l" | "r", data: StructureData){
     if(!(data.structure.parent instanceof Term && data.structure.parent.parent instanceof Frac)) return null;
 
     let frac = data.structure.parent.parent;
@@ -90,7 +105,7 @@ function move(direction: "l" | "r"){
     let children = data.structure.parent.children.map(child => child.copy());
     let index = data.structure.parent.children.indexOf(data.structure);
     if(direction == "l" && index == 0 || direction == "r" && index == children.length-1) {
-        return _moveOutofFrac(direction, data);
+        return _moveOutOfFrac(direction, data);
     }
     children.splice(direction == "l" ? index-1 : index+1, 0, children.splice(index, 1)[0]);
     let newParent = removeExtraGroups(data.structure.parent instanceof Term ? new Term(children) : new Expression(children as Term[]));
@@ -118,7 +133,8 @@ availibleActions.set("change-part", ()=> {
     let partIndex = formula.equalityParts.indexOf(structures[0].parent as Expression);
 
     let secondPartIndex = partIndex == 0 ? formula.equalityParts.length-1 : 0;
-    let leftChildren = formula.equalityParts[secondPartIndex].content.map(child => child.copy());
+    let leftChildren = formula.equalityParts[secondPartIndex].content.map(child => child.copy())
+        .filter(child => child.toTex() != "0");
     structures.forEach((struct)=>leftChildren.push(changeTermSign(struct)));
 
     let rightChildren = formula.equalityParts[partIndex].content
@@ -144,16 +160,14 @@ availibleActions.set("simp-terms", ()=>{
     ]
 });
 
-availibleActions.set("destribute", ()=>{
+availibleActions.set("distribute", ()=>{
     if(selected.type != 'structure') return null;
     let data = selected.getStructureData();
-    if(data.grouped || !(data.structure instanceof Expression)) return null;
-    let parent = data.structure.parent;
-    if(!(parent instanceof Term)) return null;
-    let dTerm = new Term(parent.content.filter(child => child != data.structure).map(child => child.copy()), parent.sign);
-    let content = data.structure.content.map(child => multTerms(child, dTerm));
+    if(data.grouped) return null;
+    let result = simplifications["distribute"](data.structure);
+    if(!result) return null;
     return [
-        new Formula([replace(data.formula.equalityParts[data.partIndex], parent, new Expression(content))])
+        new Formula([replace(data.formula.equalityParts[data.partIndex], result.from, result.to)])
     ]
 });
 

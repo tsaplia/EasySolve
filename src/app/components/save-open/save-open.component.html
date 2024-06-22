@@ -1,4 +1,4 @@
-<input type="file" id="file" style="display: none;" (change)="handleFile($event)">
+<input type="file" accept="application/json" id="file" style="display: none;" (change)="handleFile($event)">
 <div>
   <input type="file" id="file" style="display: none;" (change)="handleFile($event)">
   <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -20,11 +20,7 @@
         <mat-icon>save_alt</mat-icon>
         <span>json</span>
       </button>
-      <button mat-menu-item (click)="dowload('txt')">
-        <mat-icon>save_alt</mat-icon>
-        <span>txt</span>
-      </button>
-      <button mat-menu-item (click)="dowload('latex')">
+      <button mat-menu-item (click)="dowload('tex')">
         <mat-icon>save_alt</mat-icon>
         <span>latex</span>
       </button>

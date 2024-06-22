@@ -78,13 +78,14 @@ export class SelectedStructures extends Set<MathStruct>{
         let partIndex = formula.equalityParts.indexOf(parents.at(-2) as Expression || formula.equalityParts[0]);
         if(partIndex == -1) throw new Error("Equality part not found");
 
-        if(structures.length == 1){
+        if(structures.length == 1 && (!(structures[0] instanceof Term) || structures[0].sign == '+')){
             let structure = structures[0] instanceof Formula ? structures[0].equalityParts[0] : structures[0];
             return {formula, structure, partIndex, grouped: false};
         }
         let newStructs: (Term | Multiplier)[];
-        if(Array.from(this.values()).every(struct => struct.parent == parents[1])){
+        if(structures.every(struct => struct.parent == parents[1])){
             // if selected elements have common parent
+            structures = parents[1].children.filter(struct => structures.includes(struct));
             if(structures[0] instanceof Term){
                 newStructs = [ new Term([new Expression(structures.map(struct=>struct.copy() as Term))]) ];
             }else{
@@ -104,7 +105,7 @@ export class SelectedStructures extends Set<MathStruct>{
             if(!restNum) restNum = new Term([]);
             newStructs = [new Frac(selNum, selDen)];
             if(restDen) newStructs.push(new Frac(restNum, restDen));
-            else if (restNum.sign == '+') newStructs.push(...restNum.content.map(struct => struct.copy()));
+            else if(restNum.sign == '+') newStructs.push(...restNum.content.map(struct => struct.copy()));
             else newStructs.push(toExpression(restNum));
             structures = [frac];
         }

@@ -51,7 +51,7 @@ export function toTerm(mult: Multiplier | Term): Term {
     return new Term([mult.copy()]);
 }
 
-export function removeExtraGroups(struct: MathStruct, rmNegative = false): MathStruct {
+export function removeExtraGroups<T extends MathStruct>(struct: T, rmNegative = false): T {
     if(struct instanceof Term){
         let sign = struct.sign;
         let content: Multiplier[] = [];
@@ -65,7 +65,7 @@ export function removeExtraGroups(struct: MathStruct, rmNegative = false): MathS
                 content.push(mult);
             }
         }
-        return modified ? new Term(content.map((mult) => mult.copy()), sign) : struct;
+        return modified ? new Term(content.map((mult) => mult.copy()), sign) as unknown as T : struct;
     }if(struct instanceof Expression){
         let content: Term[] = [];
         let modified = false;
@@ -77,7 +77,7 @@ export function removeExtraGroups(struct: MathStruct, rmNegative = false): MathS
                 content.push(term);
             }
         }
-        return modified ? new Expression(content.map((mult) => mult.copy())) : struct;
+        return modified ? new Expression(content.map((mult) => mult.copy())) as unknown as T : struct;
     }
     return struct;
 }
@@ -187,7 +187,7 @@ function _mergePowers(content: Multiplier[]) {
     }
 }
 
-export function simplyfyFrac(term: Term): Term {
+export function simplifyFrac(term: Term): Term {
     let info = termAsFracContent(term);
 
     let numCoef = info.num.reduce((acc, cur) => acc *= cur instanceof Num ? cur.value : 1, info.sign == "+" ? 1 : -1);
@@ -257,12 +257,17 @@ export function getCompInfo(term: Term): {frac: Frac, coef: [number, number]} {
     let {num, den, sign} = termAsFracContent(term);
     let numCoef = sign == "+" ? 1 : -1;
     let denCoef = 1;
+
     num.forEach(mult => numCoef *= mult instanceof Num ? mult.value : 1);
     den.forEach(mult => denCoef *= mult instanceof Num ? mult.value : 1);
     num = num.filter(mult => !(mult instanceof Num));
     den = den.filter(mult => !(mult instanceof Num));
     num.sort((a, b) => a.toTex().localeCompare(b.toTex()));
     den.sort((a, b) => a.toTex().localeCompare(b.toTex()));
+
+    let g = gcd(numCoef, denCoef);
+    numCoef /= g, denCoef /= g;
+
     return {
         frac: new Frac(new Term(num.map(mult => mult.copy())), 
         new Term(den.map(mult => mult.copy()))), coef: [numCoef, denCoef]
@@ -301,7 +306,7 @@ export function simplifyTerms(expr: Expression): Expression {
                 curChild.coef = addFractions(curChild.coef, compChild.coef);
             }
         }
-        content.push(fromCompInfo(curChild.frac, curChild.coef));
+        if(curChild.coef[0] != 0) content.push(fromCompInfo(curChild.frac, curChild.coef));
     }
     return new Expression(content);
 }
