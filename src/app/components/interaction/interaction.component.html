@@ -1,5 +1,5 @@
 <div class="pe-2 h-100">
-  <div class="interaction-card">
+  <div class="interaction-card d-flex flex-column">
     
     <h2 class="d-flex justify-content-end">Interaction</h2>
     <hr>
@@ -28,6 +28,6 @@
         <mat-icon aria-hidden="false" fontIcon="compare_arrows"></mat-icon>
       </button>
     </div>
-    <app-list [mode]="'interaction'" (ActionSelected)="useTemplate($event[0], $event[1])"></app-list>
+    <app-list class="flex-grow-1 overflow-hidden" [mode]="'interaction'" (ActionSelected)="useTemplate($event[0], $event[1])"></app-list>
   </div>
 </div>
