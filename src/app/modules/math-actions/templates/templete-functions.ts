@@ -7,12 +7,12 @@ import { Template } from "../../math-structures/template";
 import { TemplateVar } from "../../math-structures/template-var";
 import { Variable } from "../../math-structures/variable";
 import { selected } from "../selection/selected";
-import { removeExtraGroups, toExpression, toMultiplier, toTerm } from "../structure-actions";
 import { Term } from "../../math-structures/term";
 import { Expression } from "../../math-structures/expression";
 import { FormulaTemplate } from "../../math-structures/formula-template";
 import { FormulaReplacement, Simplifications } from "src/app/models/types";
 import { simplifications } from "../actions/simplifications";
+import { removeExtraGroups, toExpression, toMultiplier, toTerm } from "../general-actions";
 
 type Substitution = {varName: string, mult: Multiplier};
 
@@ -128,7 +128,8 @@ function substituteVariables<T extends MathStruct>(template: T, match: MatchResu
             subs.push({varName: struct.name, mult});
             return mult;
         }
-        return struct.changeStructure(callback)
+        let newStruct = struct.changeStructure(callback);
+        return newStruct.isEqual(struct) ? newStruct : removeExtraGroups(newStruct);
     };
     subs = subs.filter(sub=>!!sub.mult.parent);
     return {struct: template.changeStructure(callback) as T, subs};

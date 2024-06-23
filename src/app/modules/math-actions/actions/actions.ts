@@ -10,10 +10,11 @@ import { Term } from "../../math-structures/term";
 import { formulaTemplateFromTeX, templateFromTeX } from "../from-tex";
 import { clearSelected, selected } from "../selection/selected";
 import { StructureData } from "../selection/selected-structures";
-import { changeTermSign, fracToTerm, multTerms, removeExtraGroups, reverseTerm, simplifyTerms, simplifyFrac, termAsFracContent, termToFrac, toExpression, toMultiplier, toTerm } from "../structure-actions";
+import { fracToTerm, multTerms, reverseTerm, simplifyTerms, simplifyFrac, termAsFracContent, termToFrac, toExpression} from "./base-actions";
 import { replace, tryFormulaTemplate, tryTemplete } from "../templates/templete-functions";
 import {templates} from "src/assets/actionConfigs";
 import { simplifications } from "./simplifications";
+import { toMultiplier, toTerm, removeExtraGroups, changeTermSign } from "../general-actions";
 
 export let availibleActions = new Map<String, (input?:Expression)=>Formula[] | null>
 
@@ -145,7 +146,7 @@ availibleActions.set("change-part", ()=> {
     return [new Formula([new Expression(leftChildren), new Expression(rightChildren)])];
 });
 
-availibleActions.set("simp-terms", ()=>{
+availibleActions.set("like-terms", ()=>{
     if(selected.type != 'structure') return null;
     let data = selected.getStructureData();
     let expression: Expression;
@@ -158,6 +159,37 @@ availibleActions.set("simp-terms", ()=>{
     return [
         new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, simplifyTerms(expression))])
     ]
+});
+
+availibleActions.set("simp-term", ()=>{
+    if(selected.type != 'structure') return null;
+    let data = selected.getStructureData();
+    if(data.structure instanceof Formula && data.structure.equalityParts.length == 1) {
+        data.structure = data.structure.equalityParts[0];
+    }
+    if(data.structure instanceof Expression && data.structure.content.length == 1) {
+        data.structure = data.structure.content[0];
+    }
+    if(!(data.structure instanceof Term)) return null;
+    return [
+        new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, simplifyFrac(data.structure, true))])
+    ];
+});
+
+availibleActions.set("simp-frac", ()=>{
+    if(selected.type != 'structure') return null;
+    let {structure, formula, partIndex} = selected.getStructureData();
+    console.log(structure, structure.toTex())
+    if(structure instanceof Term && structure.content[0] instanceof Frac && structure.content.length==1) {
+        structure = structure.content[0];
+    }
+    if(!(structure instanceof Frac)) return null;
+    let result = simplifications["frac"](structure);
+    if(!result) return null;
+
+    return [
+        new Formula([replace(formula.equalityParts[partIndex], result.from, result.to)])
+    ];
 });
 
 availibleActions.set("distribute", ()=>{
@@ -259,5 +291,6 @@ availibleActions.set("toCDen", ()=>{
         new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, newStruct)])
     ]
 });
+
 
 

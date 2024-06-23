@@ -1,4 +1,4 @@
-import { toExpression } from "../math-actions/structure-actions";
+import { toExpression } from "../math-actions/actions/base-actions";
 import { Expression } from "./expression";
 import { MathStruct, Multiplier } from "./math-structure";
 import { Num } from "./number";

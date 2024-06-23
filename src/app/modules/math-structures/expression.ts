@@ -16,12 +16,10 @@ export class Expression extends Multiplier{
     override toTex(): string {
         let str = "";
         for (let i = 0; i < this.content.length; i++) {
-            if (i != 0 || this.content[i].sign != "+") {
-                str += this.content[i].sign;
-            }
-
             str += this.content[i].toTex();
         }
+
+        if(this.content[0].sign == "+") str = str.slice(1);
 
         return str;
     }

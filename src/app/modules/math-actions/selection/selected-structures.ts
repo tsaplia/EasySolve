@@ -3,7 +3,7 @@ import { Formula } from "../../math-structures/formula";
 import { Frac } from "../../math-structures/fraction";
 import { MathStruct, Multiplier } from "../../math-structures/math-structure";
 import { Term } from "../../math-structures/term";
-import { getParents, toExpression } from "../structure-actions";
+import { getParents, toExpression } from "../general-actions";
 
 export type StructureData = {formula: Formula, structure: Multiplier | Term, partIndex: number, grouped: boolean};
 
@@ -78,9 +78,13 @@ export class SelectedStructures extends Set<MathStruct>{
         let partIndex = formula.equalityParts.indexOf(parents.at(-2) as Expression || formula.equalityParts[0]);
         if(partIndex == -1) throw new Error("Equality part not found");
 
-        if(structures.length == 1 && (!(structures[0] instanceof Term) || structures[0].sign == '+')){
-            let structure = structures[0] instanceof Formula ? structures[0].equalityParts[0] : structures[0];
-            return {formula, structure, partIndex, grouped: false};
+        // if we don't have groupping
+        if(structures.length == 1){
+            // check if we nees groupping for term  with "-" sign
+            if((!(structures[0] instanceof Term) || structures[0].sign == '+' || !(structures[0].parent instanceof Expression))) {
+                let structure = structures[0] instanceof Formula ? structures[0].equalityParts[0] : structures[0];
+                return {formula, structure, partIndex, grouped: false};
+            }
         }
         let newStructs: (Term | Multiplier)[];
         if(structures.every(struct => struct.parent == parents[1])){

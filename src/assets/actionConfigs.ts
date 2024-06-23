@@ -86,23 +86,26 @@ export let templates: FormulaActionConfig[] = [
     name: "To another part"
   },
   {
-    id: "simp-terms",
+    id: "like-terms",
     categoryId: 6,
     template:false,
     type:"expression",
     name: "Collect like terms"
   },
   {
-    id: "simp-frac-1",
+    id: "simp-frac",
     categoryId: 6,
-    template: true,
+    template: false,
     type: "expression",
-    body: [
-      "\\frac{\\frac{[a]}{[b]}}{[c]}=>\\frac{[a]}{[b][c]}",
-      "\\frac{[a]}{\\frac{[b]}{[c]}}=>\\frac{[a][c]}{[b]}",
-    ],
     name: "Simplify fraction"
   }, 
+  {
+    id: "simp-term",
+    categoryId: 6,
+    template: false,
+    type: "expression",
+    name: "Simplify term"
+  },
   {
     id: "distribute",
     categoryId: 1,
@@ -136,8 +139,65 @@ export let templates: FormulaActionConfig[] = [
     id: "powers-1",
     categoryId: 7,
     template: true,
-    body: ["[a]^{[b]}=>\\frac{1}{a^{-[b]}}"],
+    body: [
+      "[a]^{[n]}[a]^{[m]}=>[a]^{[n]+[m]}",
+      "[a]^{[n]}[a]=>[a]^{[n]+1}",
+      "[a][a]=>a^2"
+    ],
     type: "expression",
-    name: "$a^b=\\frac{1}{a^{-b}}$"
+    name: "$a^n\\cdot a^m=a^{n+m}$"
+  },
+  {
+    id: "powers-2",
+    categoryId: 7,
+    template: true,
+    body: [
+      "\\frac{[a]^{[n]}}{[a]^{[m]}}=>a^{[n]-[m]}",
+      "\\frac{[a]^{[n]}}{[a]}=>a^{[n]-1}",
+      "\\frac{[a]}{[a]^{[m]}}=>a^{1-[m]}",
+      "\\frac{[a]}{[a]}=>1",
+    ],
+    type: "expression",
+    name: "$\\frac{a^n}{a^m}=a^{n-m}$"
+  },
+  {
+    id: "powers-3",
+    categoryId: 7,
+    template: true,
+    body: ["\\left([a]^{[n]}\\right)^{[m]}=>[a]^{[n][m]}"],
+    type: "expression",
+    name: "$\\left(a^n\\right)^m=a^{n\\cdot m}$"
+  },
+  {
+    id: "powers-4",
+    categoryId: 7,
+    template: true,
+    body: ["[a]^{[n]}[b]^{[n]}=>\\left([a][b]\\right)^{[n]}"],
+    type: "expression",
+    name: "$a^n\\cdot b^n=\\left(ab\\right)^n$"
+  },
+  {
+    id: "powers-5",
+    categoryId: 7,
+    template: true,
+    body: ["\\frac{[a]^{[n]}}{[b]^{[n]}}=>\\left(\\frac{[a]}{[b]}\\right)^{[n]}"],
+    type: "expression",
+    name: "$\\frac{a^n}{b^n}=\\left(\\frac{a}{b}\\right)^n$"
+  },
+  {
+    id: "powers-6",
+    categoryId: 7,
+    template: true,
+    body: ["[a]^{-[n]}=>\\frac{1}{[a]^{[n]}}"],
+    type: "expression",
+    name: "$a^{-n}=\\frac{1}{a^n}$"
+  },
+  {
+    id: "powers-7",
+    categoryId: 7,
+    template: true,
+    body: ["\\left(\\frac{[a]}{[b]}\\right)^{-[n]}=>\\left(\\frac{[b]}{[a]}\\right)^{[n]}"],
+    type: "expression",
+    name: "$\\left(\\frac{a}{b}\\right)^{-n}=\\left(\\frac{b}{a}\\right)^n$"
   }
 ]

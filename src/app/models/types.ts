@@ -4,7 +4,7 @@ import { Term } from "../modules/math-structures/term";
 
 export type FormulaReplacement = {from: Term | Multiplier, to: Term | Multiplier}
 
-export type Simplification = "like-terms" | "distribute";
+export type Simplification = "like-terms" | "distribute" | "frac";
 
 export type Simplifications = {[key: string]: Simplification}
 

@@ -12,7 +12,7 @@ import { Template } from "../math-structures/template";
 import { TemplateVar } from "../math-structures/template-var";
 import { Term } from "../math-structures/term";
 import { Variable } from "../math-structures/variable";
-import { toExpression, toTerm } from "./structure-actions";
+import { toExpression, toTerm } from "./general-actions";
 
 
 class IterStr {
@@ -197,7 +197,7 @@ function sqrtFromTeX(itStr: IterStr): Sqrt {
     let expr = expressionFromTeX(itStr);
     let base: Multiplier;
     if (expr.content.length == 1 && expr.content[0].content.length == 1 && expr.content[0].sign == "+") {
-        base = expr.content[0].content[0];
+        base = expr.content[0].content[0].copy();
     }else{
         base = expr;
     }

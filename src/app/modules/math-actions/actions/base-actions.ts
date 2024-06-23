@@ -1,90 +1,12 @@
 import { gcd, addFractions } from "src/app/configs/utils";
-import { Exponent } from "../math-structures/exponent";
-import { Expression } from "../math-structures/expression";
-import { Frac } from "../math-structures/fraction";
-import { MathStruct, Multiplier } from "../math-structures/math-structure";
-import { Num } from "../math-structures/number";
-import { Term } from "../math-structures/term";
+import { Exponent } from "../../math-structures/exponent";
+import { Expression } from "../../math-structures/expression";
+import { Frac } from "../../math-structures/fraction";
+import { Multiplier } from "../../math-structures/math-structure";
+import { Num } from "../../math-structures/number";
+import { Term } from "../../math-structures/term";
+import { changeTermSign, toExpression, toTerm } from "../general-actions";
 
-export function getParents(struct: MathStruct): MathStruct[] {
-    let parents: MathStruct[] = [];
-    while(struct.parent){
-        parents.push(struct.parent);
-        struct = struct.parent;
-    }
-    return parents;
-}
-
-export function getChildren(struct: MathStruct): MathStruct[] {
-    let children: MathStruct[] = [];
-    function get(struct: MathStruct){
-        struct.children.forEach((child) => {
-            children.push(child);
-            get(child);
-        });
-    }
-    get(struct);
-    return children;
-}
-
-export function toMultiplier(struct: MathStruct): Multiplier {
-    if(struct instanceof Term){
-        return struct.sign == "+" && struct.content.length==1 ? struct.content[0].copy() : new Expression([struct.copy()]);
-    }if(struct instanceof Expression){
-        return struct.content.length==1 ? toMultiplier(struct.content[0]) : struct.copy();
-    }
-    return struct.copy();
-}
-
-export function toExpression(struct: Multiplier | Term, sign: '+' | '-' = "+"): Expression {
-    if(struct instanceof Expression) return struct.copy();
-    if (struct instanceof Term) {
-        if(struct.sign == '+' && struct.content.length==1 && struct.content[0] instanceof Expression) return struct.content[0].copy();
-        return new Expression([struct.copy()]);
-    }
-    return new Expression([new Term([struct.copy()], sign)]);
-}
-
-export function toTerm(mult: Multiplier | Term): Term {
-    if(mult instanceof Term) return mult.copy();
-    if(mult instanceof Expression && mult.content.length == 1) return mult.content[0].copy();
-    return new Term([mult.copy()]);
-}
-
-export function removeExtraGroups<T extends MathStruct>(struct: T, rmNegative = false): T {
-    if(struct instanceof Term){
-        let sign = struct.sign;
-        let content: Multiplier[] = [];
-        let modified = false;
-        for(let mult of struct.content){
-            if(mult instanceof Expression && mult.content.length == 1 && (mult.content[0].sign == "+" || rmNegative)){
-                content.push(...mult.content[0].content);
-                if(mult.content[0].sign == "-") sign = sign == "+" ? "-" : "+";
-                modified = true;
-            }else{
-                content.push(mult);
-            }
-        }
-        return modified ? new Term(content.map((mult) => mult.copy()), sign) as unknown as T : struct;
-    }if(struct instanceof Expression){
-        let content: Term[] = [];
-        let modified = false;
-        for(let term of struct.content){
-            if(term.sign == "+" && term.content.length == 1 && term.content[0] instanceof Expression){
-                content.push(...term.content[0].content);
-                modified = true;
-            }else{
-                content.push(term);
-            }
-        }
-        return modified ? new Expression(content.map((mult) => mult.copy())) as unknown as T : struct;
-    }
-    return struct;
-}
-
-export function changeTermSign(struct: Term): Term {
-    return new Term(struct.content.map((mult) => mult.copy()), struct.sign == "+" ? "-" : "+");
-}
 // for multTerms
 function _deleteEquals(a: Multiplier[], b: Multiplier[]) {
     for(let i=0; i<a.length; i++){
@@ -128,7 +50,7 @@ function _mergeContentNumbers(aContent: Multiplier[], bContent: Multiplier[]): n
     return coef;
 }
 
-export function multTerms(a: Term, b: Term): Term {
+export function multTerms(a: Term, b: Term, simplify: boolean = true): Term {
     let sign: "+" | "-" = a.sign == b.sign ? "+" : "-";
     let aInfo = termAsFracContent(a);
     let bInfo = termAsFracContent(b);
@@ -187,7 +109,7 @@ function _mergePowers(content: Multiplier[]) {
     }
 }
 
-export function simplifyFrac(term: Term): Term {
+export function simplifyFrac(term: Term, removeEmptyDen?: boolean): Term {
     let info = termAsFracContent(term);
 
     let numCoef = info.num.reduce((acc, cur) => acc *= cur instanceof Num ? cur.value : 1, info.sign == "+" ? 1 : -1);
@@ -201,8 +123,9 @@ export function simplifyFrac(term: Term): Term {
     _mergePowers(info.den);
     info.num.push(..._mergeContentPowers(info.num, info.den, true));
     if(numCoef != 1) info.num.unshift(new Num(numCoef));
-    if(denCoef) info.den.unshift(new Num(denCoef));
-    
+    if(denCoef != 1) info.den.unshift(new Num(denCoef));
+
+    if(removeEmptyDen && info.den.length == 0) return new Term(info.num, info.sign);
     return new Term([new Frac(new Term(info.num), new Term(info.den))], info.sign);
 }
 
@@ -310,3 +233,5 @@ export function simplifyTerms(expr: Expression): Expression {
     }
     return new Expression(content);
 }
+export { toExpression };
+

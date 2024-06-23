@@ -2,7 +2,7 @@ import { Func } from "../../math-structures/function";
 import { MathStruct } from "../../math-structures/math-structure";
 import { Sqrt } from "../../math-structures/sqrt";
 import { Term } from "../../math-structures/term";
-import { getParents, getChildren } from "../structure-actions";
+import { getParents, getChildren } from "../general-actions";
 import { SelectedStructures } from "./selected-structures";
 
 export const selected: SelectedStructures = new SelectedStructures();

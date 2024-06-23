@@ -16,7 +16,7 @@ export class Term extends MathStruct {
     }
 
     override toTex(): string {
-        let str = "";
+        let str = this.sign;
         for (let i = 0; i < this.content.length; i++) {
             if (!isNaN(Number(this.content[i].toTex()[0])) && !(this.content[i] instanceof Expression) && i > 0) {
                 str += "\\cdot ";
