@@ -3,7 +3,7 @@ import { FormulaActionConfig } from "src/app/models/types";
 export let templates: FormulaActionConfig[] = [
   {
     id:"algebra-1",
-    categoryId: 1,
+    categoryId: 2,
     template:true,
     type:"expression",
     body: ["\\left([a]+[b]\\right)^2=>[a]^2+2[a][b]+[b]^2"],
@@ -11,7 +11,7 @@ export let templates: FormulaActionConfig[] = [
   },
   {
     id: "algebra-2",
-    categoryId: 1,
+    categoryId: 2,
     template: true,
     type:"expression",
     body:["[a]^2-[b]^2=>\\left([a]-[b]\\right)\\left([a]+[b]\\right)"],
@@ -134,6 +134,13 @@ export let templates: FormulaActionConfig[] = [
     template: false,
     type: "expression",
     name: "To common denominator",
+  },
+  {
+    id: "calc",
+    categoryId: 1,
+    template: false,
+    type: "expression",
+    name: "Calculate",
   },
   {
     id: "powers-1",

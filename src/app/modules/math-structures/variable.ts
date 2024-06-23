@@ -1,4 +1,5 @@
-import {  MathStruct, Multiplier } from "./math-structure";
+import { mathConstants } from "src/app/configs/config";
+import {  Multiplier } from "./math-structure";
 
 export class Variable extends Multiplier {
     readonly name: string;
@@ -23,6 +24,13 @@ export class Variable extends Multiplier {
             TeX = `\\vec{${TeX}}`;
         }
         return TeX;
+    }
+
+    override calculate(): number {
+        if(mathConstants.hasOwnProperty(this.toTex().trim())) {
+            return mathConstants[this.toTex().trim() as keyof typeof mathConstants];
+        }
+        throw new Error(`Variable ${this.toTex()} is not a math constant`);
     }
 
     override isEqual(other: Multiplier): boolean {

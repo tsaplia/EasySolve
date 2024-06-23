@@ -164,9 +164,6 @@ availibleActions.set("like-terms", ()=>{
 availibleActions.set("simp-term", ()=>{
     if(selected.type != 'structure') return null;
     let data = selected.getStructureData();
-    if(data.structure instanceof Formula && data.structure.equalityParts.length == 1) {
-        data.structure = data.structure.equalityParts[0];
-    }
     if(data.structure instanceof Expression && data.structure.content.length == 1) {
         data.structure = data.structure.content[0];
     }
@@ -179,7 +176,6 @@ availibleActions.set("simp-term", ()=>{
 availibleActions.set("simp-frac", ()=>{
     if(selected.type != 'structure') return null;
     let {structure, formula, partIndex} = selected.getStructureData();
-    console.log(structure, structure.toTex())
     if(structure instanceof Term && structure.content[0] instanceof Frac && structure.content.length==1) {
         structure = structure.content[0];
     }
@@ -292,5 +288,18 @@ availibleActions.set("toCDen", ()=>{
     ]
 });
 
+availibleActions.set("calc", ()=>{
+    if(selected.type != 'structure') return null;
+    let data = selected.getStructureData();
+    let res;
+    try{
+        res = data.structure.calculate();
+    }catch(e) {
+        return null;
+    }
+    return [
+        new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, new Num(res))])
+    ]
+});
 
 

@@ -1,3 +1,4 @@
+import { availibleMathFunc } from "src/app/configs/config";
 import { Expression } from "./expression";
 import { MathStruct, Multiplier } from "./math-structure";
 
@@ -14,6 +15,10 @@ export class Func extends Multiplier {
 
     override toTex(): string {
         return `\\${this.name}\\left(${this.content.toTex()}\\right)`;
+    }
+
+    override calculate(): number {
+        return availibleMathFunc[this.name as keyof typeof availibleMathFunc](this.content.calculate());
     }
 
     override isEqual(other: Multiplier): boolean {

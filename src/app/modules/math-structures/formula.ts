@@ -18,6 +18,10 @@ export class Formula extends MathStruct {
         }
         return TeX;
     }
+    
+    override calculate(): number {
+        throw new Error("Formula cannot be calculated");
+    }
 
     override copy(): Formula {
         return new Formula(this.equalityParts.map((part) => part.copy()));

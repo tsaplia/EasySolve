@@ -1,3 +1,5 @@
+import { PRECISION } from "./config";
+
 export function readonlyArray<T>(array: T[]) {
     return new Proxy([...array], {
         set() {
@@ -29,4 +31,6 @@ ${body}
 `;
 }
 
-    
+export function toPrecision(num: number, precision = PRECISION): number {
+    return Number.parseFloat(num.toPrecision(precision));
+}

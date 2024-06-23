@@ -1,3 +1,4 @@
+import { toPrecision } from "src/app/configs/utils";
 import { MathStruct, Multiplier } from "./math-structure";
 
 
@@ -14,7 +15,11 @@ export class Num extends Multiplier {
     }
 
     override toTex(): string {
-        return String(this.value);
+        return String(toPrecision(this.value));
+    }
+
+    override calculate(): number {
+        return this.value;
     }
 
     override isEqual(other: Multiplier): boolean {

@@ -19,6 +19,19 @@ export class Sqrt extends Multiplier {
         return `\\sqrt${this.root.toTex() === "2" ? "" : `[${this.root.toTex()}]`}{${content}}`;
     }
 
+    override calculate(): number {
+        let root = this.root.calculate();
+        let content = this.content.calculate();
+        let sigh = 1;
+        if(!Number.isInteger(root) || root <= 0) throw new Error("Root must be integer and > 0");
+        if(content < 0){
+            if(root % 2 === 0) throw new Error("Root must be >= 0");
+            sigh = -1;
+            content = -content;
+        }
+        return sigh * Math.pow(content, 1/root);
+    }
+
     override isEqual(other: Multiplier): boolean {
         if (!(other instanceof Sqrt)) return false;
 

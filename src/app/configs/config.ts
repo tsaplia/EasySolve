@@ -14,4 +14,11 @@ export const availibleMathFunc = {
   "arctan":Math.atan
 }
 
+export const mathConstants = {
+  "\\pi": Math.PI,
+  "e": Math.E
+}
+
 export const formulaTemplate = /^\$[^$]*\$$/;
+
+export const PRECISION = 4;

@@ -41,6 +41,10 @@ export class Exponent extends Multiplier {
         return new Exponent(this.base.copy(), this.exponent.copy());
     }
 
+    override calculate(): number {
+        return Math.pow(this.base.calculate(), this.exponent.calculate());
+    }
+
     override get children(): MathStruct[] {
         return [this.base, this.exponent];
     }

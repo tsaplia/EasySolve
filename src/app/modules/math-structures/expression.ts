@@ -24,6 +24,10 @@ export class Expression extends Multiplier{
         return str;
     }
 
+    override calculate(): number {
+        return this.content.reduce((acc, cur)=> acc + cur.calculate(), 0);
+    }
+
     override isEqual(other: Multiplier): boolean {
         if (!(other instanceof Expression) || this.content.length != other.content.length) {
             return false;

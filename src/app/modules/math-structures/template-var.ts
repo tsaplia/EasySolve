@@ -16,6 +16,10 @@ export class TemplateVar extends Multiplier {
         return `[${this.name}]`;
     }
 
+    override calculate(): number {
+        throw new Error("Template variables cannot be calculated");
+    }
+
     override copy(): TemplateVar {
         return new TemplateVar(this.name);
     }

@@ -19,6 +19,13 @@ export class Frac extends Multiplier {
         return `\\frac{${num}}{${denom}}`;
     }
 
+    override calculate(): number {
+        let num = this.numerator.calculate();
+        let den = this.denomerator.calculate();
+        if(den===0) throw new Error("Cannot divide by zero");
+        return num/den;
+    }
+
     override isEqual(other: Multiplier): boolean {
         if (!(other instanceof Frac)) return false;
 

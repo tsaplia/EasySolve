@@ -12,6 +12,8 @@ export abstract class MathStruct{
     abstract copy(): MathStruct;
     abstract get children(): MathStruct[];
     abstract changeStructure(callback: (struct: MathStruct)=>MathStruct): MathStruct;
+    abstract calculate(): number;
 }
+
 
 export abstract class Multiplier extends MathStruct {}

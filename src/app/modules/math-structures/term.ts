@@ -34,6 +34,11 @@ export class Term extends MathStruct {
         return new Term(this.content.map((mult) => mult.copy()), this.sign);
     }
 
+    override calculate(): number {
+        let content = this.content.reduce((acc, cur)=> acc * cur.calculate(), 1);
+        return this.sign == "+" ? content : -content;
+    }
+
     override isEqual(other: MathStruct): boolean {
         if (!(other instanceof Term) || this.sign != other.sign || 
             this.content.length != other.content.length) return false;
