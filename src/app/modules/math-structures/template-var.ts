@@ -1,12 +1,13 @@
-import { MathStruct, Multiplier } from "./math-structure";
+import { type MathStruct, Multiplier } from "./math-structure";
 
 
 export class TemplateVar extends Multiplier {
-    readonly name: string
+    readonly name: string;
     constructor(name: string) {
         super();
         this.name = name;
     }
+
     override isEqual(other: Multiplier): boolean {
         if (!(other instanceof TemplateVar)) return false;
         return this.name === other.name;

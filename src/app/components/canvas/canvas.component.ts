@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { ChangeDetectorRef, Component, EventEmitter, HostListener, OnInit, Output } from "@angular/core";
+import { ChangeDetectorRef, Component, HostListener, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ClipboardService } from "ngx-clipboard";
 import { checkFormula } from "src/app/modules/math-actions/from-tex";
@@ -23,7 +23,7 @@ export class MathCanvasComponent implements OnInit {
   dictionary: boolean = false;
   interaction: boolean = false;
 
-  hotkeys: any = hotkeys.canvas;
+  hotkeys = hotkeys.canvas;
 
   get lines() {
     return this.storage.lines;
@@ -75,7 +75,7 @@ export class MathCanvasComponent implements OnInit {
     this.cdRef.detectChanges();
   }
 
-  async paste(event: ClipboardEvent) {
+  async paste() {
     const text = await navigator.clipboard.readText();
     let type: 'text'|'formula' = text.match(formulaTemplate) && checkFormula(text.slice(1, -1)) ? 'formula' : 'text';
     this.storage.addLine(new CanvasLine({line: text, type}));

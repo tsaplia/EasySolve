@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Inject, OnInit } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { MathQuillService } from "src/app/services/mathquill.service";
-import { checkFormula, formulaFromTeX } from "src/app/modules/math-actions/from-tex";
+import { checkFormula } from "src/app/modules/math-actions/from-tex";
 
 @Component({
   templateUrl: 'adding-modal-f.component.html',

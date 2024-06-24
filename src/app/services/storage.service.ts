@@ -47,7 +47,7 @@ export class StorageService {
       this._selectedLines = [];
       return [];
     }else if(selected.type == 'formula'){
-      this._selectedLines = selected.formulas?.map(formula => formula.toTex()) as string[];
+      this._selectedLines = selected.formulas!.map(formula => formula.toTex());
     }else if(selected.type == 'structure'){
       this._selectedLines = [selected.getStructureData().structure.toTex()];
     }

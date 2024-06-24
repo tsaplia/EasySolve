@@ -1,15 +1,15 @@
 import { toExpression } from "../math-actions/general-actions";
-import { Expression } from "./expression";
-import { MathStruct, Multiplier } from "./math-structure";
+import { type Expression } from "./expression";
+import { type MathStruct, Multiplier } from "./math-structure";
 import { Num } from "./number";
 
 export class Sqrt extends Multiplier {
     readonly content: Multiplier;
-    readonly root: Expression
+    readonly root: Expression;
     constructor(content: Multiplier, root: Expression = toExpression(new Num(2))) {
         super();
         this.root = root;
-        this.content = content; 
+        this.content = content;
         this.content.parent = this.root.parent = this;
     }
 
@@ -23,13 +23,13 @@ export class Sqrt extends Multiplier {
         let root = this.root.calculate();
         let content = this.content.calculate();
         let sigh = 1;
-        if(!Number.isInteger(root) || root <= 0) throw new Error("Root must be integer and > 0");
-        if(content < 0){
-            if(root % 2 === 0) throw new Error("Root must be >= 0");
+        if (!Number.isInteger(root) || root <= 0) throw new Error("Root must be integer and > 0");
+        if (content < 0) {
+            if (root % 2 === 0) throw new Error("Root must be >= 0");
             sigh = -1;
             content = -content;
         }
-        return sigh * Math.pow(content, 1/root);
+        return sigh * Math.pow(content, 1 / root);
     }
 
     override isEqual(other: Multiplier): boolean {
@@ -44,7 +44,7 @@ export class Sqrt extends Multiplier {
 
     override get children(): MathStruct[] {
         let res = [this.content];
-        if(this.root.toTex() !== "2") res.push(this.root);
+        if (this.root.toTex() !== "2") res.push(this.root);
         return res;
     }
 

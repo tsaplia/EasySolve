@@ -1,27 +1,26 @@
-import { Multiplier } from "../../math-structures/math-structure";
+import { type Multiplier } from "../../math-structures/math-structure";
 
 
-type Matches = {[name: string]: Multiplier}
+type Matches = Record<string, Multiplier>;
 
 export class MatchResult {
     private result: Matches;
-    /**
-     * Initializes a new instance of the Constructor class.
-     */
+    /* Initializes a new instance of the Constructor class. */
     constructor(matches = {}) {
         this.result = matches;
     }
+
     /**
      * Extends the current MatchResult with the properties of another MatchResult.
      *
      * @param {MatchResult} other - The MatchResult object to extend with.
-     * @returns {boolean} - Returns true if the extension was successful, false otherwise.
+     * @return {boolean} - Returns true if the extension was successful, false otherwise.
      */
     extend(other: MatchResult): boolean {
-        for( let name of Object.keys(other.result)) {
+        for (let name of Object.keys(other.result)) {
             if (this.result.hasOwnProperty(name)) {
-                if(!this.result[name].isEqual(other.result[name])) return false;
-            }else{
+                if (!this.result[name].isEqual(other.result[name])) return false;
+            } else {
                 this.result[name] = other.result[name];
             }
         }

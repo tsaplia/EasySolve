@@ -1,6 +1,6 @@
 import { availibleMathFunc } from "src/app/configs/config";
-import { Expression } from "./expression";
-import { MathStruct, Multiplier } from "./math-structure";
+import { type Expression } from "./expression";
+import { type MathStruct, Multiplier } from "./math-structure";
 
 
 export class Func extends Multiplier {

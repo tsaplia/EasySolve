@@ -1,10 +1,10 @@
 import { availibleMathFunc } from "src/app/configs/config";
 import { Frac } from "../../math-structures/fraction";
-import { Formula } from "../../math-structures/formula";
+import { type Formula } from "../../math-structures/formula";
 import { Expression } from "../../math-structures/expression";
-import { Term } from "../../math-structures/term";
+import { type Term } from "../../math-structures/term";
 import { Exponent } from "../../math-structures/exponent";
-import { MathStruct, Multiplier } from "../../math-structures/math-structure";
+import { type Multiplier } from "../../math-structures/math-structure";
 import { Sqrt } from "../../math-structures/sqrt";
 import { Func } from "../../math-structures/function";
 import { setListener } from "./selected";
@@ -40,11 +40,11 @@ enum MJXTags {
 
 export function prepareHTML(root: HTMLElement, formula: Formula) {
     let content = root.querySelector("mjx-math");
-    if(!content) throw new Error("MathJax not found");
+    if (!content) throw new Error("MathJax not found");
     content.classList.add(ClassNames.formula);
 
     // mark "+" and "-"
-    mark(content, ClassNames.breacker, "mjx-mo", (e) => ["+", "−"].includes(getInnerText(e)));
+    mark(content, ClassNames.breacker, "mjx-mo", e => ["+", "−"].includes(getInnerText(e)));
     groupFunctionParts(content);
 
     prepareFormula(content, formula);
@@ -60,9 +60,7 @@ function mark(root: Element, className: string, selector: string, reducer: (el: 
     }
 }
 
-/**
- * get all characters from element and children
- */
+/* get all characters from element and children*/
 function getInnerText(elem: Element) {
     if (elem.children.length == 0) {
         let content = getComputedStyle(elem, "before").content;
@@ -75,9 +73,7 @@ function getInnerText(elem: Element) {
     return text;
 }
 
-/**
- * replace elem with this element wrapped in other element
- */
+/* replace elem with this element wrapped in other element*/
 function wrap(elem: Element, className: string = "") {
     let newGroup = document.createElement("span");
     newGroup.className = className;
@@ -87,39 +83,35 @@ function wrap(elem: Element, className: string = "") {
     return newGroup;
 }
 
-/**
- * Groups function parts based on certain conditions.
- */
+/* Groups function parts based on certain conditions.*/
 function groupFunctionParts(root: Element) {
     let selected = root.querySelectorAll("mjx-mi");
     for (let elem of Array.from(selected)) {
         if (!Object.keys(availibleMathFunc).includes(getInnerText(elem))) continue;
 
         let group = wrap(elem, ClassNames.function);
-        if (!getInnerText(group.nextElementSibling as Element)) {
-            group.append(group.nextElementSibling as Element);
+        if (!getInnerText(group.nextElementSibling!)) {
+            group.append(group.nextElementSibling!);
         }
-        if(group.nextElementSibling?.localName == MJXTags.msup){
+        if (group.nextElementSibling?.localName == MJXTags.msup) {
             // if this a exponent function
-            group.append(group.nextElementSibling.firstElementChild as Element);
-            group.nextElementSibling.insertBefore(group.firstElementChild as Element, group);
-        }else{
-            group.appendChild(group.nextElementSibling as Element);
+            group.append(group.nextElementSibling.firstElementChild!);
+            group.nextElementSibling.insertBefore(group.firstElementChild!, group);
+        } else {
+            group.appendChild(group.nextElementSibling!);
         }
     }
 }
 
-/**
- * Groups expression parts by wrapping them in a specified class.
- */
+/* Groups expression parts by wrapping them in a specified class.*/
 function wrapExprParts(elem: Element): Element {
-    if(elem.localName != MJXTags.mrow && elem.localName != MJXTags.textatom && elem.localName != MJXTags.box){
-        //if it is a multiplier
+    if (elem.localName != MJXTags.mrow && elem.localName != MJXTags.textatom && elem.localName != MJXTags.box) {
+        // if it is a multiplier
         return wrap(elem, ClassNames.expr);
-    }if(getInnerText(elem.firstElementChild as Element) == "("){
+    } if (getInnerText(elem.firstElementChild!) == "(") {
         // if it is an expression in breackets
-        let group = wrap(elem.firstElementChild?.nextElementSibling as Element, ClassNames.expr);
-        while(group.nextElementSibling && getInnerText(group.nextElementSibling) != ")"){
+        let group = wrap(elem.firstElementChild!.nextElementSibling!, ClassNames.expr);
+        while (group.nextElementSibling && getInnerText(group.nextElementSibling) != ")") {
             group.appendChild(group.nextElementSibling);
         }
         return group;
@@ -132,18 +124,18 @@ function wrapExprParts(elem: Element): Element {
 
 function prepareFormula(root: Element, formula: Formula) {
     setListener(formula, root as HTMLElement);
-    let group = wrap(root.firstElementChild as Element, ClassNames.expr);
+    let group = wrap(root.firstElementChild!, ClassNames.expr);
     for (let i = 0; i < formula.equalityParts.length; i++) {
         let next = group.nextElementSibling;
         while (next && getInnerText(next) != "=") {
             group.appendChild(next);
             next = group.nextElementSibling;
         }
-        
+
         prepareExpression(group, formula.equalityParts[i]);
 
         if (i < formula.equalityParts.length - 1) {
-            group = wrap(next?.nextElementSibling as Element, ClassNames.expr);
+            group = wrap(next!.nextElementSibling!, ClassNames.expr);
         }
     }
 };
@@ -151,7 +143,7 @@ function prepareFormula(root: Element, formula: Formula) {
 
 function prepareExpression(root: Element, expr: Expression) {
     setListener(expr, root as HTMLElement);
-    let group = wrap(root.firstElementChild as Element, ClassNames.term);
+    let group = wrap(root.firstElementChild!, ClassNames.term);
     for (let i = 0; i < expr.content.length; i++) {
         let next = group.nextElementSibling;
         while (next && !next.classList.contains(ClassNames.breacker)) {
@@ -161,7 +153,7 @@ function prepareExpression(root: Element, expr: Expression) {
         prepareTerm(group, expr.content[i]);
 
         if (i < expr.content.length - 1) {
-            group = wrap(next as Element, ClassNames.term);
+            group = wrap(next!, ClassNames.term);
         }
     }
 };
@@ -176,19 +168,19 @@ function prepareTerm(root: Element, term: Term) {
 };
 
 function prepareMult(root: Element, mult: Multiplier) {
-    if(mult instanceof Expression){
+    if (mult instanceof Expression) {
         prepareExpression(wrapExprParts(root), mult);
         return;
     }
 
     setListener(mult, root as HTMLElement);
-    if(mult instanceof Frac){
+    if (mult instanceof Frac) {
         prepareFrac(root, mult);
-    }else if(mult instanceof Exponent){
+    } else if (mult instanceof Exponent) {
         prepareExponent(root, mult);
-    }else if(mult instanceof Sqrt){
+    } else if (mult instanceof Sqrt) {
         prepareSqrt(root, mult);
-    }else if(mult instanceof Func){
+    } else if (mult instanceof Func) {
         prepareFunction(root, mult);
     }
 }
@@ -196,24 +188,23 @@ function prepareMult(root: Element, mult: Multiplier) {
 function prepareFrac(root: Element, frac: Frac) {
     function prepNumDen(elem: Element, term: Term) {
         elem = wrapExprParts(elem);
-        if(term.sign == "+" && term.content.length == 1 && term.content[0] instanceof Expression){
-            setListener(term, elem as HTMLElement)
+        if (term.sign == "+" && term.content.length == 1 && term.content[0] instanceof Expression) {
+            setListener(term, elem as HTMLElement);
             prepareExpression(elem, term.content[0]);
-
-        }else{
+        } else {
             prepareTerm(elem, term);
         }
     }
 
     let num = root.querySelector(`${MJXTags.num}`)?.lastElementChild;
     let den = root?.firstElementChild?.lastElementChild?.querySelector(`${MJXTags.den}`)?.lastElementChild;
-    prepNumDen(num as Element, frac.numerator);
-    prepNumDen(den as Element, frac.denomerator);
+    prepNumDen(num!, frac.numerator);
+    prepNumDen(den!, frac.denomerator);
 };
 
 function prepareExponent(root: Element, exponent: Exponent) {
-    let exponentEl = root.querySelector(`${MJXTags.index}`)?.firstElementChild as Element;
-    if(exponentEl.firstElementChild?.classList.contains(ClassNames.prime)){
+    let exponentEl = root.querySelector(`${MJXTags.index}`)!.firstElementChild!;
+    if (exponentEl.firstElementChild?.classList.contains(ClassNames.prime)) {
         // if this is a variable with primes
         exponentEl.parentElement?.insertBefore(exponentEl, exponentEl.firstElementChild);
     }
@@ -223,11 +214,11 @@ function prepareExponent(root: Element, exponent: Exponent) {
 
 function prepareSqrt(root: Element, sqrt: Sqrt) {
     let rootEl = root.querySelector(`${MJXTags.root}`)?.firstElementChild;
-    if(rootEl) prepareExpression(wrapExprParts(rootEl), sqrt.root);
+    if (rootEl) prepareExpression(wrapExprParts(rootEl), sqrt.root);
     let baseEl = root.querySelector(`${MJXTags.box}`);
-    prepareMult((sqrt.content instanceof Expression ? baseEl : baseEl?.firstElementChild) as Element, sqrt.content);
+    prepareMult((sqrt.content instanceof Expression ? baseEl : baseEl?.firstElementChild)!, sqrt.content);
 }
 
 function prepareFunction(root: Element, func: Func) {
-    prepareExpression(wrapExprParts(root.lastElementChild as Element), func.content);
+    prepareExpression(wrapExprParts(root.lastElementChild!), func.content);
 }

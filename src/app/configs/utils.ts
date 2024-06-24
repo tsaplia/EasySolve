@@ -1,5 +1,6 @@
 import { PRECISION } from "./config";
 
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 export function readonlyArray<T>(array: T[]) {
     return new Proxy([...array], {
         set() {
@@ -9,20 +10,20 @@ export function readonlyArray<T>(array: T[]) {
 }
 
 export function addFractions(a: [number, number], b: [number, number]): [number, number] {
-    let [num, den] = [a[0]*b[1]+b[0]*a[1], a[1]*b[1]];
+    let [num, den] = [a[0] * b[1] + b[0] * a[1], a[1] * b[1]];
     let g = gcd(num, den);
-    return [num/g, den/g];
+    return [num / g, den / g];
 }
 
 export function gcd(a: number, b: number): number {
-    while(b){
-        a = a%b;
+    while (b) {
+        a = a % b;
         [a, b] = [b, a];
     }
     return a;
 }
 
-export function latexWrap(body: string){
+export function latexWrap(body: string) {
     return `\\documentclass{article}
 \\usepackage[utf8]{inputenc}
 \\begin{document}

@@ -1,4 +1,4 @@
-import { Expression } from "./expression";
+import { type Expression } from "./expression";
 
 export class Template {
     readonly from: Expression;
@@ -9,6 +9,6 @@ export class Template {
     }
 
     toTex(): string {
-        return `${this.from.toTex()}=>${this.to.toTex()}`
+        return `${this.from.toTex()}=>${this.to.toTex()}`;
     }
 }

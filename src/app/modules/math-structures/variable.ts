@@ -1,5 +1,5 @@
 import { mathConstants } from "src/app/configs/config";
-import {  Multiplier } from "./math-structure";
+import { Multiplier } from "./math-structure";
 
 export class Variable extends Multiplier {
     readonly name: string;
@@ -16,9 +16,9 @@ export class Variable extends Multiplier {
 
     override toTex(): string {
         let TeX = this.name;
-        for (let i=0; i<this.primeCount; i++) TeX+="'";
+        for (let i = 0; i < this.primeCount; i++) TeX += "'";
         if (this.index) {
-            TeX += "_" + (this.index.length == 1 ? this.index: `{${this.index}}`);
+            TeX += "_" + (this.index.length == 1 ? this.index : `{${this.index}}`);
         }
         if (this.vector) {
             TeX = `\\vec{${TeX}}`;
@@ -27,7 +27,7 @@ export class Variable extends Multiplier {
     }
 
     override calculate(): number {
-        if(mathConstants.hasOwnProperty(this.toTex().trim())) {
+        if (mathConstants.hasOwnProperty(this.toTex().trim())) {
             return mathConstants[this.toTex().trim() as keyof typeof mathConstants];
         }
         throw new Error(`Variable ${this.toTex()} is not a math constant`);
@@ -36,7 +36,8 @@ export class Variable extends Multiplier {
     override isEqual(other: Multiplier): boolean {
         if (!(other instanceof Variable)) return false;
 
-        return this.name === other.name && this.vector==other.vector && this.index === other.index && this.primeCount==other.primeCount;
+        return this.name === other.name && this.vector == other.vector && this.index === other.index &&
+                this.primeCount == other.primeCount;
     }
 
     override copy(): Variable {

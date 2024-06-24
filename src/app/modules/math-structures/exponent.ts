@@ -1,6 +1,6 @@
 import { toExpression } from "../math-actions/actions/base-actions";
 import { Expression } from "./expression";
-import { MathStruct, Multiplier } from "./math-structure";
+import { type MathStruct, Multiplier } from "./math-structure";
 import { Num } from "./number";
 
 
@@ -17,7 +17,7 @@ export class Exponent extends Multiplier {
     override toTex(): string {
         let str = this.base.toTex();
         if (this.base instanceof Expression) {
-            str = "\\left("+str+"\\right)";
+            str = "\\left(" + str + "\\right)";
         }
 
         if (this.exponent) {
@@ -49,7 +49,7 @@ export class Exponent extends Multiplier {
         return [this.base, this.exponent];
     }
 
-    override changeStructure(callback:(struct: MathStruct) => MathStruct): Exponent {
+    override changeStructure(callback: (struct: MathStruct) => MathStruct): Exponent {
         return new Exponent(callback(this.base), callback(this.exponent) as Expression);
     }
 

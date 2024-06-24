@@ -1,5 +1,5 @@
 import { toPrecision } from "src/app/configs/utils";
-import { MathStruct, Multiplier } from "./math-structure";
+import { type MathStruct, Multiplier } from "./math-structure";
 
 
 export class Num extends Multiplier {

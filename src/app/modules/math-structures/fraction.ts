@@ -1,6 +1,6 @@
 import { toExpression } from "../math-actions/actions/base-actions";
-import { MathStruct, Multiplier } from "./math-structure";
-import { Term } from "./term";
+import { type MathStruct, Multiplier } from "./math-structure";
+import { type Term } from "./term";
 
 
 export class Frac extends Multiplier {
@@ -12,6 +12,7 @@ export class Frac extends Multiplier {
         this.denomerator = denomerator;
         this.numerator.parent = this.denomerator.parent = this;
     }
+
     override toTex(): string {
         let num = toExpression(this.numerator).toTex();
         let denom = toExpression(this.denomerator).toTex();
@@ -22,8 +23,8 @@ export class Frac extends Multiplier {
     override calculate(): number {
         let num = this.numerator.calculate();
         let den = this.denomerator.calculate();
-        if(den===0) throw new Error("Cannot divide by zero");
-        return num/den;
+        if (den === 0) throw new Error("Cannot divide by zero");
+        return num / den;
     }
 
     override isEqual(other: Multiplier): boolean {

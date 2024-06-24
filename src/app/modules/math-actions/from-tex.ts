@@ -5,7 +5,7 @@ import { Formula } from "../math-structures/formula";
 import { FormulaTemplate } from "../math-structures/formula-template";
 import { Frac } from "../math-structures/fraction";
 import { Func } from "../math-structures/function";
-import { Multiplier } from "../math-structures/math-structure";
+import { type Multiplier } from "../math-structures/math-structure";
 import { Num } from "../math-structures/number";
 import { Sqrt } from "../math-structures/sqrt";
 import { Template } from "../math-structures/template";
@@ -46,21 +46,21 @@ class IterStr {
 
 export function templateFromTeX(tex: string): Template {
     let parts = tex.split("=>");
-    if(parts.length != 2) throw new Error("Incorrect template string");
+    if (parts.length != 2) throw new Error("Incorrect template string");
     return new Template(formulaFromTeX(parts[0]).equalityParts[0], formulaFromTeX(parts[1]).equalityParts[0]);
 }
 
 export function formulaTemplateFromTeX(tex: string): FormulaTemplate {
     let parts = tex.split("=>");
-    if(parts.length != 2) throw new Error("Incorrect template string");
-    return new FormulaTemplate(parts[0].split(";").map(formulaFromTeX),  parts[1].split(";").map(formulaFromTeX));
+    if (parts.length != 2) throw new Error("Incorrect template string");
+    return new FormulaTemplate(parts[0].split(";").map(formulaFromTeX), parts[1].split(";").map(formulaFromTeX));
 }
 
 export function formulaFromTeX(str: string): Formula {
     str = deleteExtraBlocks(str);
     let equalityParts = [];
     let itStr = new IterStr(str);
-    if(itStr.valueOf().endsWith('=')) throw new Error("Incorrect input string");
+    if (itStr.valueOf().endsWith("=")) throw new Error("Incorrect input string");
 
     while (!itStr.finished()) {
         let newBlock = expressionFromTeX(itStr);
@@ -73,7 +73,7 @@ export function formulaFromTeX(str: string): Formula {
 }
 
 
-function expressionFromTeX(itStr: IterStr, _wrapped=false): Expression {
+function expressionFromTeX(itStr: IterStr, _wrapped = false): Expression {
     if (_endCheck(itStr, false)) throw new Error("Incorrect input string");
 
     if (_wrapped) {
@@ -109,18 +109,17 @@ function multiplierFromTex(itStr: IterStr): Multiplier {
         newStruct = numFromTeX(itStr);
     } else if (itStr.cur.match(/[A-Za-z\wа-яА-Я]/i)) {
         newStruct = latinVariableFromTeX(itStr);
-    } else if (itStr.cur == '[') {
+    } else if (itStr.cur == "[") {
         newStruct = templateVarFromTeX(itStr);
-
-    }else throw new Error("Incorrect input string");
+    } else throw new Error("Incorrect input string");
 
     if (!itStr.finished() && itStr.cur == " ") itStr.add();
     if (itStr.startsWith("'")) {
-        if(!(newStruct instanceof Variable)) throw new Error("Incorrect input string");
+        if (!(newStruct instanceof Variable)) throw new Error("Incorrect input string");
         primeFromTeX(itStr, newStruct);
     }
     if (itStr.startsWith("_")) {
-        if(!(newStruct instanceof Variable)) throw new Error("Incorrect input string");
+        if (!(newStruct instanceof Variable)) throw new Error("Incorrect input string");
         indexFromTeX(itStr, newStruct);
     }
     if (itStr.startsWith("^")) {
@@ -132,11 +131,11 @@ function multiplierFromTex(itStr: IterStr): Multiplier {
 
 
 function termFromTeX(itStr: IterStr) {
-    let sign: '+' | '-' = "+";
+    let sign: "+" | "-" = "+";
     let content = [];
 
     if (["+", "-"].includes(itStr.cur)) {
-        sign = itStr.cur as '+' | '-';
+        sign = itStr.cur as "+" | "-";
         itStr.add();
     }
 
@@ -176,7 +175,7 @@ function exponentFromTeX(itStr: IterStr, base: Multiplier) {
         exponent = expressionFromTeX(itStr);
         itStr.add();
     } else {
-        exponent = toExpression( !isNaN(Number(itStr.cur)) ? new Num(itStr.cur) : new Variable(itStr.cur) );
+        exponent = toExpression(!isNaN(Number(itStr.cur)) ? new Num(itStr.cur) : new Variable(itStr.cur));
         itStr.add();
     }
 
@@ -198,7 +197,7 @@ function sqrtFromTeX(itStr: IterStr): Sqrt {
     let base: Multiplier;
     if (expr.content.length == 1 && expr.content[0].content.length == 1 && expr.content[0].sign == "+") {
         base = expr.content[0].content[0].copy();
-    }else{
+    } else {
         base = expr;
     }
 
@@ -235,7 +234,7 @@ function latinVariableFromTeX(itStr: IterStr): Variable {
 function indexFromTeX(itStr: IterStr, base: Variable) {
     if (!(base instanceof Variable)) throw new Error("Incorrect input string");
 
-    let index="";
+    let index = "";
     itStr.add();
     if (itStr.startsWith("{")) {
         itStr.add();
@@ -259,8 +258,8 @@ function primeFromTeX(itStr: IterStr, base: Variable) {
 }
 
 function numFromTeX(itStr: IterStr): Num {
-    let start=itStr.it;
-    while (!itStr.finished() && (!isNaN(Number(itStr.cur)) || itStr.cur==".")) itStr.add();
+    let start = itStr.it;
+    while (!itStr.finished() && (!isNaN(Number(itStr.cur)) || itStr.cur == ".")) itStr.add();
     return new Num(itStr.str.slice(start, itStr.it));
 }
 
@@ -284,7 +283,7 @@ function templateVarFromTeX(itStr: IterStr): TemplateVar {
     let start = itStr.it;
     while (!itStr.finished() && itStr.cur.match(/[_A-Za-z]/i)) itStr.add();
     let name = itStr.str.slice(start, itStr.it);
-    if(!name || !itStr.startsWith("]")) throw new Error("Incorrect input string");
+    if (!name || !itStr.startsWith("]")) throw new Error("Incorrect input string");
     itStr.add();
     return new TemplateVar(name);
 }
@@ -305,16 +304,16 @@ function _endCheck(itStr: IterStr, pm: boolean = true): boolean {
 function deleteExtraBlocks(str: string): string {
     let regex = /(\\operatorname|\\text){([^\\]*)}/g;
     for (let match of str.matchAll(regex)) {
-        str = str.replace(match[0], "\\"+match[2]);
+        str = str.replace(match[0], "\\" + match[2]);
     }
     return str;
 }
 
 export function checkFormula(str: string): boolean {
-    try{
+    try {
         formulaFromTeX(str);
         return true;
-    }catch(e: any) {
+    } catch (e: any) {
         return false;
     }
 }

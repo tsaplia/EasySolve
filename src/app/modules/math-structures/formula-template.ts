@@ -1,4 +1,4 @@
-import { Formula } from "src/app/modules/math-structures/formula";
+import { type Formula } from "src/app/modules/math-structures/formula";
 
 
 export class FormulaTemplate {
@@ -10,6 +10,6 @@ export class FormulaTemplate {
     }
 
     toTex(): string {
-        return this.from.map(x => x.toTex()).join(";") + '=>' + this.to.join(";");
+        return this.from.map(x => x.toTex()).join(";") + "=>" + this.to.join(";");
     }
 }
