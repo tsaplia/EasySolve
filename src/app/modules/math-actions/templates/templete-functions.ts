@@ -112,8 +112,8 @@ function match(template: MathStruct, struct: MathStruct): MatchResult | null {
             let recMatch = recursiveMatch(pos + 1);
             usedTChildren[j] = false;
             if (recMatch) {
-                curResult.extend(recMatch);
-                return curResult;
+                let extended  = curResult.extend(recMatch);
+                return extended ? curResult : null;
             }
         }
         return null;

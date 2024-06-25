@@ -73,6 +73,16 @@
       "options": {
         "mode": "newLine"
       }
+    }, 
+    {
+      "id": "calc",
+      "key": "c",
+      "ctrl": false,
+      "alt": true,
+      "shift": false,
+      "options": {
+        "mode": "replace"
+      }
     }
   ]
 }

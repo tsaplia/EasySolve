@@ -2,6 +2,7 @@ import { AfterViewInit, Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { MathQuillService } from "src/app/services/mathquill.service";
 import { checkFormula } from "src/app/modules/math-actions/from-tex";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   templateUrl: 'adding-modal-f.component.html',
@@ -15,7 +16,8 @@ export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
   
   constructor(private dialogRef: MatDialogRef<AddingModalFormulaComponent>, 
               @Inject(MAT_DIALOG_DATA) public data: {formula?: string, checkFormula?: boolean, description?: string}, 
-              private MQ: MathQuillService) {}
+              private MQ: MathQuillService,
+              private toast: ToastrService) {}
   
   ngOnInit(): void {
     this.description = this.data.description ? this.data.description : '';
@@ -34,6 +36,9 @@ export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
   add() {
     if(!this.data?.checkFormula || checkFormula(this.mathField.latex())) {
       this.dialogRef.close({line: `$${this.mathField.latex()}$`});
+    } else {
+      this.toast.clear();
+      this.toast.error('Incorrect formula');
     }
   }
 }

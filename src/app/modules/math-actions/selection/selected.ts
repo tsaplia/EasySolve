@@ -55,7 +55,7 @@ export function removeStruct(elem: HTMLElement): void {
 
 // get HTML (MJX element) with selected structures
 export function getSelectedElement(): HTMLElement | null {
-    let formula = selected.structuresParent;
+    let formula = selected.structuresParent?.formula;
     if (!formula) return null;
     return allStructures.get(formula)!.parentElement!.parentElement;
 }

@@ -1,28 +1,28 @@
-import { FormulaActionConfig } from "src/app/models/types";
+import type { FormulaActionConfig } from "src/app/models/types";
 
 export let templates: FormulaActionConfig[] = [
   {
-    id:"algebra-1",
+    id: "algebra-1",
     categoryId: 2,
-    template:true,
-    type:"expression",
+    template: true,
+    type: "expression",
     body: ["\\left([a]+[b]\\right)^2=>[a]^2+2[a][b]+[b]^2"],
-    name:"$\\left(a+b\\right)^2=a^2+2ab+b^2$"
+    name: "$\\left(a+b\\right)^2=a^2+2ab+b^2$"
   },
   {
     id: "algebra-2",
     categoryId: 2,
     template: true,
-    type:"expression",
-    body:["[a]^2-[b]^2=>\\left([a]-[b]\\right)\\left([a]+[b]\\right)"],
-    name:"$a^2-b^2=\\left(a-b\\right)\\left(a+b\\right)$"
+    type: "expression",
+    body: ["[a]^2-[b]^2=>\\left([a]-[b]\\right)\\left([a]+[b]\\right)"],
+    name: "$a^2-b^2=\\left(a-b\\right)\\left(a+b\\right)$"
   },
   {
-    id:"formula-1",
+    id: "formula-1",
     categoryId: 3,
-    template:true,
-    type:"formula",
-    body:["[a]=[b];[c]=[d]=>[a]+[c]=[b]+[d]"],
+    template: true,
+    type: "formula",
+    body: ["[a]=[b];[c]=[d]=>[a]+[c]=[b]+[d]"],
     name: "Add formulas"
   },
   {
@@ -41,55 +41,55 @@ export let templates: FormulaActionConfig[] = [
     body: ["[a]=[b]=>[_in][a]=[_in][b]"],
     name: "Multiply by k",
     requireInput: true,
-    simp: {"a": "distribute", "b": "distribute"}
+    simp: { "a": "distribute", "b": "distribute" }
   },
   {
-    id:"sub-1",
+    id: "sub-1",
     categoryId: 4,
-    template:false,
-    type:"formula",
+    template: false,
+    type: "formula",
     name: "Subtitute from"
   },
   {
-    id:"sub-2",
+    id: "sub-2",
     categoryId: 4,
-    template:false,
-    type:"expression",
+    template: false,
+    type: "expression",
     name: "Subtitute to"
   },
   {
-    id:"group",
+    id: "group",
     categoryId: 5,
-    template:false,
-    type:"expression",
+    template: false,
+    type: "expression",
     name: "Group"
   },
   {
     id: "move-l",
     categoryId: 5,
-    template:false,
-    type:"expression",
+    template: false,
+    type: "expression",
     name: "Move left"
   },
   {
     id: "move-r",
     categoryId: 5,
-    template:false,
-    type:"expression",
+    template: false,
+    type: "expression",
     name: "Move Right"
   },
   {
     id: "change-part",
     categoryId: 5,
-    template:false,
-    type:"formula",
+    template: false,
+    type: "formula",
     name: "To another part"
   },
   {
     id: "like-terms",
     categoryId: 6,
-    template:false,
-    type:"expression",
+    template: false,
+    type: "expression",
     name: "Collect like terms"
   },
   {
@@ -98,7 +98,7 @@ export let templates: FormulaActionConfig[] = [
     template: false,
     type: "expression",
     name: "Simplify fraction"
-  }, 
+  },
   {
     id: "simp-term",
     categoryId: 6,
@@ -109,8 +109,8 @@ export let templates: FormulaActionConfig[] = [
   {
     id: "distribute",
     categoryId: 1,
-    template:false,
-    type:"expression",
+    template: false,
+    type: "expression",
     name: "Open brackets"
   },
   {
@@ -126,21 +126,21 @@ export let templates: FormulaActionConfig[] = [
     categoryId: 1,
     template: false,
     type: "formula",
-    name: "Separate multiplier",
+    name: "Separate multiplier"
   },
   {
     id: "toCDen",
     categoryId: 1,
     template: false,
     type: "expression",
-    name: "To common denominator",
+    name: "To common denominator"
   },
   {
     id: "calc",
     categoryId: 1,
     template: false,
     type: "expression",
-    name: "Calculate",
+    name: "Calculate"
   },
   {
     id: "powers-1",
@@ -149,7 +149,8 @@ export let templates: FormulaActionConfig[] = [
     body: [
       "[a]^{[n]}[a]^{[m]}=>[a]^{[n]+[m]}",
       "[a]^{[n]}[a]=>[a]^{[n]+1}",
-      "[a][a]=>a^2"
+      "[a][a]=>a^2",
+      "[a]^{[n]+[m]}=>[a]^{[n]}[a]^{[m]}"
     ],
     type: "expression",
     name: "$a^n\\cdot a^m=a^{n+m}$"
@@ -159,10 +160,11 @@ export let templates: FormulaActionConfig[] = [
     categoryId: 7,
     template: true,
     body: [
-      "\\frac{[a]^{[n]}}{[a]^{[m]}}=>a^{[n]-[m]}",
-      "\\frac{[a]^{[n]}}{[a]}=>a^{[n]-1}",
-      "\\frac{[a]}{[a]^{[m]}}=>a^{1-[m]}",
+      "\\frac{[a]^{[n]}}{[a]^{[m]}}=>[a]^{[n]-[m]}",
+      "\\frac{[a]^{[n]}}{[a]}=>[a]^{[n]-1}",
+      "\\frac{[a]}{[a]^{[m]}}=>[a]^{1-[m]}",
       "\\frac{[a]}{[a]}=>1",
+      "[a]^{[n]-[m]}=>\\frac{[a]^{[n]}}{[a]^{[m]}}"
     ],
     type: "expression",
     name: "$\\frac{a^n}{a^m}=a^{n-m}$"
@@ -171,7 +173,10 @@ export let templates: FormulaActionConfig[] = [
     id: "powers-3",
     categoryId: 7,
     template: true,
-    body: ["\\left([a]^{[n]}\\right)^{[m]}=>[a]^{[n][m]}"],
+    body: [
+      "\\left([a]^{[n]}\\right)^{[m]}=>[a]^{[n][m]}",
+      "[a]^{[n][m]}=>\\left([a]^{[n]}\\right)^{[m]}"
+    ],
     type: "expression",
     name: "$\\left(a^n\\right)^m=a^{n\\cdot m}$"
   },
@@ -179,7 +184,10 @@ export let templates: FormulaActionConfig[] = [
     id: "powers-4",
     categoryId: 7,
     template: true,
-    body: ["[a]^{[n]}[b]^{[n]}=>\\left([a][b]\\right)^{[n]}"],
+    body: [
+      "[a]^{[n]}[b]^{[n]}=>\\left([a][b]\\right)^{[n]}",
+      "\\left([a][b]\\right)^{[n]}=>[a]^{[n]}[b]^{[n]}"
+    ],
     type: "expression",
     name: "$a^n\\cdot b^n=\\left(ab\\right)^n$"
   },
@@ -187,7 +195,10 @@ export let templates: FormulaActionConfig[] = [
     id: "powers-5",
     categoryId: 7,
     template: true,
-    body: ["\\frac{[a]^{[n]}}{[b]^{[n]}}=>\\left(\\frac{[a]}{[b]}\\right)^{[n]}"],
+    body: [
+      "\\frac{[a]^{[n]}}{[b]^{[n]}}=>\\left(\\frac{[a]}{[b]}\\right)^{[n]}",
+      "\\left(\\frac{[a]}{[b]}\\right)^{[n]}=>\\frac{[a]^{[n]}}{[b]^{[n]}}"
+    ],
     type: "expression",
     name: "$\\frac{a^n}{b^n}=\\left(\\frac{a}{b}\\right)^n$"
   },
@@ -207,4 +218,4 @@ export let templates: FormulaActionConfig[] = [
     type: "expression",
     name: "$\\left(\\frac{a}{b}\\right)^{-n}=\\left(\\frac{b}{a}\\right)^n$"
   }
-]
+];
