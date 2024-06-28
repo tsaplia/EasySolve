@@ -10,16 +10,16 @@ import { StatusService } from "src/app/services/status.service";
 
 export class AddingModalTextComponent implements OnInit, AfterViewInit {
   line: string = '';
-  
-  constructor(private dialogRef: MatDialogRef<AddingModalTextComponent>, 
-              @Inject(MAT_DIALOG_DATA) public data: {line: string}, 
+
+  constructor(private dialogRef: MatDialogRef<AddingModalTextComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: {line: string},
               private dialog: MatDialog,
               private statusService: StatusService) {
                 this.line = data.line;
               }
-  
+
   ngOnInit(): void {
-  
+
   }
   ngAfterViewInit(): void {
     let textArea = document.getElementById('myInput') as HTMLTextAreaElement;

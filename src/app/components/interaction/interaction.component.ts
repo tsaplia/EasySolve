@@ -66,7 +66,7 @@ export class InteractionComponent implements AfterViewInit {
         this.storage.addLine(new CanvasLine({line: `$${formula.toTex()}$`, type: 'formula'}));
       });
     }else{
-      this.storage.addLine(new CanvasLine({line: `$${formulas[0].toTex()}$`, type: 'formula'}), 
+      this.storage.addLine(new CanvasLine({line: `$${formulas[0].toTex()}$`, type: 'formula'}),
       this.storage.selectionLineIndex, true);
     }
     this.preview = [];
@@ -74,7 +74,7 @@ export class InteractionComponent implements AfterViewInit {
     return true;
   }
 
-  updateMJ() { // update MathJax  
+  updateMJ() { // update MathJax
     this.cdRef.detectChanges();
     MathJax.typeset([document.getElementById("interaction")]);
   }
@@ -105,7 +105,7 @@ export class InteractionComponent implements AfterViewInit {
         return false;
       }
     };
-  
+
     let formulas = action(input);
     if(formulas) {
       if(formulas.length) this.preview = formulas;
@@ -118,7 +118,7 @@ export class InteractionComponent implements AfterViewInit {
 
   @HostListener('window:keydown', ['$event'])
   activeHotkeys(event: KeyboardEvent) {
-    if(!this.storage.selectedLines.length) return;
+    if(!this.storage.selectedLines.length || this.statusService.formulaAdding || this.statusService.textAdding) return;
     this.hotkeys.forEach(async (hk) => {
       if(hk.key != event.key || hk.ctrl != event.ctrlKey || hk.shift != event.shiftKey) return;
       console.log(event.key)
