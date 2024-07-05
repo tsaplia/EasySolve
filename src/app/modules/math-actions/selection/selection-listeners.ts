@@ -93,10 +93,11 @@ function groupFunctionParts(root: Element) {
         if (!getInnerText(group.nextElementSibling!)) {
             group.append(group.nextElementSibling!);
         }
+
         if (group.nextElementSibling?.localName == MJXTags.msup) {
             // if this a exponent function
             group.append(group.nextElementSibling.firstElementChild!);
-            group.nextElementSibling.insertBefore(group.firstElementChild!, group);
+            group.nextElementSibling.insertBefore(group, group.nextElementSibling.firstElementChild!);
         } else {
             group.appendChild(group.nextElementSibling!);
         }
