@@ -65,14 +65,14 @@ export class SelectedStructures extends Set<MathStruct> {
         return Array.from(this.values());
     }
 
-    get structuresParent(): {formula: Formula, partIndex: number} | null {
+    get structuresParent(): { formula: Formula, partIndex: number } | null {
         if (this.type != "structure") return null;
         let selStruct: MathStruct = this.values().next().value;
         let parents = [selStruct, ...getParents(selStruct)];
         let formula = parents.at(-1);
         if (!(formula instanceof Formula)) throw new Error("Formula not found");
         let partIndex = formula.equalityParts.indexOf(parents.at(-2) as Expression || formula.equalityParts[0]);
-        return {formula, partIndex};
+        return { formula, partIndex };
     }
 
     getStructureData(): StructureData {

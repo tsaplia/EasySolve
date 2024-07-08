@@ -13,6 +13,7 @@ import { type FormulaTemplate } from "../../math-structures/formula-template";
 import { type FormulaReplacement, type Simplifications } from "src/app/models/types";
 import { simplifications } from "../actions/simplifications";
 import { removeExtraGroups, toExpression, toMultiplier, toTerm } from "../general-actions";
+import { Num } from "../../math-structures/number";
 
 interface Substitution { varName: string, mult: Multiplier }
 
@@ -58,12 +59,17 @@ function match(template: MathStruct, struct: MathStruct): MatchResult | null {
         return struct instanceof Multiplier ? new MatchResult({ [template.name]: toMultiplier(struct) }) : null;
     }
     if (template.constructor != struct.constructor) return null;
-    if ((template instanceof Variable || template instanceof Number)) {
+    if ((template instanceof Variable || template instanceof Num)) {
         return template.isEqual(struct) ? new MatchResult() : null;
     }
     if (template instanceof Function && struct instanceof Function && template.name != struct.name) return null;
 
     if (template instanceof Term && struct instanceof Term && template.sign != struct.sign) return null;
+
+    // match wrapped template var
+    if (template instanceof Expression && toMultiplier(template) instanceof TemplateVar) {
+        return new MatchResult({ [(template.content[0].content[0] as TemplateVar).name]: struct });
+    }
 
     let tChildren = template.children;
     let sChildren = struct.children;
@@ -112,7 +118,7 @@ function match(template: MathStruct, struct: MathStruct): MatchResult | null {
             let recMatch = recursiveMatch(pos + 1);
             usedTChildren[j] = false;
             if (recMatch) {
-                let extended  = curResult.extend(recMatch);
+                let extended = curResult.extend(recMatch);
                 return extended ? curResult : null;
             }
         }

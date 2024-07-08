@@ -25,7 +25,7 @@ function _mergeContentPowers(aContent: Multiplier[], bContent: Multiplier[], dev
         if (aContent.filter(mult => multAsExponentContent(mult).base.isEqual(asExp.base)).length != 1) continue;
         let sameBase = bContent.filter(mult => multAsExponentContent(mult).base.isEqual(asExp.base));
         if (sameBase.length == 1) {
-            let merged = multiplyPowers(aContent[i], sameBase[0], devide);
+            let merged = _multiplyPowers(aContent[i], sameBase[0], devide);
             if (merged && merged.toTex() != "1") result.push(merged);
             bContent.splice(bContent.indexOf(sameBase[0]), 1);
             aContent.splice(i--, 1);
@@ -82,7 +82,7 @@ export function multTerms(a: Term, b: Term, simplify: boolean = true): Term {
     return new Term([new Frac(new Term(num), new Term(den))], sign);
 }
 
-export function multiplyPowers(a: Multiplier, b: Multiplier, devide?: boolean): Multiplier | null {
+function _multiplyPowers(a: Multiplier, b: Multiplier, devide?: boolean): Multiplier | null {
     let aContent = multAsExponentContent(a); let bContent = multAsExponentContent(b);
     if (!aContent.base.isEqual(bContent.base)) return null;
 
@@ -100,7 +100,7 @@ function _mergePowers(content: Multiplier[]): void {
     for (let i = 0; i < content.length; i++) {
         let mult = content[i].copy();
         for (let j = i + 1; j < content.length; j++) {
-            let merged = multiplyPowers(content[i], content[j]);
+            let merged = _multiplyPowers(content[i], content[j]);
             if (merged) {
                 mult = merged;
                 content.splice(j--, 1);
@@ -240,5 +240,3 @@ export function simplifyTerms(expr: Expression): Expression {
     }
     return new Expression(content);
 }
-export { toExpression };
-

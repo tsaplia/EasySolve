@@ -19,11 +19,11 @@ export function useMode(mode: SubPartModes, results: Formula[]): Formula[] {
     if (!selected.type) throw new Error("Nothing selected");
     if (results[0].equalityParts.length > 1) return results;
     let data = selected.getStructureData();
-    let {formula:originalFormula, partIndex} = selected.structuresParent!;
+    let { formula: originalFormula, partIndex } = selected.structuresParent!;
     let newPart = results[0].equalityParts[0].copy();
     switch (mode) {
     case "newLine":
-        if (partIndex==0) return [new Formula([newPart, originalFormula.equalityParts.at(-1)!.copy()])];
+        if (partIndex == 0) return [new Formula([newPart, originalFormula.equalityParts.at(-1)!.copy()])];
         return [new Formula([originalFormula.equalityParts[0].copy(), newPart])];
     case "replace":
         return [new Formula(

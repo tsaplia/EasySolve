@@ -10,11 +10,11 @@ import { Term } from "../../math-structures/term";
 import { formulaTemplateFromTeX, templateFromTeX } from "../from-tex";
 import { clearSelected, selected } from "../selection/selected";
 import { type StructureData } from "../selection/selected-structures";
-import { fracToTerm, multTerms, reverseTerm, simplifyTerms, simplifyFrac, termAsFracContent, termToFrac, toExpression } from "./base-actions";
+import { fracToTerm, multTerms, reverseTerm, simplifyTerms, simplifyFrac, termAsFracContent, termToFrac } from "./base-actions";
 import { replace, tryFormulaTemplate, tryTemplete } from "../templates/templete-functions";
 import { templates } from "src/assets/actionConfigs";
 import { simplifications } from "./simplifications";
-import { toMultiplier, toTerm, removeExtraGroups, changeTermSign } from "../general-actions";
+import { toMultiplier, toTerm, removeExtraGroups, changeTermSign, toExpression } from "../general-actions";
 
 export let availibleActions = new Map<string, (input?: Expression) => Formula[] | null>();
 
@@ -153,16 +153,12 @@ availibleActions.set("change-part", () => {
 availibleActions.set("like-terms", () => {
     if (selected.type != "structure") return null;
     let data = selected.getStructureData();
-    let expression: Expression;
-    if (data.structure instanceof Term && data.grouped) {
-        expression = data.structure.content[0] as Expression;
-    } else if (data.structure instanceof Expression) {
-        expression = data.structure;
-    } else return null;
+    let structure = data.structure instanceof Term ? data.structure.content[0] : data.structure;
+    if (!(structure instanceof Expression)) return null;
 
     return [
         new Formula([
-            replace(data.formula.equalityParts[data.partIndex], data.structure, simplifyTerms(expression))
+            replace(data.formula.equalityParts[data.partIndex], data.structure, simplifyTerms(structure))
         ])
     ];
 });
@@ -306,8 +302,9 @@ availibleActions.set("calc", () => {
     } catch (e) {
         return null;
     }
+    let struct = res >= 0 ? new Num(res) : new Expression([new Term([new Num(-res)])]);
     return [
-        new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, new Num(res))])
+        new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, struct)])
     ];
 });
 

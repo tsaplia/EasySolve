@@ -37,6 +37,7 @@ module.exports = {
         "eqeqeq": "off",
         "arrow-parens": ["error", "as-needed", {"requireForBlockBody": true}],
         "no-prototype-builtins": "off",
+        "func-call-spacing": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/quotes": "off", // see quotes
         "@typescript-eslint/semi": "off", // see semi

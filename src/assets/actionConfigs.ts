@@ -6,15 +6,23 @@ export let templates: FormulaActionConfig[] = [
         categoryId: 2,
         template: true,
         type: "expression",
-        body: ["\\left([a]+[b]\\right)^2=>[a]^2+2[a][b]+[b]^2"],
-        name: "$\\left(a+b\\right)^2=a^2+2ab+b^2$"
+        body: [
+            "\\left([a]+[b]\\right)^2=>[a]^2+2[a][b]+[b]^2",
+            "[a]^2+2[a][b]+[b]^2=>\\left([a]+[b]\\right)^2",
+            "\\left([a]-[b]\\right)^2=>[a]^2-2[a][b]+[b]^2",
+            "[a]^2-2[a][b]+[b]^2=>\\left([a]-[b]\\right)^2"
+        ],
+        name: "$\\left(a\\pm b\\right)^2=a^2\\pm 2ab+b^2$"
     },
     {
         id: "algebra-2",
         categoryId: 2,
         template: true,
         type: "expression",
-        body: ["[a]^2-[b]^2=>\\left([a]-[b]\\right)\\left([a]+[b]\\right)"],
+        body: [
+            "[a]^2-[b]^2=>\\left([a]-[b]\\right)\\left([a]+[b]\\right)",
+            "\\left([a]-[b]\\right)\\left([a]+[b]\\right)=>[a]^2-[b]^2"
+        ],
         name: "$a^2-b^2=\\left(a-b\\right)\\left(a+b\\right)$"
     },
     {
