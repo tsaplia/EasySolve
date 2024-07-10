@@ -68,7 +68,7 @@ function match(template: MathStruct, struct: MathStruct): MatchResult | null {
 
     // match wrapped template var
     if (template instanceof Expression && toMultiplier(template) instanceof TemplateVar) {
-        return new MatchResult({ [(template.content[0].content[0] as TemplateVar).name]: struct });
+        return new MatchResult({ [(toMultiplier(template) as TemplateVar).name]: toMultiplier(struct) });
     }
 
     let tChildren = template.children;

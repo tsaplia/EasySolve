@@ -27,7 +27,7 @@ templates.forEach((action) => {
     if (!action.template) return;
     if (!action.body) throw new Error("template must have body");
     if (action.type == "expression") {
-        let templates = action.body?.map(b => templateFromTeX(b as string));
+        let templates = action.body.map(b => templateFromTeX(b as string));
         availibleActions.set(action.id, (input?: Expression) => {
             if (action.requireInput && !input) return null;
             for (let template of templates) {
@@ -37,7 +37,7 @@ templates.forEach((action) => {
             return null;
         });
     } else {
-        let templates = action.body?.map(b => formulaTemplateFromTeX(b as string));
+        let templates = action.body.map(b => formulaTemplateFromTeX(b as string));
         availibleActions.set(action.id, (input?: Expression) => {
             if (action.requireInput && !input) return null;
             for (let template of templates) {
@@ -302,7 +302,7 @@ availibleActions.set("calc", () => {
     } catch (e) {
         return null;
     }
-    let struct = res >= 0 ? new Num(res) : new Expression([new Term([new Num(-res)])]);
+    let struct = res >= 0 ? new Num(res) : new Expression([new Term([new Num(-res)], "-")]);
     return [
         new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, struct)])
     ];

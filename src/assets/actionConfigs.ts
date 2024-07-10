@@ -255,6 +255,8 @@ export let templates: FormulaActionConfig[] = [
         body: [
             "\\sqrt[[n]]{[a]^{[n]}}=>[a]",
             "\\sqrt[[n]]{[a]^{[m]}}=>[a]^{\\frac{[m]}{[n]}}",
+            "\\sqrt[[n]]{[a]}=>[a]^{\\frac{1}{[n]}}",
+            "[a]^{\\frac{1}{[n]}=>\\sqrt[[n]]{[a]}",
             "[a]^{\\frac{[m]}{[n]}}=>\\sqrt[[n]]{[a]^{[m]}}"
         ],
         type: "expression",

@@ -43,8 +43,7 @@ export class Sqrt extends Multiplier {
     }
 
     override get children(): MathStruct[] {
-        let res = [this.content];
-        if (this.root.toTex() !== "2") res.push(this.root);
+        let res = [this.root, this.content];
         return res;
     }
 

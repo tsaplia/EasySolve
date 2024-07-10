@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { Expression } from "../../math-structures/expression";
 import { Formula } from "../../math-structures/formula";
 import { Frac } from "../../math-structures/fraction";
@@ -107,8 +108,8 @@ export class SelectedStructures extends Set<MathStruct> {
             let frac = structures[0].parent instanceof Frac ? structures[0].parent : structures[0].parent?.parent as Frac;
             let splitTerm = (term: Term): [Term, Term | null] => {
                 if (structures.includes(term)) return [term.copy(), null];
-                let sel = term.children.filter(s => structures.includes(s)).map(s => s.copy());
-                let rest = term.children.filter(s => !structures.includes(s)).map(s => s.copy());
+                let sel = term.content.filter(s => structures.includes(s)).map(s => s.copy());
+                let rest = term.content.filter(s => !structures.includes(s)).map(s => s.copy());
                 return [new Term(sel), new Term(rest, term.sign)];
             };
             let [selNum, restNum] = splitTerm(frac.numerator);

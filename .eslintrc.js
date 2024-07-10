@@ -51,6 +51,7 @@ module.exports = {
         "@typescript-eslint/no-non-null-assertion":"off",
         "@typescript-eslint/strict-boolean-expressions": "off",
         "@typescript-eslint/no-unnecessary-type-assertion": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
         "require-jsdoc": "off"
     }
 }
