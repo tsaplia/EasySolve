@@ -31,7 +31,7 @@ export let templates: FormulaActionConfig[] = [
         template: true,
         type: "formula",
         body: ["[a]=[b];[c]=[d]=>[a]+[c]=[b]+[d]"],
-        name: "Add formulas"
+        name: "Add equations"
     },
     {
         id: "formula-2",
@@ -39,7 +39,7 @@ export let templates: FormulaActionConfig[] = [
         template: true,
         type: "formula",
         body: ["[a]=[b];[c]=[d]=>[a]-[c]=[b]-[d]"],
-        name: "Subtract formulas"
+        name: "Subtract equations"
     },
     {
         id: "formula-3",

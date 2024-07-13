@@ -9,7 +9,7 @@
   },
   {
     "id": 3,
-    "name": "Formulas"
+    "name": "Equations"
   },
   {
     "id": 4,
@@ -30,9 +30,5 @@
   {
     "id": 8,
     "name": "Roots"
-  },
-  {
-    "id": 9,
-    "name": "Trigonometry"
   }
 ]
