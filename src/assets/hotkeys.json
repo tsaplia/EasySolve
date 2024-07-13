@@ -27,7 +27,7 @@
     },
     {
       "id": "open",
-      "key": "z",
+      "key": "o",
       "ctrl": true,
       "alt": false,
       "shift": false
@@ -73,7 +73,7 @@
       "options": {
         "mode": "newLine"
       }
-    }, 
+    },
     {
       "id": "calc",
       "key": "c",

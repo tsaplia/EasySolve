@@ -119,9 +119,11 @@ export class SaveOpenComponent {
           if (e.key == event.key && e.ctrl == event.ctrlKey) {
               switch (e.id) {
               case "save":
+                  event.preventDefault();
                   this.dowload("json"); // TODO: add choose type
                   break;
               case "open": // doesn't work
+                  event.preventDefault();
                   this.dataFromFolder();
                   break;
               }

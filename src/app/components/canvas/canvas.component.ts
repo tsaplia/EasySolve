@@ -127,11 +127,13 @@ export class MathCanvasComponent implements OnInit {
             if (e.key == event.key && e.ctrl == event.ctrlKey) {
                 switch (e.id) {
                 case "add-formula":
+                    event.preventDefault();
                     if (!this.statusService.formulaAdding) {
                         this.newLineInput("formula");
                     }
                     break;
                 case "add-text":
+                    event.preventDefault();
                     if (!this.statusService.textAdding) {
                         this.newLineInput("text");
                     }

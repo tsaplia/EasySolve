@@ -129,6 +129,7 @@ export class InteractionComponent implements AfterViewInit {
         this.hotkeys.forEach(async (hk) => {
             if (hk.key != event.key || hk.ctrl != event.ctrlKey || hk.shift != event.shiftKey) return;
             console.log(event.key);
+            event.preventDefault();
             let used = await this.useTemplate(hk.id);
             if (!used) return;
             this.addOutputToLines(hk.options.mode);
