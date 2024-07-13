@@ -89,7 +89,8 @@ export class SelectedStructures extends Set<MathStruct> {
         // if we don't have groupping
         if (structures.length == 1) {
             // check if we nees groupping for term  with "-" sign
-            if ((!(structures[0] instanceof Term) || structures[0].sign == "+" || !(structures[0].parent instanceof Expression))) {
+            if ((!(structures[0] instanceof Term) || structures[0].sign == "+" ||
+                    !(structures[0].parent instanceof Expression))) {
                 let structure = structures[0] instanceof Formula ? structures[0].equalityParts[0] : structures[0];
                 return { formula, structure, partIndex, grouped: false };
             }
@@ -127,7 +128,7 @@ export class SelectedStructures extends Set<MathStruct> {
             let children = struct.children.filter(c => !structures.includes(c)).map(c => c.copy());
             children.splice(struct.children.indexOf(structures[0]), 0, ...newStructs);
             if (struct instanceof Term) {
-                return new Term(children);
+                return new Term(children, struct.sign);
             } else {
                 return new Expression(children as Term[]);
             }

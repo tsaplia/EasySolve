@@ -18,7 +18,7 @@ export function clearSelected(): void {
 }
 
 function addSelected(struct: MathStruct): void {
-    let elem = allStructures.get(struct)!;
+    let elem = allStructures.get(struct);
     if (!elem) throw new Error("Element not found");
     selected.add(struct);
     elem.classList.add("selected");
@@ -26,9 +26,8 @@ function addSelected(struct: MathStruct): void {
 
 function removeSelected(struct: MathStruct): void {
     selected.delete(struct);
-    let elem = allStructures.get(struct)!;
-    if (!elem) throw new Error("Element not found");
-    elem.classList.remove("selected");
+    let elem = allStructures.get(struct);
+    if (elem) elem.classList.remove("selected");
 }
 
 // Select element if all children are selected

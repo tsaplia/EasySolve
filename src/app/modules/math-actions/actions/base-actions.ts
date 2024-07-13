@@ -50,10 +50,10 @@ function _mergeContentNumbers(aContent: Multiplier[], bContent: Multiplier[]): n
     return coef;
 }
 
-export function multTerms(a: Term, b: Term, simplify: boolean = true): Term {
-    let sign: "+" | "-" = a.sign == b.sign ? "+" : "-";
+export function multTerms(a: Term, b: Term): Term {
     let aInfo = termAsFracContent(a);
     let bInfo = termAsFracContent(b);
+    let sign: "+" | "-" = aInfo.sign == bInfo.sign ? "+" : "-";
 
     _deleteEquals(aInfo.den, bInfo.num);
     _deleteEquals(bInfo.den, aInfo.num);
@@ -115,7 +115,6 @@ export function simplifyFrac(term: Term, removeEmptyDen?: boolean): Term {
 
     let numCoef = info.num.reduce((acc, cur) => (acc *= cur instanceof Num ? cur.value : 1), 1);
     let denCoef = info.den.reduce((acc, cur) => (acc *= cur instanceof Num ? cur.value : 1), 1);
-    if (info.sign == "-") numCoef *= -1;
 
     let g = gcd(numCoef, denCoef);
     numCoef /= g;
@@ -174,7 +173,7 @@ export function reverseTerm(term: Term): Term {
 }
 
 export function fracToTerm(frac: Frac, sign: "+" | "-" = "+"): Term {
-    if (frac.denomerator.toTex() == "1") {
+    if (frac.denomerator.toTex() == "+1") {
         if (frac.numerator.sign != frac.denomerator.sign) sign = sign == "+" ? "-" : "+";
         return new Term(frac.numerator.content.map(mult => mult.copy()), sign);
     }

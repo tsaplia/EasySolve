@@ -222,25 +222,27 @@ availibleActions.set("move-out", (input?: Expression) => {
 availibleActions.set("separate", () => {
     if (selected.type != "structure") return null;
     let { partIndex, structure, formula } = selected.getStructureData();
-    if (formula.equalityParts[partIndex].content.length != 1) return null;
-    let { num, den, sign: partSign } = termAsFracContent(formula.equalityParts[partIndex].content[0]);
+    if (formula.equalityParts[partIndex].content.length != 1 || formula.equalityParts.length < 2) return null;
+    let partTerm = formula.equalityParts[partIndex].content[0];
+    let { num, den, sign: partSign } = termAsFracContent(partTerm);
 
     let reverse = false;
     if (num.includes(structure)) {
         num = num.filter(mult => mult != structure);
-    } else if (structure instanceof Term && num.includes(structure.content[0])) {
-        num = num.filter(mult => !(structure as Term).content.includes(mult));
-        if (structure.sign == "-") partSign = partSign == "+" ? "-" : "+";
     } else if (den.includes(structure)) {
         den = den.filter(mult => mult != structure);
         reverse = true;
-    } else if (structure instanceof Term && den.includes(structure.content[0])) {
-        den = den.filter(mult => !(structure as Term).content.includes(mult));
+    } else if (structure instanceof Term && partTerm.children.includes(structure.parent as Multiplier)) {
+        if ((structure.parent as Frac).numerator == structure) {
+            num = num.filter(mult => !(structure as Term).content.includes(mult));
+        } else {
+            den = den.filter(mult => !(structure as Term).content.includes(mult));
+            reverse = true;
+        }
         if (structure.sign == "-") partSign = partSign == "+" ? "-" : "+";
-        reverse = true;
-    } else if (structure instanceof Frac && num.includes(structure.numerator.content[0])) {
-        num = num.filter(mult => mult != (structure as Frac).numerator.content[0]);
-        den = den.filter(mult => mult != (structure as Frac).denomerator.content[0]);
+    } else if (structure instanceof Frac && partTerm.children.includes(structure)) {
+        num = num.filter(mult => !(structure as Frac).numerator.content.includes(mult));
+        den = den.filter(mult => !(structure as Frac).denomerator.content.includes(mult));
         if (structure.numerator.sign != structure.denomerator.sign) partSign = partSign == "+" ? "-" : "+";
     } else return null;
 
