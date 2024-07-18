@@ -27,6 +27,8 @@ export class SaveOpenComponent {
 
   hotkeys: any = hotkeys.saveOpen;
 
+  lightTheme: boolean = true;
+
   constructor(private readonly clipboardService: ClipboardService,
               private readonly cdRef: ChangeDetectorRef,
               private readonly toast: ToastrService,
@@ -39,6 +41,15 @@ export class SaveOpenComponent {
       modal.afterClosed().subscribe(() => {
           console.log("closed");
       });
+  }
+
+  changeTheme() {
+      if (this.lightTheme) {
+          document.body.classList.add("dark");
+      } else {
+          document.body.classList.remove("dark");
+      }
+      this.lightTheme = !this.lightTheme;
   }
 
   dowload(type: "json" | "tex"): void {

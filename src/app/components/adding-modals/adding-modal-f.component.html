@@ -1,17 +1,17 @@
-<div id="adding-modal">
+<div class="adding-modal">
   <div class="modal-head">
     <h1>Enter Formula</h1>
   </div>
   <div class="p-3">
     <div>
       <div class="formula-description">
-        <p class="text-muted">{{description}}</p>
+        <p>{{description}}</p>
       </div>
       <!-- <input type="text" class="finput" [(ngModel)]="formula" (keyup.enter)="add()"> -->
       <div>
         <!-- <label for="math-field" class="form-label">Enter formula</label> -->
         <div class="form-control" (keyup.enter)="add()"><span class="w-100" id="math-field"></span></div>
-        <div *ngIf="error" class="text-danger mt-1">{{error}}</div>
+        <div *ngIf="error" class="text-danger mt-1">{{error}}</div> <!--TODO: what is it?-->
       </div>
     </div>
     <div class="d-flex mt-3 justify-content-end">

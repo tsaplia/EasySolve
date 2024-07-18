@@ -5,11 +5,16 @@
     <mat-icon>more_horiz</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    
+
     <button mat-menu-item (click)="openInfoModal()">
       <mat-icon>info</mat-icon>
       <span>info</span>
     </button>
+
+    <button mat-menu-item (click)="changeTheme()">
+        <mat-icon>contrast</mat-icon>
+        <span>change theme</span>
+      </button>
 
     <button mat-menu-item [matMenuTriggerFor]="save">
       <mat-icon>save</mat-icon>
@@ -29,7 +34,7 @@
         <span>as picture</span>
       </button>
     </mat-menu>
-    
+
     <button mat-menu-item [matMenuTriggerFor]="open">
       <mat-icon>folder_open</mat-icon>
       <span>Open From...</span>

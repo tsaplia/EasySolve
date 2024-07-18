@@ -1,25 +1,28 @@
 @import "/src/assets/variables.scss";
 @import "bootstrap";
 
-#adding-modal {
-  color: $textColor;
-  width: 80vw; 
+.adding-modal {
+  color: var(--text-color);
+  background-color: var(--background-color-2);
+
+  width: 80vw;
   max-width: 500px;
   border-radius: 10px;
   //  @extend .rounded;
 }
 
 .modal-head {
+  color: var(--bs-gray-200);
   padding: 10px 30px 5px 30px;
   background-color: $primary;
 }
 
-button.btn-primary {
-  color: $textColor;
-}
-
 h1 {
   margin-bottom: 0;
+}
+
+span {
+    color: var(--text-color);
 }
 
 .form-control:has(.mq-editable-field.mq-focused) {
