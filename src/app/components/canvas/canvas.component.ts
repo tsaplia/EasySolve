@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 /* eslint-disable angular/document-service */
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
@@ -73,8 +74,10 @@ export class MathCanvasComponent implements OnInit {
     }
 
     clear(): void {
-        this.storage.clearLines();
-        this.cdRef.detectChanges();
+        if (confirm("If you click on this button, the information already entered will be erased. You want to do that?")) {
+            this.storage.clearLines();
+            this.cdRef.detectChanges();
+        }
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type

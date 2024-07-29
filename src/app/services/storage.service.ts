@@ -14,6 +14,14 @@ export class StorageService {
     private _selectionChanged: boolean = false;
 
     constructor() {
+        const lines = localStorage.getItem("lines");
+        if (lines !== null) {
+            if (JSON.parse(lines).length > 0) {
+                this._lines = JSON.parse(lines);
+                CanvasLine.currentId = this._lines.sort((a, b) => a.id - b.id)[this._lines.length - 1].id + 1;
+            }
+        }
+
         selected.addListener(() => {
             this._selectionChanged = true;
         });
@@ -30,11 +38,16 @@ export class StorageService {
             }
             this._lines.splice(index, 0, line);
         } else this._lines.push(line);
+
+        this.updateLines();
     }
 
     setLines(lines: CanvasLine[]): void {
         this.clearLines();
         this._lines = [...lines];
+        CanvasLine.currentId = this._lines.sort((a, b) => a.id - b.id)[this._lines.length - 1].id + 1;
+
+        this.updateLines();
     }
 
     deleteLine(index: number): void {
@@ -42,11 +55,20 @@ export class StorageService {
         let deleted = this._lines.splice(index, 1)[0];
         // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
         removeStruct(document.querySelector(`#line-${deleted.id}`) as HTMLElement);
+
+        this.updateLines();
     }
 
     clearLines(): void {
         this._lines = [];
+        CanvasLine.currentId = 0;
         clearSelected();
+
+        this.updateLines();
+    }
+
+    updateLines(): void {
+        localStorage.setItem("lines", JSON.stringify(this._lines));
     }
 
     get selectedLines(): string[] {

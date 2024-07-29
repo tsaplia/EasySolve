@@ -22,6 +22,7 @@ import { AddingModalFormulaComponent } from "./components/adding-modals/adding-m
 import { AddingModalTextComponent } from "./components/adding-modals/adding-modal-t.component";
 import { CanvasLineComponent } from "./components/canvas-line/canvas-line.component";
 import { InfoModalComponent } from "./components/info-modal/info-modal.component";
+import { KeyboardComponent } from "./components/keyboard/keyboard.component";
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { InfoModalComponent } from "./components/info-modal/info-modal.component
         SaveOpenComponent,
         ListComponent,
         CanvasLineComponent,
-        InfoModalComponent
+        InfoModalComponent,
+        KeyboardComponent
     ],
     imports: [
         BrowserModule,

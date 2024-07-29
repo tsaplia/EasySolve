@@ -14,6 +14,9 @@
         <div *ngIf="error" class="text-danger mt-1">{{error}}</div> <!--TODO: what is it?-->
       </div>
     </div>
+
+    <app-keyboard (elementAdded)="getNewElement($event)"></app-keyboard>
+
     <div class="d-flex mt-3 justify-content-end">
       <button class="btn btn-primary me-2" (click)="add()">Add</button>
       <button class="btn btn-secondary" (click)="close()">Close</button>

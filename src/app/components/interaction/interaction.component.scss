@@ -24,7 +24,10 @@ hr {
   @extend .p-2;
   @extend .rounded;
   @extend .overflow-hidden;
-  min-height: 30px;
+
+  line-height: 80px;
+  font-size: 20px;
+  min-height: 80px;
   margin-top: 10px;
   background-color: antiquewhite;
 }
