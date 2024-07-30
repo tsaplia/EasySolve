@@ -2,11 +2,11 @@
 @import "bootstrap";
 
 .interaction-card {
-  color: var(--bs-gray-200);
+  color: var(--text-color);
 
   border-bottom-right-radius: 5%;
   border-top-right-radius: 5%;
-  background-color: $primary;
+  background-color: var(--background-color-primary);
   overflow: hidden;
 
   @extend .p-4;
@@ -25,32 +25,26 @@ hr {
   @extend .rounded;
   @extend .overflow-hidden;
 
-  line-height: 80px;
-  font-size: 20px;
-  min-height: 80px;
+  line-height: 60px;
+  font-size: 18px;
+  min-height: 60px;
   margin-top: 10px;
   background-color: antiquewhite;
 }
 .btn-row {
-  color: var(--bs-gray-200);
-  @extend .d-flex ;
-  @extend .justify-content-end;
-  @extend .my-2;
-  @extend .ps-1;
+    display: flex;
+    justify-content: end;
+    padding-left: 0.25rem;
+    margin: 0.5rem 0;
 
   & > button{
-
-    @extend .btn;
-    @extend .btn-outline-secondary;
-    @extend .d-flex;
-    @extend .p-0;
-    @extend .mx-1;
-    @extend .my-auto;
-    @extend .border-0;
-
+    display: flex;
+    padding: 0;
+    margin: auto 0.25rem;
+    border: none;
   }
 }
 
 mat-icon {
-  color: var(--bs-gray-200);
+  color: var(--text-color);
 }

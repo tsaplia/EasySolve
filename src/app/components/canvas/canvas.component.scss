@@ -16,8 +16,6 @@ hr {
   & > button, & > div > button {
     margin: 0px 10px;
     font-family: monospace;
-    @extend .btn;
-    @extend .btn-primary;
     @extend .shadow;
   }
 }

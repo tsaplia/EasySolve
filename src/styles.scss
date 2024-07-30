@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+$primary: #bbddd4;
+$dark: #37474f;
+
 @import "bootstrap";
 @import 'ngx-toastr/toastr';
 @import 'ngx-toastr/toastr-bs5-alert';
@@ -29,6 +32,7 @@ body {
 
     --bs-body-bg: #f4f4f4;
     --background-color-2: var(--bs-white); // for canvas
+    --background-color-primary: #bbddd4;
 
     --mat-menu-container-color: var(--bs-white);
     --mdc-dialog-container-color: var(--bs-white);
@@ -44,6 +48,7 @@ body.dark {
 
     --bs-body-bg: #3d3d3d;
     --background-color-2: var(--bs-gray-700); // for canvas
+    --background-color-primary: #37474f;
 
     --mat-menu-container-color: var(--bs-gray-700);
     --mdc-dialog-container-color: var(--bs-gray-700);
@@ -52,6 +57,12 @@ body.dark {
     // --color-scheme: dark;
 }
 
-body.dark .btn-primary {
-    $primary: #000
+body:not(.dark) .button {
+    @extend .btn;
+    @extend .btn-primary;
+}
+
+body.dark .button {
+    @extend .btn;
+    @extend .btn-dark;
 }

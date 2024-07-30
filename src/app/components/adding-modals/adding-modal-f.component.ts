@@ -35,6 +35,7 @@ export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
 
     getNewElement(event: any) {
         this.mathField.latex(this.mathField.latex() + event);
+        this.mathField.focus();
     }
 
     close(): void {
