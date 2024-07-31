@@ -14,11 +14,18 @@ export class StorageService {
     private _selectionChanged: boolean = false;
 
     constructor() {
-        const lines = localStorage.getItem("lines");
-        if (lines !== null) {
-            if (JSON.parse(lines).length > 0) {
-                this._lines = JSON.parse(lines);
-                CanvasLine.currentId = this._lines.sort((a, b) => a.id - b.id)[this._lines.length - 1].id + 1;
+        const linesFromLS = localStorage.getItem("lines");
+        if (linesFromLS !== null) {
+            if (JSON.parse(linesFromLS).length > 0) {
+                let lines = JSON.parse(linesFromLS);
+                let newLines: CanvasLine[] = [];
+
+                for (let item of lines) {
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                    newLines.push(new CanvasLine(item));
+                }
+
+                this._lines = [...newLines];
             }
         }
 
@@ -45,7 +52,6 @@ export class StorageService {
     setLines(lines: CanvasLine[]): void {
         this.clearLines();
         this._lines = [...lines];
-        CanvasLine.currentId = this._lines.sort((a, b) => a.id - b.id)[this._lines.length - 1].id + 1;
 
         this.updateLines();
     }
@@ -61,7 +67,7 @@ export class StorageService {
 
     clearLines(): void {
         this._lines = [];
-        CanvasLine.currentId = 0;
+        CanvasLine.currentId = 0; // TODO: it is necessary? I think is good thing
         clearSelected();
 
         this.updateLines();
