@@ -33,7 +33,8 @@ export function tryTemplete(template: Template, simp?: Simplifications, input?: 
     return simp ? applySimp(replaced, simp, subs) : replaced;
 }
 
-export function tryFormulaTemplate(template: FormulaTemplate, simp?: Simplifications, input?: Expression): Formula[] | null {
+export function tryFormulaTemplate(template: FormulaTemplate, simp?: Simplifications,
+    input?: Expression): Formula[] | null {
     if (selected.type != "formula") return null;
     let formulas = selected.formulas!;
     if (formulas.length != template.from.length) return null;

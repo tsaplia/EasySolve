@@ -73,24 +73,24 @@ export function setListener(struct: MathStruct, elem: HTMLElement): void {
         if (!targetCheck(event.target as HTMLElement)) return;
         if (selected.has(struct)) {
             removeSelected(struct);
-            event.stopPropagation();
+            event.stopImmediatePropagation();
         } else if (!findSelected(parents)) {
             addSelected(struct);
             checkParentSelection(struct.parent);
             children.forEach(child => removeSelected(child));
-            event.stopPropagation();
+            event.stopImmediatePropagation();
         }
     });
     elem.addEventListener("mousemove", (event) => {
         if (!targetCheck(event.target as HTMLElement) || event.buttons !== 1) return;
         if (selected.has(struct)) {
             if (event.ctrlKey) removeSelected(struct);
-            event.stopPropagation();
+            event.stopImmediatePropagation();
         } else if (!findSelected(parents) && !event.ctrlKey) {
             addSelected(struct);
             checkParentSelection(struct.parent);
             children.forEach(child => (removeSelected(child)));
-            event.stopPropagation();
+            event.stopImmediatePropagation();
         }
     });
 }

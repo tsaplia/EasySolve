@@ -64,7 +64,6 @@ availibleActions.set("sub-1", () => {
 availibleActions.set("sub-2", () => {
     if (!availibleActions.get("custom") || selected.type != "structure") return null;
     let res = availibleActions.get("custom")?.() ?? null;
-    availibleActions.delete("custom");
     return res;
 });
 
@@ -166,13 +165,15 @@ availibleActions.set("like-terms", () => {
 availibleActions.set("simp-term", () => {
     if (selected.type != "structure") return null;
     let data = selected.getStructureData();
-    if (data.structure instanceof Expression && data.structure.content.length == 1) {
-        data.structure = data.structure.content[0];
-    }
-    if (!(data.structure instanceof Term)) return null;
+    let struct = data.structure;
+    if (struct instanceof Expression && struct.content.length == 1) {
+        struct = struct.content[0];
+    } else if (struct instanceof Frac) struct = new Term([struct.copy()]);
+
+    if (!(struct instanceof Term)) return null;
     return [
         new Formula([
-            replace(data.formula.equalityParts[data.partIndex], data.structure, simplifyFrac(data.structure, true))
+            replace(data.formula.equalityParts[data.partIndex], data.structure, simplifyFrac(struct, true))
         ])
     ];
 });
@@ -195,8 +196,15 @@ availibleActions.set("simp-frac", () => {
 availibleActions.set("distribute", () => {
     if (selected.type != "structure") return null;
     let data = selected.getStructureData();
-    if (data.grouped) return null;
-    let result = simplifications.distribute(data.structure);
+    let struct = data.structure;
+    if (struct instanceof Expression && struct.parent instanceof Formula) {
+        if (struct.content.length != 1) return null;
+        struct = struct.content[0];
+    }
+    if (struct instanceof Term) {
+        struct = struct.content.find(m => m instanceof Expression) ?? struct.content[0];
+    }
+    let result = simplifications.distribute(struct);
     if (!result) return null;
     return [
         new Formula([replace(data.formula.equalityParts[data.partIndex], result.from, result.to)])

@@ -105,7 +105,7 @@ export let templates: FormulaActionConfig[] = [
         categoryId: 6,
         template: false,
         type: "expression",
-        name: "Simplify fraction"
+        name: "Flip fraction"
     },
     {
         id: "simp-term",
@@ -158,7 +158,8 @@ export let templates: FormulaActionConfig[] = [
             "[a]^{[n]}[a]^{[m]}=>[a]^{[n]+[m]}",
             "[a]^{[n]}[a]=>[a]^{[n]+1}",
             "[a][a]=>a^2",
-            "[a]^{[n]+[m]}=>[a]^{[n]}[a]^{[m]}"
+            "[a]^{[n]+[m]}=>[a]^{[n]}[a]^{[m]}",
+            "[a]^{[n]-[m]}=>[a]^{[n]}[a]^{-[m]}"
         ],
         type: "expression",
         name: "$a^n\\cdot a^m=a^{n+m}$"
@@ -214,7 +215,10 @@ export let templates: FormulaActionConfig[] = [
         id: "powers-6",
         categoryId: 7,
         template: true,
-        body: ["[a]^{-[n]}=>\\frac{1}{[a]^{[n]}}"],
+        body: [
+            "[a]^{-[n]}=>\\frac{1}{[a]^{[n]}}",
+            "[a]^{[n]}=>\\frac{1}{[a]^{-[n]}}"
+        ],
         type: "expression",
         name: "$a^{-n}=\\frac{1}{a^n}$"
     },
@@ -225,6 +229,17 @@ export let templates: FormulaActionConfig[] = [
         body: ["\\left(\\frac{[a]}{[b]}\\right)^{-[n]}=>\\left(\\frac{[b]}{[a]}\\right)^{[n]}"],
         type: "expression",
         name: "$\\left(\\frac{a}{b}\\right)^{-n}=\\left(\\frac{b}{a}\\right)^n$"
+    },
+    {
+        id: "powers-8",
+        categoryId: 7,
+        template: true,
+        body: [
+            "[x]^0=>1",
+            "[x]^1=>[x]",
+        ],
+        type: "expression",
+        name: "$x^0=1$; $x^1=x$"
     },
     {
         id: "roots-1",
