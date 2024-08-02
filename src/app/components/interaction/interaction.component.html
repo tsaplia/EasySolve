@@ -4,13 +4,13 @@
     <h2 class="d-flex justify-content-end">Interaction</h2>
     <hr>
 
-    <div id="input">
+    <div id="input" class="col-auto">
       <div *ngFor="let line of selLines">
         {{line ?  "$"+line+"$" : ''}}
       </div>
       <span class="text-muted user-select-none" *ngIf="!selLines.length">Input</span>
     </div>
-    <div id="output">
+    <div id="output" class="col-auto">
       <div *ngFor="let formula of preview">
         {{formula ? "$"+formula.toTex()+"$" : ''}}
       </div>

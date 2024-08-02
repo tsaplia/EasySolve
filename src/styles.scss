@@ -29,6 +29,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 body {
     --text-color: var(--bs-gray-800);
+    --formula-selection: #bcf3fa;
 
     --bs-body-bg: #f4f4f4;
     --background-color-2: var(--bs-white); // for canvas
@@ -45,6 +46,7 @@ body {
 
 body.dark {
     --text-color: var(--bs-gray-200);
+    --formula-selection: #4b76cd;
 
     --bs-body-bg: #3d3d3d;
     --background-color-2: var(--bs-gray-700); // for canvas

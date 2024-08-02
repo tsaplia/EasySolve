@@ -99,7 +99,7 @@ hr {
 }
 
 :host ::ng-deep mjx-container .selected {
-  background-color: #bcf3fa;
+  background-color: var(--formula-selection);
 }
 
 :host ::ng-deep mjx-container mjx-math {
