@@ -11,7 +11,7 @@
   display: none;
 }
 .category {
-  color: $textColor;
+  color: var(--text-color);
   font-size:20px;
   font-family: monospace;
   display: flex;
@@ -22,7 +22,7 @@
   margin-right: 5px;
 }
 .category:hover > mat-icon {
-  background-color: tint-color($primary, $btn-hover-bg-shade-amount);
+  background-color: var(--background-color-2);
   border-radius: 15px;
 }
 .list-item-intercation {

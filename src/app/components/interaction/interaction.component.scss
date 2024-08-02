@@ -2,11 +2,13 @@
 @import "bootstrap";
 
 .interaction-card {
+  color: var(--text-color);
+
   border-bottom-right-radius: 5%;
   border-top-right-radius: 5%;
-  background-color: $primary;
+  background-color: var(--background-color-primary);
   overflow: hidden;
-  
+
   @extend .p-4;
   @extend .h-100;
   @extend .shadow-lg;
@@ -17,25 +19,30 @@ hr {
   border-width: 5px;
 }
 #input, #output {
+  color: var(--bs-gray-700);
+
   @extend .p-2;
   @extend .rounded;
-  @extend .overflow-hidden;
+
+  overflow: hidden;
   min-height: 30px;
   margin-top: 10px;
   background-color: antiquewhite;
 }
 .btn-row {
-  @extend .d-flex ;
-  @extend .justify-content-end; 
-  @extend .my-2; 
-  @extend .ps-1;
+    display: flex;
+    justify-content: end;
+    padding-left: 0.25rem;
+    margin: 0.5rem 0;
+
+  & > button{
+    display: flex;
+    padding: 0;
+    margin: auto 0.25rem;
+    border: none;
+  }
 }
 
-.btn-row > button{
-  @extend .btn;
-  @extend .btn-outline-secondary;
-  @extend .d-flex;
-  @extend .p-0;
-  @extend .mx-1;
-  @extend .my-auto;
+mat-icon {
+  color: var(--text-color);
 }

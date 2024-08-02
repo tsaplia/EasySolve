@@ -1,6 +1,15 @@
 @import "/src/assets/variables.scss";
 
 span {
-  color: $textColor;
+  color: var(--text-color);
+
   font-family: monospace;
+}
+
+mat-icon {
+  color: var(--text-color);
+}
+
+div.mat-mdc-menu-content {
+    background-color: var(--background-color-2);
 }

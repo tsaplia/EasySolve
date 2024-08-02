@@ -1,2 +1,10 @@
-$primary: #bbddd4;
+$primary: #764e9e;//var(--primary);
 $textColor: var(--bs-gray-800);
+
+:root {
+    // $primary: #bbddd4;
+}
+
+body.dark {
+    // $primary: #1a1a1a;
+}

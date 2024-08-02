@@ -14,6 +14,21 @@ export class StorageService {
     private _selectionChanged: boolean = false;
 
     constructor() {
+        const linesFromLS = localStorage.getItem("lines");
+        if (linesFromLS !== null) {
+            if (JSON.parse(linesFromLS).length > 0) {
+                let lines = JSON.parse(linesFromLS);
+                let newLines: CanvasLine[] = [];
+
+                for (let item of lines) {
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                    newLines.push(new CanvasLine(item));
+                }
+
+                this._lines = [...newLines];
+            }
+        }
+
         selected.addListener(() => {
             this._selectionChanged = true;
         });
@@ -30,11 +45,15 @@ export class StorageService {
             }
             this._lines.splice(index, 0, line);
         } else this._lines.push(line);
+
+        this.updateLines();
     }
 
     setLines(lines: CanvasLine[]): void {
         this.clearLines();
         this._lines = [...lines];
+
+        this.updateLines();
     }
 
     deleteLine(index: number): void {
@@ -42,11 +61,20 @@ export class StorageService {
         let deleted = this._lines.splice(index, 1)[0];
         // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
         removeStruct(document.querySelector(`#line-${deleted.id}`) as HTMLElement);
+
+        this.updateLines();
     }
 
     clearLines(): void {
         this._lines = [];
+        CanvasLine.currentId = 0; // TODO: it is necessary? I think is good thing
         clearSelected();
+
+        this.updateLines();
+    }
+
+    updateLines(): void {
+        localStorage.setItem("lines", JSON.stringify(this._lines));
     }
 
     get selectedLines(): string[] {

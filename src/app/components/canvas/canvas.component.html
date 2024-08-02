@@ -1,34 +1,36 @@
 <div class="px-2 w-100" style="height: 80%;" (paste)="paste()">
+
   <div class="w-100 mt-5">
     <div class="btn-row">
-      <button type="button" (click)="interactionToggle()">Interaction</button>
+      <button type="button" class="button" (click)="interactionToggle()">Interaction</button>
       <div>
-        <button type="button" (click)="newLineInput('formula')">Add furmula</button>
-        <button type="button" (click)="newLineInput('text')">Add text</button>
-        <button type="button" (click)="clear()">Clear</button>
+        <button type="button" class="button" (click)="newLineInput('formula')">Add furmula</button>
+        <button type="button" class="button" (click)="newLineInput('text')">Add text</button>
+        <button type="button" class="button" (click)="clear()">Clear</button>
       </div>
-      <button type="button" (click)="dictionaryToggle()" disabled>Dictionary</button>
+      <button type="button" class="button" (click)="dictionaryToggle()" disabled>Dictionary</button>
     </div>
   </div>
+
   <div class="canvas-body">
     <div class="d-flex justify-content-between" style="margin-top: -10px; margin-right: -10px;">
-      <div style="width:100%; padding-right:6px">
+      <div class="w-100 pe-1">
         <input type="text" placeholder="Title" class="title-input"  [(ngModel)]="title">
       </div>
       <app-save-open [lines]="lines" [title]="title" (openEvent)="linesFromFile($event)"></app-save-open>
     </div>
     <div id="capture" cdkDropList (cdkDropListDropped)="drop($event)">
       <ng-container *ngFor="let line of lines; index as i">
-        <div [id]="line.id" cdkDrag class="d-flex justify-content-between bg-white p-1">
+        <div [id]="line.id" cdkDrag class="d-flex justify-content-between p-1">
           <app-canvas-line [line]="line"></app-canvas-line>
-          <div class="d-flex">
-            <button class="btn btn-outline-secondary d-flex p-0 mx-1 my-auto border-0" (click)="copyFunction(i)">
+          <div class="line-buttons">
+            <button (click)="copyFunction(i)">
               <mat-icon aria-hidden="false" fontIcon="file_copy"></mat-icon>
             </button>
-            <button class="btn btn-outline-secondary d-flex p-0 mx-1 my-auto border-0" (click)="editFunction(i)">
+            <button (click)="editFunction(i)">
               <mat-icon aria-hidden="false" fontIcon="edit"></mat-icon>
             </button>
-            <button class="btn btn-outline-secondary d-flex p-0 my-auto border-0" (click)="deleteFunction(i)">
+            <button (click)="deleteFunction(i)">
               <mat-icon aria-hidden="false" fontIcon="close"></mat-icon>
             </button>
             <mat-icon aria-hidden="false" fontIcon="drag_indicator" cdkDragHandle class="drag-icon ms-2 my-auto"></mat-icon>

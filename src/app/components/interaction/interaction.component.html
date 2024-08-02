@@ -1,30 +1,31 @@
 <div class="pe-2 h-100">
   <div class="interaction-card d-flex flex-column">
-    
+
     <h2 class="d-flex justify-content-end">Interaction</h2>
     <hr>
-    
-    <div id="input">
+
+    <div id="input" class="col-auto">
       <div *ngFor="let line of selLines">
         {{line ?  "$"+line+"$" : ''}}
       </div>
       <span class="text-muted user-select-none" *ngIf="!selLines.length">Input</span>
     </div>
-    <div id="output">
+    <div id="output" class="col-auto">
       <div *ngFor="let formula of preview">
         {{formula ? "$"+formula.toTex()+"$" : ''}}
       </div>
       <span class="text-muted user-select-none" *ngIf="!preview.length">Output</span>
     </div>
+
     <div class="btn-row">
       <span class="me-auto">Addition mode:</span>
-      <button (click)="addOutputToLines('addToEnd')" [disabled]="!availibleModes.addToEnd">
+      <button class="btn btn-outline-secondary" (click)="addOutputToLines('addToEnd')" [disabled]="!availibleModes.addToEnd">
         <mat-icon aria-hidden="false" fontIcon="start"></mat-icon>
       </button>
-      <button (click)="addOutputToLines('newLine')" [disabled]="!availibleModes.newLine">
+      <button class="btn btn-outline-secondary" (click)="addOutputToLines('newLine')" [disabled]="!availibleModes.newLine">
         <mat-icon aria-hidden="false" fontIcon="subdirectory_arrow_right"></mat-icon>
       </button>
-      <button (click)="addOutputToLines('replace')" [disabled]="!availibleModes.replace">
+      <button class="btn btn-outline-secondary" (click)="addOutputToLines('replace')" [disabled]="!availibleModes.replace">
         <mat-icon aria-hidden="false" fontIcon="compare_arrows"></mat-icon>
       </button>
     </div>

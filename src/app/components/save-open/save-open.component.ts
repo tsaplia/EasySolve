@@ -27,10 +27,18 @@ export class SaveOpenComponent {
 
   hotkeys: any = hotkeys.saveOpen;
 
+  lightTheme: boolean = true;
+
   constructor(private readonly clipboardService: ClipboardService,
               private readonly cdRef: ChangeDetectorRef,
               private readonly toast: ToastrService,
               private readonly dialog: MatDialog) {
+      let theme = localStorage.getItem("theme");
+      if (theme != null) {
+          if (theme == "light") this.lightTheme = false;
+          else this.lightTheme = true;
+      }
+      this.changeTheme();
   }
 
   openInfoModal(): void {
@@ -39,6 +47,17 @@ export class SaveOpenComponent {
       modal.afterClosed().subscribe(() => {
           console.log("closed");
       });
+  }
+
+  changeTheme() {
+      if (this.lightTheme) {
+          document.body.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+      } else {
+          document.body.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+      }
+      this.lightTheme = !this.lightTheme;
   }
 
   dowload(type: "json" | "tex"): void {

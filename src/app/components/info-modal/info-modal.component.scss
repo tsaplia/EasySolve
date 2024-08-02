@@ -1,9 +1,9 @@
 @import "/src/assets/variables.scss";
 @import "bootstrap";
 
-#adding-modal {
-  color: $textColor;
-  width: 80vw; 
+.adding-modal {
+  color: var(--text-color);
+  width: 80vw;
   max-width: 800px; // TODO: create a custom class for text modal
   border-radius: 10px;
   font-family: monospace;
@@ -11,12 +11,12 @@
 }
 
 .modal-head {
+  color: var(--text-color);
   padding: 10px 30px 5px 30px;
-  background-color: $primary;
+  background-color: var(--background-color-primary);
 }
-button.btn-primary {
-  color: $textColor;
-}
+
+
 h1 {
   margin-bottom: 0;
 }

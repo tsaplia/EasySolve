@@ -1,5 +1,5 @@
 export class CanvasLine {
-    private static currentId = 0;
+    public static currentId = 0;
     id: number;
     type: "text" | "formula";
     line: string;

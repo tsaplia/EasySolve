@@ -1,45 +1,77 @@
 @import "/src/assets/variables.scss";
 @import "bootstrap";
 
+// classes for html elements
+hr {
+    opacity: 0.1;
+    border-style: dashed;
+    @extend .my-0;
+  }
+
+// buttons on the top
 .btn-row {
   display: flex;
   justify-content: space-between;
+
+  & > button, & > div > button {
+    margin: 0px 10px;
+    font-family: monospace;
+    @extend .shadow;
+  }
 }
 
-.btn-row > button, .btn-row > div > button{
-  margin: 0px 10px;
-  font-family: monospace;
-  color: $textColor;
-  @extend .btn;
-  @extend .btn-primary;
-}
+// canvas' objects
 .canvas-body {
   max-height: 100%;
   font-family: monospace;
+  background-color: var(--background-color-2);
   @extend .w-100;
   @extend .mt-3;
   @extend .rounded;
-  @extend .bg-white;
   @extend .shadow;
   @extend .p-3;
   @extend .overflow-y-auto;
 }
+
 .title-input {
+  color: var(--text-color);
+  background-color: var(--background-color-2);
   border: none;
   margin-top: 10px;
   width: 100%;
-  color: $textColor;
+
+  &::placeholder {
+    color: var(--text-color);
+    opacity: 0.7;
+  }
 }
+
+.line-buttons {
+  display: flex;
+
+  & > button { // btn btn-outline-secondary d-flex p-0 mx-1 my-auto border-0
+    color: var(--text-color);
+    display: flex;
+    padding: 0;
+    @extend .btn;
+    @extend .btn-outline-secondary;
+    @extend .mx-1;
+    @extend .my-auto;
+    @extend .border-0;
+  }
+}
+
+#capture {
+    color: var(--text-color)
+}
+
+// drag and drop classes
 .drag-item {
   color:#6c757d; //TODO: create variable
 }
-hr {
-  opacity: 0.1;
-  border-style: dashed;
-  @extend .my-0;
-}
 
 .cdk-drag-preview {
+  color: var(--text-color);
   font-family: monospace;
   box-sizing: border-box;
   border-radius: 4px;
@@ -67,7 +99,7 @@ hr {
 }
 
 :host ::ng-deep mjx-container .selected {
-  background-color: #bcf3fa;
+  background-color: var(--formula-selection);
 }
 
 :host ::ng-deep mjx-container mjx-math {
