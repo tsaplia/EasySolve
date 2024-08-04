@@ -109,3 +109,7 @@ hr {
 :host ::ng-deep .line-formula mjx-container {
   font-size: 150%!important;
 }
+
+:host ::ng-deep mjx-root {
+  position: absolute;
+}
