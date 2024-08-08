@@ -1,0 +1,295 @@
+{
+    "keyboardLayouts": [
+        {
+            "name": "English",
+            "keys": [
+                {
+                    "text": [
+                        "a",
+                        "A"
+                    ],
+                    "command": [
+                        "a",
+                        "A"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "b",
+                        "B"
+                    ],
+                    "command": [
+                        "b",
+                        "B"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "c",
+                        "C"
+                    ],
+                    "command": [
+                        "c",
+                        "C"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "d",
+                        "D"
+                    ],
+                    "command": [
+                        "d",
+                        "D"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "e",
+                        "E"
+                    ],
+                    "command": [
+                        "e",
+                        "E"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "f",
+                        "F"
+                    ],
+                    "command": [
+                        "f",
+                        "F"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "g",
+                        "G"
+                    ],
+                    "command": [
+                        "g",
+                        "G"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "h",
+                        "H"
+                    ],
+                    "command": [
+                        "h",
+                        "H"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "i",
+                        "I"
+                    ],
+                    "command": [
+                        "i",
+                        "I"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "j",
+                        "J"
+                    ],
+                    "command": [
+                        "j",
+                        "J"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "k",
+                        "K"
+                    ],
+                    "command": [
+                        "k",
+                        "K"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "l",
+                        "L"
+                    ],
+                    "command": [
+                        "l",
+                        "L"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "m",
+                        "M"
+                    ],
+                    "command": [
+                        "m",
+                        "M"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "n",
+                        "N"
+                    ],
+                    "command": [
+                        "n",
+                        "N"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "o",
+                        "O"
+                    ],
+                    "command": [
+                        "o",
+                        "O"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "p",
+                        "P"
+                    ],
+                    "command": [
+                        "p",
+                        "P"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "q",
+                        "Q"
+                    ],
+                    "command": [
+                        "q",
+                        "Q"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "r",
+                        "R"
+                    ],
+                    "command": [
+                        "r",
+                        "R"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "s",
+                        "S"
+                    ],
+                    "command": [
+                        "s",
+                        "S"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "t",
+                        "T"
+                    ],
+                    "command": [
+                        "t",
+                        "T"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "u",
+                        "U"
+                    ],
+                    "command": [
+                        "u",
+                        "U"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "v",
+                        "V"
+                    ],
+                    "command": [
+                        "v",
+                        "V"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "w",
+                        "W"
+                    ],
+                    "command": [
+                        "w",
+                        "W"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "x",
+                        "X"
+                    ],
+                    "command": [
+                        "x",
+                        "X"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "y",
+                        "Y"
+                    ],
+                    "command": [
+                        "y",
+                        "Y"
+                    ],
+                    "colClass": "col-1"
+                },
+                {
+                    "text": [
+                        "z",
+                        "Z"
+                    ],
+                    "command": [
+                        "z",
+                        "Z"
+                    ],
+                    "colClass": "col-1"
+                }
+            ]
+        }
+    ]
+}

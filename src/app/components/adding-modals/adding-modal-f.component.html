@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <app-keyboard style="display: none;" (elementAdded)="getNewElement($event)"></app-keyboard>
+    <app-keyboard (elementAdded)="getNewElement($event)" (clearCmd)="clear()"></app-keyboard>
 
     <div class="d-flex mt-3 justify-content-end">
       <button class="button me-2" (click)="add()">Add</button>

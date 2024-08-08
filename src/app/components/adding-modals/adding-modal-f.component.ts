@@ -38,6 +38,10 @@ export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
         this.mathField.focus();
     }
 
+    clear() {
+        this.mathField.latex("");
+    }
+
     close(): void {
         this.dialogRef.close();
     }

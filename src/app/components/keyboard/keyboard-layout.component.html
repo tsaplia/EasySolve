@@ -1,0 +1,9 @@
+<div class="mt-3">
+    <div class="col-12 d-flex flex-wrap my-1">
+        <ng-container *ngFor="let key of keys">
+            <div class="p-1" ngClass="{{key.colClass}}">
+                <button class="button w-100 p-1" (click)="addElement(key.command[shift])">{{key.text[shift]}}</button>
+            </div>
+        </ng-container>
+    </div>
+</div>

@@ -15,3 +15,12 @@
         <div class="col-1 p-1"><button class="button w-100" (click)="addElement('8')">8</button></div>
     </div>
 </div>
+
+<ng-container *ngFor="let layout of keyboardLayouts">
+    <app-keyboard-layout [keys]="layout.keys" [shift]="shift" (onClick)="addElement($event)"></app-keyboard-layout>
+</ng-container>
+
+<div>
+    <button class="button m-1" (click)="shiftToggle()">Shift ({{shift}})</button>
+    <button class="button m-1" (click)="clear()">Clear</button>
+</div>

@@ -23,6 +23,7 @@ import { AddingModalTextComponent } from "./components/adding-modals/adding-moda
 import { CanvasLineComponent } from "./components/canvas-line/canvas-line.component";
 import { InfoModalComponent } from "./components/info-modal/info-modal.component";
 import { KeyboardComponent } from "./components/keyboard/keyboard.component";
+import { KeyboardLayoutComponent } from "./components/keyboard/keyboard-layout.component";
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { KeyboardComponent } from "./components/keyboard/keyboard.component";
         ListComponent,
         CanvasLineComponent,
         InfoModalComponent,
-        KeyboardComponent
+        KeyboardComponent,
+        KeyboardLayoutComponent
     ],
     imports: [
         BrowserModule,
