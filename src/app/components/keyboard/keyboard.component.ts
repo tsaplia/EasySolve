@@ -14,18 +14,32 @@ export class KeyboardComponent {
 
     keyboardLayouts: KeyboardLayout[] = [];
     shift: number = 0;
+    shiftHold: boolean = false;
     constantlyShift: boolean = false;
+    keyboardIndex: number = 0;
 
     constructor() {
         this.keyboardLayouts = _keyboardLayouts.keyboardLayouts;
     }
 
     addElement(element: string) {
+        if (!this.shiftHold) this.shift = 0;
         this.elementAdded.emit(element);
     }
 
     shiftToggle() {
-        this.shift = (this.shift + 1) % 2;
+        if (this.shift == 0) this.shift = 1;
+        else {
+            this.shift = 0; this.shiftHold = false;
+        }
+    }
+
+    shiftHoldToggle() {
+        if (this.shiftHold) {
+            this.shiftHold = false; this.shift = 0;
+        } else {
+            this.shiftHold = true; this.shift = 1;
+        }
     }
 
     clear() {

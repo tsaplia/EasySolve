@@ -16,11 +16,20 @@
     </div>
 </div>
 
-<ng-container *ngFor="let layout of keyboardLayouts">
-    <app-keyboard-layout [keys]="layout.keys" [shift]="shift" (onClick)="addElement($event)"></app-keyboard-layout>
-</ng-container>
+<div class="overflow">
+    <ng-container *ngFor="let layout of keyboardLayouts; index as i" >
+        <input type="radio" class="btn-check" id="option-{{i}}" (click)="keyboardIndex = i" [checked]="keyboardIndex == i">
+        <label class="button m-1 p-1" for="option-{{i}}">
+            <!-- <mat-icon>{{layout.icon}}</mat-icon> -->
+            {{layout.name}}
+        </label>
+    </ng-container>
+</div>
+
+<app-keyboard-layout [keys]="keyboardLayouts[keyboardIndex].keys" [shift]="shift" (onClick)="addElement($event)"></app-keyboard-layout>
 
 <div>
     <button class="button m-1" (click)="shiftToggle()">Shift ({{shift}})</button>
+    <button class="button m-1" (click)="shiftHoldToggle()">Hold shift ({{shiftHold ? 1 : 0}})</button>
     <button class="button m-1" (click)="clear()">Clear</button>
 </div>
