@@ -1,11 +1,15 @@
 export interface KeyboardLayout {
     name: string
-    icon?: string
     keys: Key[]
 }
 
 export interface Key {
-    text: string[] // displayed text; 0 - general letter, 1 - capital letter
-    command: string[] // 0 - general letter, 1 - capital letter
+    config: KeyConfig[] 
     colClass: string
+}
+
+export interface KeyConfig { 
+    label?: string, // default value - <text>
+    text: string, 
+    cmd?: "cmd" | "write" | "keystroke" // default value - "cmd"
 }

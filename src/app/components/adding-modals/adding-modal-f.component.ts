@@ -35,7 +35,7 @@ export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
 
     getNewElement(event: string) {
         this.mathField.write(event);
-        this.mathField.keystroke("Right"); // TODO: use this command to create move buttons
+        // this.mathField.keystroke("Right"); // TODO: use this command to create move buttons
         // TODO: css care-color: var(--text-color); use this commands to all inputs
         this.mathField.focus();
     }

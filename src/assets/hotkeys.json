@@ -83,6 +83,16 @@
       "options": {
         "mode": "replace"
       }
+    },
+    {
+      "id": "calc",
+      "key": "c",
+      "ctrl": false,
+      "alt": true,
+      "shift": true,
+      "options": {
+        "mode": "addToEnd"
+      }
     }
   ]
 }
