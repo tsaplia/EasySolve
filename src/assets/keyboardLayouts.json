@@ -4,568 +4,184 @@
             "name": "English",
             "keys": [
                 {
-                    "text": [
-                        "a",
-                        "A"
-                    ],
-                    "command": [
-                        "a",
-                        "A"
+                    "config": [
+                        { "text": "q" },
+                        { "text": "Q" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "b",
-                        "B"
-                    ],
-                    "command": [
-                        "b",
-                        "B"
+                    "config": [
+                        { "text": "w" },
+                        { "text": "W" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "c",
-                        "C"
-                    ],
-                    "command": [
-                        "c",
-                        "C"
+                    "config": [
+                        { "text": "e" },
+                        { "text": "E" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "d",
-                        "D"
-                    ],
-                    "command": [
-                        "d",
-                        "D"
+                    "config": [
+                        { "text": "r" },
+                        { "text": "R" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "e",
-                        "E"
-                    ],
-                    "command": [
-                        "e",
-                        "E"
+                    "config": [
+                        { "text": "t" },
+                        { "text": "T" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "f",
-                        "F"
-                    ],
-                    "command": [
-                        "f",
-                        "F"
+                    "config": [
+                        { "text": "y" },
+                        { "text": "Y" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "g",
-                        "G"
-                    ],
-                    "command": [
-                        "g",
-                        "G"
+                    "config": [
+                        { "text": "u" },
+                        { "text": "U" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "h",
-                        "H"
-                    ],
-                    "command": [
-                        "h",
-                        "H"
+                    "config": [
+                        { "text": "i" },
+                        { "text": "I" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "i",
-                        "I"
-                    ],
-                    "command": [
-                        "i",
-                        "I"
+                    "config": [
+                        { "text": "o" },
+                        { "text": "O" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "j",
-                        "J"
-                    ],
-                    "command": [
-                        "j",
-                        "J"
+                    "config": [
+                        { "text": "p" },
+                        { "text": "P" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "k",
-                        "K"
-                    ],
-                    "command": [
-                        "k",
-                        "K"
+                    "config": [
+                        { "text": "a" },
+                        { "text": "A" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "l",
-                        "L"
-                    ],
-                    "command": [
-                        "l",
-                        "L"
+                    "config": [
+                        { "text": "s" },
+                        { "text": "S" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "m",
-                        "M"
-                    ],
-                    "command": [
-                        "m",
-                        "M"
+                    "config": [
+                        { "text": "d" },
+                        { "text": "D" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "n",
-                        "N"
-                    ],
-                    "command": [
-                        "n",
-                        "N"
+                    "config": [
+                        { "text": "f" },
+                        { "text": "F" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "o",
-                        "O"
-                    ],
-                    "command": [
-                        "o",
-                        "O"
+                    "config": [
+                        { "text": "g" },
+                        { "text": "G" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "p",
-                        "P"
-                    ],
-                    "command": [
-                        "p",
-                        "P"
+                    "config": [
+                        { "text": "h" },
+                        { "text": "H" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "q",
-                        "Q"
-                    ],
-                    "command": [
-                        "q",
-                        "Q"
+                    "config": [
+                        { "text": "j" },
+                        { "text": "J" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "r",
-                        "R"
-                    ],
-                    "command": [
-                        "r",
-                        "R"
+                    "config": [
+                        { "text": "k" },
+                        { "text": "K" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "s",
-                        "S"
-                    ],
-                    "command": [
-                        "s",
-                        "S"
+                    "config": [
+                        { "text": "l" },
+                        { "text": "L" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "t",
-                        "T"
-                    ],
-                    "command": [
-                        "t",
-                        "T"
+                    "config": [
+                        { "text": "z" },
+                        { "text": "Z" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "u",
-                        "U"
-                    ],
-                    "command": [
-                        "u",
-                        "U"
+                    "config": [
+                        { "text": "x" },
+                        { "text": "X" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "v",
-                        "V"
-                    ],
-                    "command": [
-                        "v",
-                        "V"
+                    "config": [
+                        { "text": "c" },
+                        { "text": "C" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "w",
-                        "W"
-                    ],
-                    "command": [
-                        "w",
-                        "W"
+                    "config": [
+                        { "text": "v" },
+                        { "text": "V" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "x",
-                        "X"
-                    ],
-                    "command": [
-                        "x",
-                        "X"
+                    "config": [
+                        { "text": "b" },
+                        { "text": "B" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "y",
-                        "Y"
-                    ],
-                    "command": [
-                        "y",
-                        "Y"
+                    "config": [
+                        { "text": "n" },
+                        { "text": "N" }
                     ],
                     "colClass": "col-1"
                 },
                 {
-                    "text": [
-                        "z",
-                        "Z"
-                    ],
-                    "command": [
-                        "z",
-                        "Z"
-                    ],
-                    "colClass": "col-1"
-                }
-            ]
-        },
-        {
-            "name": "English 2",
-            "keys": [
-                {
-                    "text": [
-                        "b",
-                        "B"
-                    ],
-                    "command": [
-                        "b",
-                        "B"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "c",
-                        "C"
-                    ],
-                    "command": [
-                        "c",
-                        "C"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "d",
-                        "D"
-                    ],
-                    "command": [
-                        "d",
-                        "D"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "e",
-                        "E"
-                    ],
-                    "command": [
-                        "e",
-                        "E"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "f",
-                        "F"
-                    ],
-                    "command": [
-                        "f",
-                        "F"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "g",
-                        "G"
-                    ],
-                    "command": [
-                        "g",
-                        "G"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "h",
-                        "H"
-                    ],
-                    "command": [
-                        "h",
-                        "H"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "i",
-                        "I"
-                    ],
-                    "command": [
-                        "i",
-                        "I"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "j",
-                        "J"
-                    ],
-                    "command": [
-                        "j",
-                        "J"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "k",
-                        "K"
-                    ],
-                    "command": [
-                        "k",
-                        "K"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "l",
-                        "L"
-                    ],
-                    "command": [
-                        "l",
-                        "L"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "m",
-                        "M"
-                    ],
-                    "command": [
-                        "m",
-                        "M"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "n",
-                        "N"
-                    ],
-                    "command": [
-                        "n",
-                        "N"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "o",
-                        "O"
-                    ],
-                    "command": [
-                        "o",
-                        "O"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "p",
-                        "P"
-                    ],
-                    "command": [
-                        "p",
-                        "P"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "q",
-                        "Q"
-                    ],
-                    "command": [
-                        "q",
-                        "Q"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "r",
-                        "R"
-                    ],
-                    "command": [
-                        "r",
-                        "R"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "s",
-                        "S"
-                    ],
-                    "command": [
-                        "s",
-                        "S"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "t",
-                        "T"
-                    ],
-                    "command": [
-                        "t",
-                        "T"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "u",
-                        "U"
-                    ],
-                    "command": [
-                        "u",
-                        "U"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "v",
-                        "V"
-                    ],
-                    "command": [
-                        "v",
-                        "V"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "w",
-                        "W"
-                    ],
-                    "command": [
-                        "w",
-                        "W"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "x",
-                        "X"
-                    ],
-                    "command": [
-                        "x",
-                        "X"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "y",
-                        "Y"
-                    ],
-                    "command": [
-                        "y",
-                        "Y"
-                    ],
-                    "colClass": "col-1"
-                },
-                {
-                    "text": [
-                        "z",
-                        "Z"
-                    ],
-                    "command": [
-                        "z",
-                        "Z"
+                    "config": [
+                        { "text": "m" },
+                        { "text": "M" }
                     ],
                     "colClass": "col-1"
                 }
