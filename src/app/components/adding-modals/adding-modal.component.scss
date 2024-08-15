@@ -1,13 +1,22 @@
+@import "/src/assets/variables.scss";
 @import "bootstrap";
+
 
 .adding-modal {
   color: var(--text-color);
   background-color: var(--background-color-2);
 
   width: 80vw;
-  max-width: 500px;
   border-radius: 10px;
-  //  @extend .rounded;
+  font-family: monospace;
+}
+
+.text-modal {
+  max-width: 800px;
+}
+
+.formula-modal {
+  max-width: 500px;
 }
 
 .modal-head {
@@ -16,25 +25,26 @@
   background-color: var(--background-color-primary);
 }
 
-h1 {
-  margin-bottom: 0;
+.form-control {
+  background-color: var(--background-color-2);
+  color: var(--text-color);
 }
 
-span {
+textarea.math-field {
+  resize: none;
+  height: 150px;
+  width: 100%;
+
+  &:focus {
     color: var(--text-color);
+    background-color: var(--background-color-2);
+    border-color: var(--bs-border-color);
+  }
 }
 
 .form-control:has(.mq-editable-field.mq-focused) {
-  color: $input-focus-color;
-  background-color: $input-focus-bg;
-  border-color: $input-focus-border-color;
   outline: 0;
-  @if $enable-shadows {
-    @include box-shadow($input-box-shadow, $input-focus-box-shadow);
-  } @else {
-    // Avoid using mixin so we can pass custom focus shadow properly
-    box-shadow: $input-focus-box-shadow;
-  }
+  box-shadow: $input-focus-box-shadow;
 }
 
 :host {
@@ -50,4 +60,16 @@ span {
   -moz-box-shadow: none;
   box-shadow: none;
   border-color: none;
+}
+
+:host ::ng-deep .mq-cursor {
+  border-left-color: var(--text-color);
+}
+
+h1 {
+  margin-bottom: 0;
+}
+
+span {
+    color: var(--text-color);
 }

@@ -7,7 +7,7 @@ import { StatusService } from "src/app/services/status.service";
 
 @Component({
     templateUrl: "adding-modal-t.component.html",
-    styleUrls: ["adding-modal-t.component.scss"]
+    styleUrls: ["adding-modal.component.scss"]
 })
 
 export class AddingModalTextComponent implements OnInit, AfterViewInit {

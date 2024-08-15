@@ -8,7 +8,7 @@ import { ToastrService } from "ngx-toastr";
 
 @Component({
     templateUrl: "adding-modal-f.component.html",
-    styleUrls: ["adding-modal-f.component.scss"]
+    styleUrls: ["adding-modal.component.scss"]
 })
 
 export class AddingModalFormulaComponent implements OnInit, AfterViewInit {

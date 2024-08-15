@@ -10,7 +10,7 @@ import { Term } from "../../math-structures/term";
 import { formulaTemplateFromTeX, templateFromTeX } from "../from-tex";
 import { clearSelected, selected } from "../selection/selected";
 import { type StructureData } from "../selection/selected-structures";
-import { fracToTerm, multTerms, reverseTerm, simplifyTerms, simplifyFrac, termAsFracContent, termToFrac } from "./base-actions";
+import { fracToTerm, multTerms, reverseTerm, collectLikeTerms, simplifyFrac, termAsFracContent, termToFrac } from "./base-actions";
 import { replace, tryFormulaTemplate, tryTemplete } from "../templates/templete-functions";
 import { templates } from "src/assets/actionConfigs";
 import { simplifications } from "./simplifications";
@@ -158,7 +158,7 @@ availibleActions.set("like-terms", () => {
 
     return [
         new Formula([
-            replace(data.formula.equalityParts[data.partIndex], data.structure, simplifyTerms(structure))
+            replace(data.formula.equalityParts[data.partIndex], data.structure, collectLikeTerms(structure))
         ])
     ];
 });

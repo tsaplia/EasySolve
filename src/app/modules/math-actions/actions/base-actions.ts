@@ -89,7 +89,7 @@ function _multiplyPowers(a: Multiplier, b: Multiplier, devide?: boolean): Multip
     if (devide) bContent.exponent = new Expression(bContent.exponent.content.map(t => changeTermSign(t)));
 
     let expr = new Expression(aContent.exponent.content.concat(bContent.exponent.content).map(t => t.copy()));
-    expr = simplifyTerms(expr);
+    expr = collectLikeTerms(expr);
 
     if (expr.toTex() == "0") return new Num(1);
     if (expr.toTex() == "1") return aContent.base.copy();
@@ -100,7 +100,7 @@ function _mergePowers(content: Multiplier[]): void {
     for (let i = 0; i < content.length; i++) {
         let mult = content[i].copy();
         for (let j = i + 1; j < content.length; j++) {
-            let merged = _multiplyPowers(content[i], content[j]);
+            let merged = _multiplyPowers(mult, content[j]);
             if (merged) {
                 mult = merged;
                 content.splice(j--, 1);
@@ -223,7 +223,7 @@ export function fromCompInfo(frac: Frac, coef: [number, number]): Term {
     return new Term(termContent, coef[0] >= 0 ? "+" : "-");
 }
 
-export function simplifyTerms(expr: Expression): Expression {
+export function collectLikeTerms(expr: Expression): Expression {
     let children = expr.content.map(child => getCompInfo(child));
     let content: Term[] = [];
     while (children.length) {

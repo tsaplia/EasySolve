@@ -1,6 +1,6 @@
 import { type Multiplier } from "../../math-structures/math-structure";
 import { Term } from "../../math-structures/term";
-import { simplifyTerms, multTerms } from "./base-actions";
+import { collectLikeTerms, multTerms } from "./base-actions";
 import { Expression } from "../../math-structures/expression";
 import { type FormulaReplacement, type Simplification } from "src/app/models/types";
 import { Frac } from "../../math-structures/fraction";
@@ -9,7 +9,7 @@ export let simplifications: {[key in Simplification]: (mult: Multiplier) => Form
     "like-terms": (mult: Multiplier) => {
         if (!(mult instanceof Expression)) return null;
 
-        return { from: mult, to: simplifyTerms(mult) };
+        return { from: mult, to: collectLikeTerms(mult) };
     },
 
     "distribute": (mult: Multiplier) => {
