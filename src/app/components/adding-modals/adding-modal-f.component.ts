@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { MathQuillService } from "src/app/services/mathquill.service";
 import { checkFormula } from "src/app/modules/math-actions/from-tex";
 import { ToastrService } from "ngx-toastr";
+import { KeyConfig } from "src/app/models/keyboardLayout";
 
 @Component({
     templateUrl: "adding-modal-f.component.html",
@@ -13,7 +14,6 @@ import { ToastrService } from "ngx-toastr";
 
 export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
     mathField: MQ.MathField;
-    error: string = "";
     description: string = "";
 
     constructor(private readonly dialogRef: MatDialogRef<AddingModalFormulaComponent>,
@@ -33,8 +33,8 @@ export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
         }
     }
 
-    getNewElement(event: string) {
-        this.mathField.write(event);
+    getNewElement(event: KeyConfig) {
+        this.mathField[event.cmd || "cmd"](event.text);
         // this.mathField.keystroke("Right"); // TODO: use this command to create move buttons
         // TODO: css care-color: var(--text-color); use this commands to all inputs
         this.mathField.focus();
@@ -42,6 +42,7 @@ export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
 
     clear() {
         this.mathField.latex("");
+        this.mathField.focus();
     }
 
     close(): void {

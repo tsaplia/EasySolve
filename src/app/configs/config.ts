@@ -1,6 +1,6 @@
 export const availibleLetters = [
     "alpha", "nu", "beta", "xi", "Xi", "gamma", "Gamma", "delta", "Delta", "pi", "Pi", "epsilon", "rho",
-    "varrho", "zeta", "sigma", "Sigma", "eta", "tau", "theta", "Theta", "upsilon", "Upsilon", "iota", "phi",
+    "zeta", "sigma", "Sigma", "eta", "tau", "theta", "Theta", "upsilon", "Upsilon", "iota", "phi",
     "Phi", "kappa", "chi", "lambda", "Lambda", "psi", "Psi", "mu", "omega", "Omega"
 ];
 

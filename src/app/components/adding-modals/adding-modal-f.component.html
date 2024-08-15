@@ -2,8 +2,8 @@
   <div class="modal-head">
     <h1>Enter Formula</h1>
   </div>
-  <div class="p-3">
-    <div>
+  <div class="p-3 ">
+    <div class="mb-4">
       <div class="formula-description">
         <p>{{description}}</p>
       </div>
@@ -11,7 +11,6 @@
       <div>
         <!-- <label for="math-field" class="form-label">Enter formula</label> -->
         <div class="form-control" (keyup.enter)="add()"><span class="w-100" id="math-field"></span></div>
-        <div *ngIf="error" class="text-danger mt-1">{{error}}</div>
       </div>
     </div>
 
