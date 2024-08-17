@@ -2,7 +2,7 @@
     <div class="btn-group" role="group">
         <ng-container *ngFor="let layout of keyboardLayouts; index as i" >
             <input type="radio" class="btn-check" id="option-{{i}}" (click)="keyboardIndex = i" [checked]="keyboardIndex == i">
-            <label class="button px-2 py-1" for="option-{{i}}">
+            <label class="btn btn-secondary px-3 py-1 me-1" for="option-{{i}}">
                 <!-- <mat-icon>{{layout.icon}}</mat-icon> -->
                 {{layout.name}}
             </label>
@@ -12,7 +12,7 @@
 
 <app-keyboard-layout [keys]="keyboardLayouts[keyboardIndex].keys" [shift]="shift" (onClick)="addElement($event)"></app-keyboard-layout>
 <div class="btn-group d-flex"  role="group">
-    <button class="btn btn-secondary me-1" (click)="shiftHoldToggle()">⇪</button>
+    <button class="btn btn-secondary {{shift ? 'active' : ''}} me-1" (click)="shiftHoldToggle()">⇪</button>
     <button class="btn btn-secondary me-1" (click)="addElement({text: 'Left', cmd: 'keystroke'})">←</button>
     <button class="btn btn-secondary me-1" (click)="addElement({text: 'Right', cmd: 'keystroke'})">→</button>
     <button class="btn btn-secondary me-1" (click)="addElement({text: 'Backspace', cmd: 'keystroke'})">⇦</button>

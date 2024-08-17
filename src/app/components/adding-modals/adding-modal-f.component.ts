@@ -34,9 +34,7 @@ export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
     }
 
     getNewElement(event: KeyConfig) {
-        this.mathField[event.cmd || "cmd"](event.text);
-        // this.mathField.keystroke("Right"); // TODO: use this command to create move buttons
-        // TODO: css care-color: var(--text-color); use this commands to all inputs
+        event.text.split(" ").forEach((e) => this.mathField[event.cmd || "cmd"](e));
         this.mathField.focus();
     }
 

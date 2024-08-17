@@ -23,7 +23,6 @@ export class KeyboardLayoutComponent implements OnChanges {
     }
 
     ngOnChanges(): void {
-        console.log("change")
         if(this.layoutEl){
             let keys = this.layoutEl.nativeElement.querySelectorAll(".kb-key");
             keys.forEach((e) => e.firstElementChild?.remove());

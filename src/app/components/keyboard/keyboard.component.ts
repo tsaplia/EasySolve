@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import { AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild } from "@angular/core";
 import { KeyConfig, KeyboardLayout } from "src/app/models/keyboardLayout";
-import _keyboardLayouts from "src/assets/keyboardLayouts.json";
+import {keyboardLayouts} from "src/assets/keyboardLayouts";
 
 declare let MathJax: any;
 
@@ -21,7 +21,7 @@ export class KeyboardComponent implements AfterViewInit {
     keyboardIndex: number = 0;
 
     constructor() {
-        this.keyboardLayouts = _keyboardLayouts.keyboardLayouts;
+        this.keyboardLayouts = keyboardLayouts;
     }
 
     ngAfterViewInit(): void {
