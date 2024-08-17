@@ -14,7 +14,7 @@ hr {
   justify-content: space-between;
 
   & > button, & > div > button {
-    margin: 0px 10px;
+    margin: .25rem;
     font-family: monospace;
     @extend .shadow;
   }

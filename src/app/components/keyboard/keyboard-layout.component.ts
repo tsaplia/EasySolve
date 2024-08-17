@@ -1,5 +1,6 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from "@angular/core";
 import { Key, KeyConfig } from "src/app/models/keyboardLayout";
 
 declare let MathJax: any;
@@ -23,10 +24,10 @@ export class KeyboardLayoutComponent implements OnChanges {
     }
 
     ngOnChanges(): void {
-        console.log("change")
-        if(this.layoutEl){
+        console.log("change");
+        if (this.layoutEl) {
             let keys = this.layoutEl.nativeElement.querySelectorAll(".kb-key");
-            keys.forEach((e) => e.firstElementChild?.remove());
+            keys.forEach((e: any) => e.firstElementChild?.remove());
         }
         this.cdRef.detectChanges();
         MathJax.typeset([this.layoutEl.nativeElement]);

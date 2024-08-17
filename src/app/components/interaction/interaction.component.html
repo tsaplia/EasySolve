@@ -19,13 +19,13 @@
 
     <div class="btn-row">
       <span class="me-auto">Addition mode:</span>
-      <button class="btn btn-outline-secondary" (click)="addOutputToLines('addToEnd')" [disabled]="!availibleModes.addToEnd">
+      <button class="btn btn-outline-secondary" title="to the end" (click)="addOutputToLines('addToEnd')" [disabled]="!availibleModes.addToEnd">
         <mat-icon aria-hidden="false" fontIcon="start"></mat-icon>
       </button>
-      <button class="btn btn-outline-secondary" (click)="addOutputToLines('newLine')" [disabled]="!availibleModes.newLine">
+      <button class="btn btn-outline-secondary" title="to a new line" (click)="addOutputToLines('newLine')" [disabled]="!availibleModes.newLine">
         <mat-icon aria-hidden="false" fontIcon="subdirectory_arrow_right"></mat-icon>
       </button>
-      <button class="btn btn-outline-secondary" (click)="addOutputToLines('replace')" [disabled]="!availibleModes.replace">
+      <button class="btn btn-outline-secondary" title="to replace" (click)="addOutputToLines('replace')" [disabled]="!availibleModes.replace">
         <mat-icon aria-hidden="false" fontIcon="compare_arrows"></mat-icon>
       </button>
     </div>

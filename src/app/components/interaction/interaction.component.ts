@@ -127,8 +127,8 @@ export class InteractionComponent implements AfterViewInit {
         if (!this.storage.selectedLines.length || this.statusService.formulaAdding || this.statusService.textAdding) return;
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         this.hotkeys.forEach(async (hk) => {
-            if (hk.key != event.key.toLocaleLowerCase() || hk.ctrl != event.ctrlKey || hk.shift != event.shiftKey 
-                    || hk.alt != event.altKey) return;
+            if (hk.key != event.key.toLocaleLowerCase() || hk.ctrl != event.ctrlKey || hk.shift != event.shiftKey ||
+                    hk.alt != event.altKey) return;
             event.preventDefault();
             let used = await this.useTemplate(hk.id);
             if (!used) return;

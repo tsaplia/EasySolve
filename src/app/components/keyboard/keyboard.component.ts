@@ -1,5 +1,6 @@
+/* eslint-disable angular/document-service */
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Output } from "@angular/core";
 import { KeyConfig, KeyboardLayout } from "src/app/models/keyboardLayout";
 import _keyboardLayouts from "src/assets/keyboardLayouts.json";
 
