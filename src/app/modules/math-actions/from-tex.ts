@@ -12,7 +12,7 @@ import { Template } from "../math-structures/template";
 import { TemplateVar } from "../math-structures/template-var";
 import { Term } from "../math-structures/term";
 import { Variable } from "../math-structures/variable";
-import { toExpression, toTerm } from "./general-actions";
+import { toExpression, toMultiplier, toTerm } from "./general-actions";
 
 
 class IterStr {
@@ -58,6 +58,8 @@ export function formulaTemplateFromTeX(tex: string): FormulaTemplate {
 
 export function formulaFromTeX(str: string): Formula {
     str = deleteExtraBlocks(str);
+    str = str.replaceAll("\\ ", ""); // delete spaces
+
     let equalityParts = [];
     let itStr = new IterStr(str);
     if (itStr.valueOf().endsWith("=")) throw new Error("Incorrect input string");
@@ -179,7 +181,7 @@ function exponentFromTeX(itStr: IterStr, base: Multiplier) {
         itStr.add();
     }
 
-    return new Exponent(base, exponent);
+    return new Exponent(toMultiplier(base), exponent);
 }
 
 
@@ -309,11 +311,10 @@ function deleteExtraBlocks(str: string): string {
     return str;
 }
 
-export function checkFormula(str: string): boolean {
+export function checkFormula(str: string): Formula | null {
     try {
-        formulaFromTeX(str);
-        return true;
+        return formulaFromTeX(str);
     } catch (e: any) {
-        return false;
+        return null;
     }
 }

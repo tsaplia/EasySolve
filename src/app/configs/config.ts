@@ -21,4 +21,6 @@ export const mathConstants = {
 
 export const formulaTemplate = /^\$[^$]*\$$/;
 
-export const PRECISION = 4;
+export const PRECISION = 1e4;
+
+export const MAX_PRECISION = 1e8;

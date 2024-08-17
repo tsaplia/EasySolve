@@ -3,7 +3,7 @@
   [
     {
       "id": "add-formula",
-      "key": "b",
+      "key": "f",
       "ctrl": true,
       "alt": false,
       "shift": false
@@ -20,7 +20,7 @@
   [
     {
       "id": "save",
-      "key": "q",
+      "key": "s",
       "ctrl": true,
       "alt": false,
       "shift": false

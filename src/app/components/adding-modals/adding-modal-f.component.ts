@@ -50,9 +50,14 @@ export class AddingModalFormulaComponent implements OnInit, AfterViewInit {
     }
 
     add(): void {
-        if (!this.data?.checkFormula || checkFormula(this.mathField.latex())) {
+        if (!this.data?.checkFormula) {
             this.dialogRef.close({ line: `$${this.mathField.latex()}$` });
-        } else {
+            return;
+        } 
+        let formula = checkFormula(this.mathField.latex());
+        if(formula){
+            this.dialogRef.close({ line: `$${formula.toTex()}$` });
+        }else{
             this.toast.clear();
             this.toast.error("Incorrect formula");
         }
