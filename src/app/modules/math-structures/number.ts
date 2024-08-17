@@ -1,5 +1,6 @@
 import { toPrecision } from "src/app/configs/utils";
 import { type MathStruct, Multiplier } from "./math-structure";
+import { MAX_PRECISION, PRECISION } from "src/app/configs/config";
 
 
 export class Num extends Multiplier {
@@ -7,7 +8,7 @@ export class Num extends Multiplier {
     constructor(number: number | string) {
         super();
 
-        this.value = Number(number);
+        this.value = toPrecision(Number(number), MAX_PRECISION);
 
         if (this.value < 0) {
             throw new Error("Number must be >= 0");
@@ -15,7 +16,7 @@ export class Num extends Multiplier {
     }
 
     override toTex(): string {
-        return String(toPrecision(this.value));
+        return String(toPrecision(this.value, PRECISION));
     }
 
     override calculate(): number {

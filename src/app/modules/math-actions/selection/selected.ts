@@ -18,7 +18,7 @@ export function clearSelected(): void {
 }
 
 function addSelected(struct: MathStruct): void {
-    let elem = allStructures.get(struct)!;
+    let elem = allStructures.get(struct);
     if (!elem) throw new Error("Element not found");
     selected.add(struct);
     elem.classList.add("selected");
@@ -26,9 +26,8 @@ function addSelected(struct: MathStruct): void {
 
 function removeSelected(struct: MathStruct): void {
     selected.delete(struct);
-    let elem = allStructures.get(struct)!;
-    if (!elem) throw new Error("Element not found");
-    elem.classList.remove("selected");
+    let elem = allStructures.get(struct);
+    if (elem) elem.classList.remove("selected");
 }
 
 // Select element if all children are selected
@@ -74,24 +73,24 @@ export function setListener(struct: MathStruct, elem: HTMLElement): void {
         if (!targetCheck(event.target as HTMLElement)) return;
         if (selected.has(struct)) {
             removeSelected(struct);
-            event.stopPropagation();
+            event.stopImmediatePropagation();
         } else if (!findSelected(parents)) {
             addSelected(struct);
             checkParentSelection(struct.parent);
             children.forEach(child => removeSelected(child));
-            event.stopPropagation();
+            event.stopImmediatePropagation();
         }
     });
     elem.addEventListener("mousemove", (event) => {
         if (!targetCheck(event.target as HTMLElement) || event.buttons !== 1) return;
         if (selected.has(struct)) {
             if (event.ctrlKey) removeSelected(struct);
-            event.stopPropagation();
+            event.stopImmediatePropagation();
         } else if (!findSelected(parents) && !event.ctrlKey) {
             addSelected(struct);
             checkParentSelection(struct.parent);
             children.forEach(child => (removeSelected(child)));
-            event.stopPropagation();
+            event.stopImmediatePropagation();
         }
     });
 }

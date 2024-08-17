@@ -42,16 +42,18 @@ export class SelectedStructures extends Set<MathStruct> {
 
     get type(): "formula" | "structure" | null {
         if (!this.size) return null;
-        if (Array.from(this.values()).every(struct => struct instanceof Formula && struct.equalityParts.length >= 2)) {
+        let values = Array.from(this.values());
+        if (values.every(struct => struct instanceof Formula && struct.equalityParts.length >= 2)) {
             return "formula";
         }
         let parent: MathStruct | null = this.values().next().value.parent;
         if (!parent || (parent instanceof Formula)) return this.size == 1 ? "structure" : null;
         // if selected elements have common parent
-        if (Array.from(this.values()).every(struct => struct.parent == parent)) return "structure";
+        if (values.every(struct => struct.parent == parent)) return "structure";
         // if selected elements are parts of a fraction
-        return Array.from(this.values()).every(struct =>
-            struct.parent instanceof Frac || struct.parent?.parent instanceof Frac) ?
+        parent = values[0].parent instanceof Frac ? values[0].parent : values[0].parent?.parent ?? null;
+        if (!(parent instanceof Frac)) return null;
+        return values.every(struct => struct.parent == parent || struct.parent?.parent == parent) ?
             "structure" :
             null;
     }
@@ -89,7 +91,8 @@ export class SelectedStructures extends Set<MathStruct> {
         // if we don't have groupping
         if (structures.length == 1) {
             // check if we nees groupping for term  with "-" sign
-            if ((!(structures[0] instanceof Term) || structures[0].sign == "+" || !(structures[0].parent instanceof Expression))) {
+            if ((!(structures[0] instanceof Term) || structures[0].sign == "+" ||
+                    !(structures[0].parent instanceof Expression))) {
                 let structure = structures[0] instanceof Formula ? structures[0].equalityParts[0] : structures[0];
                 return { formula, structure, partIndex, grouped: false };
             }
@@ -105,7 +108,9 @@ export class SelectedStructures extends Set<MathStruct> {
             }
         } else {
             // if selected elements are parts of a fraction
-            let frac = structures[0].parent instanceof Frac ? structures[0].parent : structures[0].parent?.parent as Frac;
+            let frac = structures[0].parent instanceof Frac ?
+                structures[0].parent :
+                structures[0].parent?.parent as Frac;
             let splitTerm = (term: Term): [Term, Term | null] => {
                 if (structures.includes(term)) return [term.copy(), null];
                 let sel = term.content.filter(s => structures.includes(s)).map(s => s.copy());
@@ -127,7 +132,7 @@ export class SelectedStructures extends Set<MathStruct> {
             let children = struct.children.filter(c => !structures.includes(c)).map(c => c.copy());
             children.splice(struct.children.indexOf(structures[0]), 0, ...newStructs);
             if (struct instanceof Term) {
-                return new Term(children);
+                return new Term(children, struct.sign);
             } else {
                 return new Expression(children as Term[]);
             }

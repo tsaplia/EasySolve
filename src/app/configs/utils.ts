@@ -1,4 +1,4 @@
-import { PRECISION } from "./config";
+import { MAX_PRECISION } from "./config";
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 export function readonlyArray<T>(array: T[]) {
@@ -12,12 +12,14 @@ export function readonlyArray<T>(array: T[]) {
 export function addFractions(a: [number, number], b: [number, number]): [number, number] {
     let [num, den] = [a[0] * b[1] + b[0] * a[1], a[1] * b[1]];
     let g = gcd(num, den);
+    if (den < 0) g *= -1;
     return [num / g, den / g];
 }
 
 export function gcd(a: number, b: number): number {
+    [a, b] = [Math.abs(a), Math.abs(b)];
     while (b) {
-        a = a % b;
+        a = toPrecision(a % b, MAX_PRECISION);
         [a, b] = [b, a];
     }
     return a;
@@ -32,6 +34,6 @@ ${body}
 `;
 }
 
-export function toPrecision(num: number, precision = PRECISION): number {
-    return Number.parseFloat(num.toPrecision(precision));
+export function toPrecision(num: number, precision: number): number {
+    return Math.round(num * precision) / precision;
 }

@@ -63,7 +63,7 @@ function mark(root: Element, className: string, selector: string, reducer: (el: 
 /* get all characters from element and children*/
 function getInnerText(elem: Element) {
     if (elem.children.length == 0) {
-        let content = getComputedStyle(elem, "before").content;
+        let content = getComputedStyle(elem, "::before").getPropertyValue("content");
         return content == "none" ? "" : content.slice(1, -1);
     }
     let text = "";
@@ -175,6 +175,8 @@ function prepareMult(root: Element, mult: Multiplier) {
     }
 
     setListener(mult, root as HTMLElement);
+    if (getInnerText(root.firstElementChild!) == "(") root = root.firstElementChild!.nextElementSibling!;
+
     if (mult instanceof Frac) {
         prepareFrac(root, mult);
     } else if (mult instanceof Exponent) {
@@ -204,7 +206,9 @@ function prepareFrac(root: Element, frac: Frac) {
 };
 
 function prepareExponent(root: Element, exponent: Exponent) {
-    let exponentEl = root.querySelector(`${MJXTags.index}`)!.firstElementChild!;
+    if (root.localName == MJXTags.mrow) root = root.firstElementChild!.nextElementSibling!;
+
+    let exponentEl = root.lastElementChild!.firstElementChild!;
     if (exponentEl.firstElementChild?.classList.contains(ClassNames.prime)) {
         // if this is a variable with primes
         exponentEl.parentElement?.insertBefore(exponentEl, exponentEl.firstElementChild);

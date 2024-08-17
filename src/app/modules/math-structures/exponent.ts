@@ -1,5 +1,6 @@
 import { toExpression } from "../math-actions/general-actions";
 import { Expression } from "./expression";
+import { Frac } from "./fraction";
 import { type MathStruct, Multiplier } from "./math-structure";
 import { Num } from "./number";
 
@@ -16,7 +17,7 @@ export class Exponent extends Multiplier {
 
     override toTex(): string {
         let str = this.base.toTex();
-        if (this.base instanceof Expression) {
+        if (this.base instanceof Expression || this.base instanceof Frac || this.base instanceof Exponent) {
             str = "\\left(" + str + "\\right)";
         }
 
