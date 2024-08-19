@@ -5,7 +5,7 @@
                 <button *ngIf="key.config[shift]" class="kb-key button w-100 p-1" (click)="addElement(key.config[shift])">
                     {{key.config[shift].label || key.config[shift].text}}
                 </button>
-                <button *ngIf="!!!key.config[shift]" class="kb-key button w-100 p-1" (click)="addElement(key.config[shift])">
+                <button *ngIf="!!!key.config[shift]" class="kb-key button w-100 p-1" (click)="addElement(key.config[0])">
                     {{key.config[0].label || key.config[0].text}}
                 </button>
             </div>

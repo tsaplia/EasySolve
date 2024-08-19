@@ -2,7 +2,7 @@
     <div class="btn-group" role="group">
         <ng-container *ngFor="let layout of keyboardLayouts; index as i" >
             <input type="radio" class="btn-check" id="option-{{i}}" (click)="keyboardIndex = i" [checked]="keyboardIndex == i">
-            <label class="btn btn-secondary px-3 py-1 me-1" for="option-{{i}}" [ngStyle]="{'text-shadow': keyboardIndex == i ? '1px 0px 0px white' : ''}">
+            <label class="btn btn-secondary px-3 py-1" for="option-{{i}}" [ngStyle]="{'text-shadow': keyboardIndex == i ? '1px 0px 0px white' : ''}">
                 <!-- <mat-icon>{{layout.icon}}</mat-icon> -->
                 {{layout.name}}
             </label>
