@@ -13,6 +13,7 @@ export let templates: FormulaActionConfig[] = [
             "[a]^2-2[a][b]+[b]^2=>\\left([a]-[b]\\right)^2"
         ],
         name: "$\\left(a\\pm b\\right)^2=a^2\\pm 2ab+b^2$"
+        // "\\sum_{n=0}^\\infty {\\mathtip{x}{\\text{converges for }|x|\\lt 1 }}^n = \\frac{1}{1-x}" // example
     },
     {
         id: "algebra-2",

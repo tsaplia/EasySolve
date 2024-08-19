@@ -6,7 +6,7 @@
   border-bottom-right-radius: 5%;
   border-top-right-radius: 5%;
   background-color: var(--background-color-primary);
-  overflow: hidden;
+  overflow: auto;
 
   @extend .p-4;
   @extend .h-100;
@@ -30,7 +30,7 @@ hr {
 }
 .btn-row {
     display: flex;
-    justify-content: end;
+    // justify-content: end;
     padding-left: 0.25rem;
     margin: 0.5rem 0;
 

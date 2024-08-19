@@ -11,10 +11,10 @@
 </div>
 
 <app-keyboard-layout [keys]="keyboardLayouts[keyboardIndex].keys" [shift]="shift" (onClick)="addElement($event)"></app-keyboard-layout>
-<div class="btn-group d-flex"  role="group">
-    <button class="btn btn-secondary p-1 {{shift ? 'active' : ''}}" (click)="shiftHoldToggle()" [ngStyle]="{'text-shadow': shiftHold ? '1px 0px 0px white' : ''}">⇪</button>
-    <button class="btn btn-secondary p-1" (click)="addElement({text: 'Left', cmd: 'keystroke'})">←</button>
-    <button class="btn btn-secondary p-1" (click)="addElement({text: 'Right', cmd: 'keystroke'})">→</button>
-    <button class="btn btn-secondary p-1" (click)="addElement({text: 'Backspace', cmd: 'keystroke'})">⇦</button>
-    <button class="btn btn-secondary p-1" (click)="clear()">X</button>
+<div class="btn-group control-buttons d-flex"  role="group">
+    <button class="btn btn-secondary p-1 {{shift ? 'active' : ''}}" (click)="shiftHoldToggle()" [ngStyle]="{'text-shadow': shiftHold ? '0px 0px 1px white' : ''}"><mat-icon>arrow_upward</mat-icon></button>
+    <button class="btn btn-secondary p-1" (click)="addElement({text: 'Left', cmd: 'keystroke'})"><mat-icon>arrow_left</mat-icon></button>
+    <button class="btn btn-secondary p-1" (click)="addElement({text: 'Right', cmd: 'keystroke'})"><mat-icon>arrow_right</mat-icon></button>
+    <button class="btn btn-secondary p-1" (click)="addElement({text: 'Backspace', cmd: 'keystroke'})"><mat-icon>backspace</mat-icon></button>
+    <button class="btn btn-secondary p-1" (click)="clear()"><mat-icon>clear</mat-icon></button>
 </div>
