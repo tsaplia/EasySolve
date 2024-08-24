@@ -1,7 +1,7 @@
 <div class="mt-3">
     <div class="d-flex flex-wrap my-1" #kbLayout>
         <ng-container *ngFor="let key of keys">
-            <div class="p-1" ngClass="{{key.colClass}}">
+            <div class="p-1" ngClass="{{key.colClass ?? 'col-10-1'}}">
                 <button *ngIf="key.config[shift]" class="kb-key button w-100 p-1" (click)="addElement(key.config[shift])">
                     {{key.config[shift].label || key.config[shift].text}}
                 </button>

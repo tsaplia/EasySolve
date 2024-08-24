@@ -5,7 +5,7 @@ export interface KeyboardLayout {
 
 export interface Key {
     config: KeyConfig[] 
-    colClass: string
+    colClass?: string
 }
 
 export interface KeyConfig { 

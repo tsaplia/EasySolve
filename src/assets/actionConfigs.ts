@@ -32,7 +32,8 @@ export let templates: FormulaActionConfig[] = [
         template: true,
         type: "formula",
         body: ["[a]=[b];[c]=[d]=>[a]+[c]=[b]+[d]"],
-        name: "Add equations"
+        name: "Add equations",
+        description: "\\text{Eg: } a=b;c=d\\ \\Rightarrow\\ a+c=b+d"
     },
     {
         id: "formula-2",
@@ -40,7 +41,8 @@ export let templates: FormulaActionConfig[] = [
         template: true,
         type: "formula",
         body: ["[a]=[b];[c]=[d]=>[a]-[c]=[b]-[d]"],
-        name: "Subtract equations"
+        name: "Subtract equations",
+        description: "\\text{Eg: } a=b;c=d\\ \\Rightarrow\\ a-c=b-d"
     },
     {
         id: "formula-3",
@@ -50,7 +52,8 @@ export let templates: FormulaActionConfig[] = [
         body: ["[a]=[b]=>[_in][a]=[_in][b]"],
         name: "Multiply by k",
         requireInput: true,
-        simp: { "a": "distribute", "b": "distribute" }
+        simp: { "a": "distribute", "b": "distribute" },
+        description: "\\text{Eg: } x+y=5;\\text{ input:}2\\ \\Rightarrow\\ 2x+2y=10"
     },
     {
         id: "sub-1",
@@ -71,42 +74,48 @@ export let templates: FormulaActionConfig[] = [
         categoryId: 5,
         template: false,
         type: "expression",
-        name: "Group"
+        name: "Group",
+        description: "\\text{Add extra brackets around selected multipliers or terms}"
     },
     {
         id: "move-l",
         categoryId: 5,
         template: false,
         type: "expression",
-        name: "Move left"
+        name: "Move left",
+        description: "\\text{Change the position of a multiplier or term to the left}"
     },
     {
         id: "move-r",
         categoryId: 5,
         template: false,
         type: "expression",
-        name: "Move Right"
+        name: "Move Right",
+        description: "\\text{Change the position of a multiplier or term to the right}"
     },
     {
         id: "change-part",
         categoryId: 5,
         template: false,
         type: "formula",
-        name: "To another part"
+        name: "To another part",
+        description: "\\text{Eg. } x+y-5=0 \\Rightarrow x+y=5"
     },
     {
         id: "like-terms",
         categoryId: 6,
         template: false,
         type: "expression",
-        name: "Collect like terms"
+        name: "Collect like terms",
+        description: "\\text{Eg: }2x+3y-x-2y\\Rightarrow x+y"
     },
     {
         id: "simp-frac",
         categoryId: 6,
         template: false,
         type: "expression",
-        name: "Flip fraction"
+        name: "Flip fraction",
+        description: "\\text{Removes fraction inside other fraction}"
     },
     {
         id: "simp-term",
@@ -120,7 +129,8 @@ export let templates: FormulaActionConfig[] = [
         categoryId: 1,
         template: false,
         type: "expression",
-        name: "Open brackets"
+        name: "Open brackets",
+        description: "\\text{Eg: }y\\left(x+5\\right)\\Rightarrow xy+5y"
     },
     {
         id: "move-out",
@@ -128,21 +138,24 @@ export let templates: FormulaActionConfig[] = [
         template: false,
         type: "expression",
         name: "Move out of breacket",
-        requireInput: true
+        requireInput: true,
+        description: "\\text{Eg: } xy+5x;\\text{ input:}y\\ \\Rightarrow\\ y\\left(x+5\\right)"
     },
     {
         id: "separate",
         categoryId: 1,
         template: false,
         type: "formula",
-        name: "Separate multiplier"
+        name: "Separate multiplier",
+        description: "\\text{Eg: } \\frac{5x}{y}=z \\Rightarrow x=\\frac{yz}{5}"
     },
     {
         id: "toCDen",
         categoryId: 1,
         template: false,
         type: "expression",
-        name: "To common denominator"
+        name: "To common denominator",
+        description: "\\text{Eg: } \\frac{1}{2x}+\\frac{1}{4y} \\Rightarrow \\frac{2y+x}{4xy}"
     },
     {
         id: "calc",

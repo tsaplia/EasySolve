@@ -78,7 +78,7 @@ export class SelectedStructures extends Set<MathStruct> {
         return { formula, partIndex };
     }
 
-    getStructureData(): StructureData {
+    getStructureData(groupTerms: boolean = false): StructureData {
         if (this.type != "structure") throw new Error("Selected type must be 'structure'");
         let structures: MathStruct[] = Array.from(this.values());
 
@@ -90,9 +90,8 @@ export class SelectedStructures extends Set<MathStruct> {
 
         // if we don't have groupping
         if (structures.length == 1) {
-            // check if we nees groupping for term  with "-" sign
-            if ((!(structures[0] instanceof Term) || structures[0].sign == "+" ||
-                    !(structures[0].parent instanceof Expression))) {
+            // check if we nees groupping for terms
+            if ((!(structures[0] instanceof Term) || !groupTerms)) {
                 let structure = structures[0] instanceof Formula ? structures[0].equalityParts[0] : structures[0];
                 return { formula, structure, partIndex, grouped: false };
             }

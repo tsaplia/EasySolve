@@ -69,3 +69,26 @@ body.dark .button {
     @extend .btn;
     @extend .btn-dark;
 }
+
+
+@-moz-document url-prefix() {
+    .scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: var(--text-color) var(--background-color-2);
+    }
+  }
+
+.scrollbar::-webkit-scrollbar {
+    width: 10px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    border-radius: 7px;
+    background-color: var(--background-color-2);
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: var(--text-color);
+}
+

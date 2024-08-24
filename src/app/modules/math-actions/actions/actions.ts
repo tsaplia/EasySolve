@@ -69,7 +69,7 @@ availibleActions.set("sub-2", () => {
 
 availibleActions.set("group", () => {
     if (selected.type != "structure") return null;
-    let data = selected.getStructureData();
+    let data = selected.getStructureData(true);
     if (!data || !data.grouped) return null;
     return [new Formula([data.formula.equalityParts[data.partIndex].copy()])];
 });

@@ -1,12 +1,17 @@
 .list-body {
   width: 100%;
   max-height: 100%;
-  overflow-y: auto;
-  overflow-x: auto;
 }
-.list-body::-webkit-scrollbar {
+
+.hide-scroll {
+  overflow: auto;
+  scrollbar-width: none; // hide scrollbar in firefox
+}
+
+.hide-scroll::-webkit-scrollbar {
   display: none;
 }
+
 .category {
   color: var(--text-color);
   font-size:20px;
@@ -21,6 +26,7 @@
   display: flex;
   justify-content: center;
 }
+
 .category:hover > div > mat-icon {
   background-color: var(--background-color-2);
   border-radius: 15px;
@@ -32,6 +38,11 @@
   justify-content: space-between;
   align-items: center;
 }
+.list-item-intercation > button {
+  box-shadow: -10px 0 5px var(--background-color-primary);
+  z-index: 2;
+}
+
 .list-item-dictionary {
   margin-left: 25px;
   margin-top: 5px;
@@ -39,4 +50,23 @@
   flex-direction: column;
   // justify-content: space-between;
   // align-items: center;
+}
+
+:host ::ng-deep mjx-mtext>mjx-c {
+  width: 1ch;
+  font-family: monospace;
+}
+
+:host ::ng-deep mjx-container {
+  font-size: 100%!important;
+}
+
+:host ::ng-deep mjx-mtext>mjx-c::before {
+  font-size: inherit !important;
+  padding: 0;
+}
+
+:host ::ng-deep mjx-tool{
+  bottom: -0.7em !important;
+  left: 0.2em !important;
 }
