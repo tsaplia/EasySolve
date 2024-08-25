@@ -20,12 +20,17 @@ export interface FormulaActionConfig {
     description?: string
 }
 
-export interface FormulaDefinition {
-    id: string
+export interface Definition {
+    id: number
     categoryId: number
-    text: string
-    formula: string
-}
+    type: "constant" | "formula" | "table"
+    title: string
+    symbol?: string
+    value?: number
+    formula?: string
+    descriptions?: string[]
+    values?: number[]
+  }
 
 export interface HotkeyConfigs {
     id: string

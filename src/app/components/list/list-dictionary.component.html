@@ -1,0 +1,42 @@
+<div id="list-dictionary" class="list-body hide-scroll">
+    <div *ngFor="let category of categories">
+        <div (click)="openCategory(category.id)" class="category">
+            <div><mat-icon>{{openCategories.get(category.id) ? "expand_more" : "chevron_right"}}</mat-icon></div>
+            <div>{{category.name}}</div>
+        </div>
+        <div *ngIf="openCategories.get(category.id)">
+            <div *ngFor="let definition of definitionsByCategory.get(category.id)" class="list-item-dictionary">
+
+                <div style="font-weight: bold;" class="ms-2">{{definition.title}}</div>
+
+                <div *ngIf="definition.type == 'constant'" (click)="copyValue(''+definition.value)">
+                    {{definition.symbol}} = {{definition.value}}
+                </div>
+
+                <div *ngIf="definition.type == 'formula'" (click)="copyValue(definition.formula ?? '')">
+                    {{definition.formula}}
+                </div>
+
+                <div *ngIf="definition.type == 'table'">
+                    <table class="d-flex flex-column">
+                        <!-- <thead> -->
+                            <tr class="d-flex justify-content-between">
+                                <th>descriptions</th>
+                                <th>values</th>
+                            </tr>
+                        <!-- </thead>
+                        <tbody> -->
+                            <ng-conteiner *ngFor="let desc of definition.descriptions ?? []; index as i">
+                                <tr class="d-flex justify-content-between" (click)="copyValue(definition.values ? ''+definition.values[i] : '')">
+                                    <td>{{desc}}</td>
+                                    <td>{{definition.values ? definition.values[i] : "-"}}</td>
+                                </tr>
+                                <hr class="my-1">
+                            </ng-conteiner>
+                        <!-- </tbody> -->
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,26 +1,48 @@
 [
-  {
-    "id": "multi-1",
-    "categoryId": 1,
-    "text": "Abbreviated multiplication:",
-    "formula": "$\\left(a+b\\right)^2=a^2+2ab+b^2$"
-  },
-  {
-    "id": "multi-2",
-    "categoryId": 1,
-    "text": "Abbreviated multiplication:",
-    "formula": "$\\left(a-b\\right)^2=a^2-2ab+b^2$"
-  },
-  {
-    "id": "multi-3",
-    "categoryId": 1,
-    "text": "Abbreviated multiplication:",
-    "formula": "$\\left(a\\cdot b\\right)^2=a^2b^2$"
-  },
-  {
-    "id": "multi-4",
-    "categoryId": 1,
-    "text": "Abbreviated multiplication:",
-    "formula": "$\\left(a\\div b\\right)^2=a^2\\div b^2$"
-  }
+    {
+        "id": 1,
+        "categoryId": 1,
+        "type": "constant",
+        "title": "gravity force",
+        "symbol": "g",
+        "value": 9.8
+    },
+    {
+        "id": 2,
+        "categoryId": 1,
+        "type": "constant",
+        "title": "pi",
+        "symbol": "$\\pi$",
+        "value": 3.14
+    },
+    {
+        "id": 3,
+        "categoryId": 2,
+        "type": "formula",
+        "title": "force formula",
+        "formula": "$F = m \\cdot a$"
+    },
+    {
+        "id": 4,
+        "categoryId": 1,
+        "type": "formula",
+        "title": "speed formula",
+        "formula": "$v = \\frac{d}{t}$"
+    },
+    {
+        "id": 5,
+        "categoryId": 2,
+        "type": "table",
+        "title": "density table",
+        "descriptions": [
+            "water",
+            "air",
+            "earth"
+        ],
+        "values": [
+            1.0,
+            1.29,
+            9.8
+        ]
+    }
 ]

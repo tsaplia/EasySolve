@@ -17,13 +17,14 @@ import { DictionaryComponent } from "./components/dictionary/dictionary.componen
 import { InteractionComponent } from "./components/interaction/interaction.component";
 import { ToastrModule } from "ngx-toastr";
 import { SaveOpenComponent } from "./components/save-open/save-open.component";
-import { ListComponent } from "./components/list/list.component";
+import { ListInteractionComponent } from "./components/list/list-interaction.component";
 import { AddingModalFormulaComponent } from "./components/adding-modals/adding-modal-f.component";
 import { AddingModalTextComponent } from "./components/adding-modals/adding-modal-t.component";
 import { CanvasLineComponent } from "./components/canvas-line/canvas-line.component";
 import { InfoModalComponent } from "./components/info-modal/info-modal.component";
 import { KeyboardComponent } from "./components/keyboard/keyboard.component";
 import { KeyboardLayoutComponent } from "./components/keyboard/keyboard-layout.component";
+import { ListDictionaryComponent } from "./components/list/list-dictionary.component";
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { KeyboardLayoutComponent } from "./components/keyboard/keyboard-layout.c
         DictionaryComponent,
         InteractionComponent,
         SaveOpenComponent,
-        ListComponent,
+        ListInteractionComponent,
+        ListDictionaryComponent,
         CanvasLineComponent,
         InfoModalComponent,
         KeyboardComponent,

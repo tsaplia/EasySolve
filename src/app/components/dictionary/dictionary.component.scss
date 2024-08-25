@@ -1,18 +1,19 @@
-@import "/src/assets/variables.scss";
 @import "bootstrap";
 
 .dictionary-card {
-  border-bottom-left-radius: 5%;
-  border-top-left-radius: 5%;
-  background-color: $primary;
-  overflow: hidden;
-  
-  @extend .p-4;
-  @extend .h-100;
-  @extend .shadow-lg;
+    color: var(--text-color);
+
+    border-bottom-right-radius: 5%;
+    border-top-right-radius: 5%;
+    background-color: var(--background-color-primary);
+    overflow: auto;
+
+    @extend .p-4;
+    @extend .h-100;
+    @extend .shadow-lg;
 }
 
 hr {
-  border-color: azure;
-  border-width: 5px;
+    border-color: azure;
+    border-width: 5px;
 }

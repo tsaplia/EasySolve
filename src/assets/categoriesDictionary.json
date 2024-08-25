@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "name": "Basics"
+    },
+    {
+        "id": 2,
+        "name": "Algebra"
+    },
+    {
+        "id": 3,
+        "name": "Equations"
+    },
+    {
+        "id": 4,
+        "name": "Substitution"
+    },
+    {
+        "id": 5,
+        "name": "Moving&Groupping"
+    }
+]
