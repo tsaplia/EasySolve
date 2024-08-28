@@ -24,7 +24,7 @@ export let actionConfigs = new Map<string, FormulaActionConfig>();
 templates.forEach((action) => {
     actionConfigs.set(action.id, action);
 
-    if (!action.template) return;
+    if (!action.template || action.subactions) return;
     if (!action.body) throw new Error("template must have body");
     if (action.type == "expression") {
         let templates = action.body.map(b => templateFromTeX(b as string));

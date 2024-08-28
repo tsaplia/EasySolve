@@ -14,6 +14,7 @@ import { type FormulaReplacement, type Simplifications } from "src/app/models/ty
 import { simplifications } from "../actions/simplifications";
 import { removeExtraGroups, toExpression, toMultiplier, toTerm } from "../general-actions";
 import { Num } from "../../math-structures/number";
+import { Func } from "../../math-structures/function";
 
 interface Substitution { varName: string, mult: Multiplier }
 
@@ -63,7 +64,7 @@ function match(template: MathStruct, struct: MathStruct): MatchResult | null {
     if ((template instanceof Variable || template instanceof Num)) {
         return template.isEqual(struct) ? new MatchResult() : null;
     }
-    if (template instanceof Function && struct instanceof Function && template.name != struct.name) return null;
+    if (template instanceof Func && struct instanceof Func && template.name != struct.name) return null;
 
     if (template instanceof Term && struct instanceof Term && template.sign != struct.sign) return null;
 

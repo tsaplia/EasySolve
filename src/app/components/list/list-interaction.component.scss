@@ -1,18 +1,21 @@
+@import "bootstrap";
+
 .list-body {
-    width: 100%;
-    max-height: 100%;
-    overflow-y: auto;
-    overflow-x: auto;
+  width: 100%;
+  max-height: 100%;
+  overflow: visible auto;
 }
 
-  .hide-scroll {
-  //   overflow-x: visible;
-  //   overflow-y: visible;
-    scrollbar-width: none; // hide scrollbar in firefox
+.hide-scroll {
+  scrollbar-width: none; // hide scrollbar in firefox
 }
 
 .hide-scroll::-webkit-scrollbar {
   display: none;
+}
+
+.action-name {
+  overflow: auto visible;
 }
 
 .category {
@@ -21,7 +24,7 @@
   font-family: monospace;
   display: flex;
   align-items: center;
-  overflow: none;
+  overflow: auto hidden;
   cursor: pointer;
 }
 .category > div {
@@ -34,25 +37,28 @@
   background-color: var(--background-color-2);
   border-radius: 15px;
 }
-.list-item-intercation {
+
+.list-item {
   margin-left: 25px;
   margin-top: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.list-item-intercation > button {
+
+.list-item > button {
   box-shadow: -10px 0 5px var(--background-color-primary);
   z-index: 2;
 }
 
-.list-item-dictionary {
-  margin-left: 25px;
-  margin-top: 5px;
-  display: flex;
-  flex-direction: column;
-  // justify-content: space-between;
-  // align-items: center;
+.dropdown-menu {
+  --bs-dropdown-color: var(--text-color);
+  --bs-dropdown-bg: var(--bs-body-bg);
+}
+
+.dd-item{
+  padding: var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x);
+  text-wrap: nowrap;
 }
 
 :host ::ng-deep mjx-mtext>mjx-c {

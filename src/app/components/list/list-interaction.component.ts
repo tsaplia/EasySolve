@@ -20,6 +20,7 @@ export class ListInteractionComponent implements OnInit {
   actions = actions;
 
   actionsByCategory = new Map<number, FormulaActionConfig[]>();
+  subActions = new Map<string, FormulaActionConfig[]>();
   openCategories = new Map<number, boolean>();
 
   constructor(private readonly cdRef: ChangeDetectorRef) {}
@@ -27,9 +28,16 @@ export class ListInteractionComponent implements OnInit {
   ngOnInit(): void {
       this.categories.forEach((e) => {
           this.actionsByCategory.set(e.id, this.actions.filter(a => a.categoryId == e.id));
-          //   this.definitionsByCategory.set(e.id, this.definitions.filter(d => d.categoryId == e.id));
           this.openCategories.set(e.id, false);
       });
+      this.actions.filter(action => action.subactions).forEach((main) => {
+        let subs: FormulaActionConfig[] = [];
+        main.subactions?.forEach((subId) => {
+            let sub = this.actions.find((a) => a.id == subId);
+            if(sub) subs.push(sub);
+        });
+        this.subActions.set(main.id, subs);
+    });
   }
 
   openCategory(id: number): void {
@@ -37,7 +45,7 @@ export class ListInteractionComponent implements OnInit {
       this.updateMJ();
   }
 
-  useAction(id: string, input: boolean = false): void {
+  useAction(id: string): void {
       this.ActionSelected.emit(id);
   }
 

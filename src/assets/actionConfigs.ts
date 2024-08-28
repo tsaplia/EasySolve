@@ -322,5 +322,347 @@ export let templates: FormulaActionConfig[] = [
         ],
         type: "expression",
         name: "$\\left(\\sqrt[n]{a}\\right)^m=\\sqrt[n]{a^m}$"
+    },
+    {
+        id: "tan",
+        categoryId: 9,
+        template: true,
+        body: [
+            "\\tan\\left([x]\\right)=>\\frac{\\sin\\left([x]\\right)}{\\cos\\left([x]\\right)}",
+            "\\frac{\\sin\\left([x]\\right)}{\\cos\\left([x]\\right)}=>\\tan\\left([x]\\right)"
+        ],
+        type: "expression",
+        name: "$\\tan(x)=\\frac{\\sin(x)}{\\cos(x)}$"
+    },
+    {
+        id: "cot",
+        categoryId: 9,
+        template: true,
+        body: [
+            "\\cot\\left([x]\\right)=>\\frac{\\cos\\left([x]\\right)}{\\sin\\left([x]\\right)}",
+            "\\frac{\\cos\\left([x]\\right)}{\\sin\\left([x]\\right)}=>\\cot\\left([x]\\right)"
+        ],
+        type: "expression",
+        name: "$\\cot(x)=\\frac{\\cos(x)}{\\sin(x)}$"
+    },
+    {
+        id: "tan*cot",
+        categoryId: 9,
+        template: true,
+        body: [
+            "\\tan\\left([x]\\right)\\cot\\left([x]\\right)=>1",
+            "\\tan\\left([x]\\right)=>\\frac{1}{\\cot\\left([x]\\right)}",
+            "\\frac{1}{\\cot\\left([x]\\right)}=>\\tan\\left([x]\\right)",
+            "\\cot\\left([x]\\right)=>\\frac{1}{\\tan\\left([x]\\right)}",
+            "\\frac{1}{\\tan\\left([x]\\right)}=>\\cot\\left([x]\\right)",
+        ],
+        type: "expression",
+        name: "$\\tan(x) \\cot(x)=1$"
+    },
+    {
+        id: "sin2+cos2",
+        categoryId: 9,
+        template: true,
+        body: [
+            "\\sin\\left([x]\\right)^2+\\cos\\left([x]\\right)^2=>1",
+            "\\sin\\left([x]\\right)^2=>1-\\cos\\left([x]\\right)^2",
+            "1-\\cos\\left([x]\\right)^2=>\\sin\\left([x]\\right)^2",
+            "\\cos\\left([x]\\right)^2=>1-\\sin\\left([x]\\right)^2",
+            "1-\\sin\\left([x]\\right)^2=>\\cos\\left([x]\\right)^2"
+        ],
+        type: "expression",
+        name: "$\\sin(x)^2+\\cos(x)^2=1$"
+    },
+    {
+        id: "tan2",
+        categoryId: 9,
+        template: true,
+        body: [
+            "1+\\tan\\left([x]\\right)^2=>\\frac{1}{\\cos\\left([x]\\right)^2}",
+            "\\frac{1}{\\cos\\left([x]\\right)^2}=>1+\\tan\\left([x]\\right)^2"
+        ],
+        type: "expression",
+        name: "$1+\\tan(x)^2=\\frac{1}{\\cos(x)^2}$"
+    },
+    {
+        id: "cot2",
+        categoryId: 9,
+        template: true,
+        body: [
+            "1+\\cot\\left([x]\\right)^2=>\\frac{1}{\\sin\\left([x]\\right)^2}",
+            "\\frac{1}{\\sin\\left([x]\\right)^2}=>1+\\cot\\left([x]\\right)^2"
+        ],
+        type: "expression",
+        name: "$1+\\cot(x)^2=\\frac{1}{\\sin(x)^2}$"
+    },
+    {
+        id: "sin(x+y)",
+        categoryId: 9,
+        template: true,
+        body: [
+            "\\sin\\left([x]+[y]\\right)=>\\sin\\left([x]\\right)\\cos\\left([y]\\right)+\\cos\\left([x]\\right)\\sin\\left([y]\\right)",
+            "\\sin\\left([x]\\right)\\cos\\left([y]\\right)+\\cos\\left([x]\\right)\\sin\\left([y]\\right)=>\\sin\\left([x]+[y]\\right)",
+            "\\sin\\left([x]-[y]\\right)=>\\sin\\left([x]\\right)\\cos\\left([y]\\right)-\\cos\\left([x]\\right)\\sin\\left([y]\\right)",
+            "\\sin\\left([x]\\right)\\cos\\left([y]\\right)-\\cos\\left([x]\\right)\\sin\\left([y]\\right)=>\\sin\\left([x]-[y]\\right)"
+        ],
+        type: "expression",
+        name: "$\\sin\\left(\\alpha+\\beta\\right)=\\sin\\left(\\alpha\\right)\\cos\\left(\\beta\\right)+\\cos\\left(\\alpha\\right)\\sin\\left(\\beta\\right)$"
+    },
+    {
+        id: "cos(x+y)",
+        categoryId: 9,
+        template: true,
+        body: [
+            "\\cos\\left([x]+[y]\\right)=>\\cos\\left([x]\\right)\\cos\\left([y]\\right)-\\sin\\left([x]\\right)\\sin\\left([y]\\right)",
+            "\\cos\\left([x]\\right)\\cos\\left([y]\\right)-\\sin\\left([x]\\right)\\sin\\left([y]\\right)=>\\cos\\left([x]+[y]\\right)",
+            "\\cos\\left([x]-[y]\\right)=>\\cos\\left([x]\\right)\\cos\\left([y]\\right)+\\sin\\left([x]\\right)\\sin\\left([y]\\right)",
+            "\\cos\\left([x]\\right)\\cos\\left([y]\\right)+\\sin\\left([x]\\right)\\sin\\left([y]\\right)=>\\cos\\left([x]-[y]\\right)"
+        ],
+        type: "expression",
+        name: "$\\cos\\left(\\alpha+\\beta\\right)=\\cos\\left(\\alpha\\right)\\cos\\left(\\beta\\right)-\\sin\\left(\\alpha\\right)\\sin\\left(\\beta\\right)$"
+    },
+    {
+        id: "tan(x+y)",
+        categoryId: 9,
+        template: true,
+        body: [
+            "\\tan\\left([x]+[y]\\right)=>\\frac{\\tan\\left([x]\\right)+\\tan\\left([y]\\right)}{1-\\tan\\left([x]\\right)\\tan\\left([y]\\right)}",
+            "\\frac{\\tan\\left([x]\\right)+\\tan\\left([y]\\right)}{1-\\tan\\left([x]\\right)\\tan\\left([y]\\right)}=>\\tan\\left([x]+[y]\\right)",
+            "\\tan\\left([x]-[y]\\right)=>\\frac{\\tan\\left([x]\\right)-\\tan\\left([y]\\right)}{1+\\tan\\left([x]\\right)\\tan\\left([y]\\right)}",
+            "\\frac{\\tan\\left([x]\\right)-\\tan\\left([y]\\right)}{1+\\tan\\left([x]\\right)\\tan\\left([y]\\right)}=>\\tan\\left([x]-[y]\\right)"
+        ],
+        type: "expression",
+        name: "$\\tan\\left(\\alpha+\\beta\\right)=\\frac{\\tan\\left(\\alpha\\right)+\\tan\\left(\\beta\\right)}{1-\\tan\\left(\\alpha\\right)\\tan\\left(\\beta\\right)}$"
+    },
+    {
+        id: "cot(x+y)",
+        categoryId: 9,
+        template: true,
+        body: [
+            "\\cot\\left([x]+[y]\\right) => \\frac{\\cot\\left([x]\\right)\\cot\\left([y]\\right)-1}{\\cot\\left([x]\\right)+\\cot\\left([y]\\right)}",
+            "\\frac{\\cot\\left([x]\\right)\\cot\\left([y]\\right)-1}{\\cot\\left([x]\\right)+\\cot\\left([y]\\right)} => \\cot\\left([x]+[y]\\right)",
+            "\\cot\\left([x]-[y]\\right) => \\frac{\\cot\\left([x]\\right)\\cot\\left([y]\\right)+1}{\\cot\\left([y]\\right)-\\cot\\left([x]\\right)}",
+            "\\frac{\\cot\\left([x]\\right)\\cot\\left([y]\\right)+1}{\\cot\\left([y]\\right)-\\cot\\left([x]\\right)} => \\cot\\left([x]-[y]\\right)"
+        ],
+        type: "expression",
+        name: "$\\cot\\left(\\alpha+\\beta\\right) = \\frac{\\cot\\left(\\alpha\\right)\\cot\\left(\\beta\\right)-1}{\\cot\\left(\\alpha\\right)+\\cot\\left(\\beta\\right)}$"
+    },
+    {
+        id: "sin2x",
+        categoryId: 9,
+        template: true,
+        subactions: ["sin2x-1", "sin2x-2"],
+        type: "expression",
+        name: "$\\sin\\left(2x\\right)=$"
+    },
+    {
+        id: "sin2x-2",
+        categoryId: -1,
+        template: true,
+        body: [
+            "\\sin\\left(2[x]\\right)=>\\frac{2\\tan\\left([x]\\right)}{1+\\tan\\left([x]\\right)^2}",
+            "\\frac{2\\tan\\left([x]\\right)}{1+\\tan\\left([x]\\right)^2}=>\\sin\\left(2[x]\\right)"
+        ],
+        type: "expression",
+        name: "$\\frac{2\\tan\\left(x\\right)}{1+\\tan\\left(x\\right)^2}$"
+    },
+    {
+        id: "sin2x-1",
+        categoryId: -1,
+        template: true,
+        body: [
+            "\\sin\\left(2[x]\\right)=>2\\sin\\left([x]\\right)\\cos\\left([x]\\right)",
+            "2\\sin\\left([x]\\right)\\cos\\left([x]\\right)=>\\sin\\left(2[x]\\right)"
+        ],
+        type: "expression",
+        name: "$2\\sin\\left(x\\right)\\cos\\left(x\\right)$"
+    },
+    {
+        id: "cos2x",
+        categoryId: 9,
+        template: true,
+        subactions: ["cos2x-1", "cos2x-2", "cos2x-3", "cos2x-4"],
+        type: "expression",
+        name: "$\\cos\\left(2x\\right)=$"
+    },
+    {
+        id: "cos2x-1",
+        categoryId: -1,
+        template: true,
+        body: [
+            "\\cos\\left(2[x]\\right)=>\\cos\\left([x]\\right)^2-\\sin\\left([x]\\right)^2",
+            "\\cos\\left([x]\\right)^2-\\sin\\left([x]\\right)^2=>\\cos\\left(2[x]\\right)"
+        ],
+        type: "expression",
+        name: "$\\cos\\left(x\\right)^2-\\sin\\left(x\\right)^2$"
+    },
+    {
+        id: "cos2x-2",
+        categoryId: -1,
+        template: true,
+        body: [
+            "\\cos\\left(2[x]\\right)=>2\\cos\\left([x]\\right)^2-1",
+            "2\\cos\\left([x]\\right)^2-1=>\\cos\\left(2[x]\\right)"
+        ],
+        type: "expression",
+        name: "$2\\cos\\left(x\\right)^2-1$"
+    },
+    {
+        id: "cos2x-3",
+        categoryId: -1,
+        template: true,
+        body: [
+            "\\cos\\left(2[x]\\right)=>1-2\\sin\\left([x]\\right)^2",
+            "1-2\\sin\\left([x]\\right)^2=>\\cos\\left(2[x]\\right)"
+        ],
+        type: "expression",
+        name: "$1-2\\sin\\left(x\\right)^2$"
+    },
+    {
+        id: "cos2x-4",
+        categoryId: -1,
+        template: true,
+        body: [
+            "\\cos\\left(2[x]\\right)=>\\frac{1-\\tan\\left([x]\\right)^2}{1+\\tan\\left([x]\\right)^2}",
+            "\\frac{1-\\tan\\left([x]\\right)^2}{1+\\tan\\left([x]\\right)^2}=>\\cos\\left(2[x]\\right)"
+        ],
+        type: "expression",
+        name: "$\\frac{1-\\tan\\left(x\\right)^2}{1+\\tan\\left(x\\right)^2}$"
+    },
+    {
+        id: "tan2x",
+        categoryId: 9,
+        template: true,
+        body: [
+            "\\tan\\left(2[x]\\right)=>\\frac{2\\tan\\left([x]\\right)}{1-\\tan\\left([x]\\right)^2}",
+            "\\frac{2\\tan\\left([x]\\right)}{1-\\tan\\left([x]\\right)^2}=>\\tan\\left(2[x]\\right)"
+        ],
+        type: "expression",
+        name: "$\\tan\\left(2x\\right)=\\frac{2\\tan\\left(x\\right)}{1-\\tan\\left(x  \\right)^2}$"
+    },
+    {
+        id: "sin^2",
+        categoryId: 10,
+        template: true,
+        body: [
+            "\\sin\\left([x]\\right)^2=>\\frac{1-\\cos\\left(2[x]\\right)}{2}",
+            "\\frac{1-\\cos\\left(2[x]\\right)}{2}=>\\sin\\left([x]\\right)^2"
+        ],
+        type: "expression",
+        name: "$\\sin(x)^2=\\frac{1-\\cos(2x)}{2}$"
+    },
+    {
+        id: "cos^2",
+        categoryId: 10,
+        template: true,
+        body: [
+            "\\cos\\left([x]\\right)^2=>\\frac{1+\\cos\\left(2[x]\\right)}{2}",
+            "\\frac{1+\\cos\\left(2[x]\\right)}{2}=>\\cos\\left([x]\\right)^2"
+        ],
+        type: "expression",
+        name: "$\\cos(x)^2=\\frac{1+\\cos(2x)}{2}$"
+    },
+    {
+        id: "tan^2",
+        categoryId: 10,
+        template: true,
+        body: [
+            "\\tan\\left([x]\\right)^2=>\\frac{1-\\cos\\left(2[x]\\right)}{1+\\cos\\left(2[x]\\right)}",
+            "\\frac{1-\\cos\\left(2[x]\\right)}{1+\\cos\\left(2[x]\\right)}=>\\tan\\left([x]\\right)^2"
+        ],
+        type: "expression",
+        name: "$\\tan(x)^2=\\frac{1-\\cos(2x)}{1+\\cos(2x)}$"
+    },
+    {
+        id: "sin+sin",
+        categoryId: 10,
+        template: true,
+        body: [
+            "\\sin\\left([x]\\right)+\\sin\\left([y]\\right)=>2\\sin\\left(\\frac{[x]+[y]}{2}\\right)\\cos\\left(\\frac{[x]-[y]}{2}\\right)"
+        ],
+        type: "expression",
+        name: "$\\sin\\left(x\\right)+\\sin\\left(y\\right) = 2\\sin\\left(\\frac{x+y}{2}\\right)\\cos\\left(\\frac{x-y}{2}\\right)$"
+    },
+    {
+        id: "sin-sin",
+        categoryId: 10,
+        template: true,
+        body: [
+            "\\sin\\left([x]\\right)-\\sin\\left([y]\\right)=>2\\cos\\left(\\frac{[x]+[y]}{2}\\right)\\sin\\left(\\frac{[x]-[y]}{2}\\right)"
+        ],
+        type: "expression",
+        name: "$\\sin\\left(x\\right)-\\sin\\left(y\\right) = 2\\cos\\left(\\frac{x+y}{2}\\right)\\sin\\left(\\frac{x-y}{2}\\right)$"
+    },
+    {
+        id: "cos+cos",
+        categoryId: 10,
+        template: true,
+        body: [
+            "\\cos\\left([x]\\right)+\\cos\\left([y]\\right)=>2\\cos\\left(\\frac{[x]+[y]}{2}\\right)\\cos\\left(\\frac{[x]-[y]}{2}\\right)"
+        ],
+        type: "expression",
+        name: "$\\cos\\left(x\\right)+\\cos\\left(y\\right) = 2\\cos\\left(\\frac{x+y}{2}\\right)\\cos\\left(\\frac{x-y}{2}\\right)$"
+    },
+    {
+        id: "cos-cos",
+        categoryId: 10,
+        template: true,
+        body: [
+            "\\cos\\left([x]\\right)-\\cos\\left([y]\\right)=>-2\\sin\\left(\\frac{[x]+[y]}{2}\\right)\\sin\\left(\\frac{[x]-[y]}{2}\\right)"
+        ],
+        type: "expression",
+        name: "$\\cos\\left(x\\right)-\\cos\\left(y\\right) = -2\\sin\\left(\\frac{x+y}{2}\\right)\\sin\\left(\\frac{x-y}{2}\\right)$"
+    },
+    {
+        id: "tan+-tan",
+        categoryId: 10,
+        template: true,
+        body: [
+            "\\tan\\left([x]\\right) + \\tan\\left([y]\\right) => \\frac{\\sin\\left([x]+[y]\\right)}{\\cos\\left([x]\\right)\\cos\\left([y]\\right)}",
+            "\\tan\\left([x]\\right) - \\tan\\left([y]\\right) => \\frac{\\sin\\left([x]-[y]\\right)}{\\cos\\left([x]\\right)\\cos\\left([y]\\right)}",
+        ],
+        type: "expression",
+        name: "$\\tan(x) \\pm \\tan(y) = \\frac{\\sin(x \\pm y)}{\\cos(x)\\cos(y)}$"
+    },
+    {
+        id: "cot+-cot",
+        categoryId: 10,
+        template: true,
+        body: [
+            "\\cot\\left([x]\\right) + \\cot\\left([y]\\right) => \\frac{\\sin\\left([y]+[x]\\right)}{\\sin\\left([x]\\right)\\sin\\left([y]\\right)}",
+            "\\cot\\left([x]\\right) - \\cot\\left([y]\\right) => \\frac{\\sin\\left([y]-[x]\\right)}{\\sin\\left([x]\\right)\\sin\\left([y]\\right)}",
+        ],
+        type: "expression",
+        name: "$\\cot(x) \\pm \\cot(y) = \\frac{\\sin(y \\pm x)}{\\sin(x)\\sin(y)}$"
+    },    
+    {
+        id: "sin*sin",
+        categoryId: 10,
+        template: true,
+        body: [
+            "\\sin\\left([x]\\right)\\sin\\left([y]\\right)=>\\frac{1}{2}\\left(\\cos\\left([x]-[y]\\right)-\\cos\\left([x]+[y]\\right)\\right)"
+        ],
+        type: "expression",
+        name: "$\\sin\\left(x\\right)\\sin\\left(y\\right)=\\frac{1}{2}\\left(\\cos\\left(x-y\\right)-\\cos\\left(x+y\\right)\\right)$"
+    },
+    {
+        id: "cos*cos",
+        categoryId: 10,
+        template: true,
+        body: [
+            "\\cos\\left([x]\\right)\\cos\\left([y]\\right)=>\\frac{1}{2}\\left(\\cos\\left([x]+[y]\\right)+\\cos\\left([x]-[y]\\right)\\right)"
+        ],
+        type: "expression",
+        name: "$\\cos\\left(x\\right)\\cos\\left(y\\right)=\\frac{1}{2}\\left(\\cos\\left(x+y\\right)+\\cos\\left(x-y\\right)\\right)$"
+    },
+    {
+        id: "sin*cos",
+        categoryId: 10,
+        template: true,
+        body: [
+            "\\sin\\left([x]\\right)\\cos\\left([y]\\right)=>\\frac{1}{2}\\left(\\sin\\left([x]-[y]\\right)+\\sin\\left([x]+[y]\\right)\\right)"
+        ],
+        type: "expression",
+        name: "$\\sin\\left(x\\right)\\cos\\left(y\\right)=\\frac{1}{2}\\left(\\sin\\left(x-y\\right)+\\sin\\left(x+y\\right)\\right)$"
     }
 ];

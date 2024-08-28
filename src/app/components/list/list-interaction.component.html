@@ -5,11 +5,26 @@
     <div>{{category.name}}</div>
     </div>
     <div *ngIf="openCategories.get(category.id)">
-        <div *ngFor="let action of actionsByCategory.get(category.id)" class="list-item-intercation">
-            <div class="text-nowrap hide-scroll">
-            {{action.description ? "$\\mathtip{\\text{"+action.name+"}}{"+action.description+"}$" : action.name}}
+        <div *ngFor="let action of actionsByCategory.get(category.id)" class="list-item">
+          <ng-container *ngIf="!action.subactions">
+            <div class="text-nowrap hide-scroll action-name">
+              {{action.description ? "$\\mathtip{\\text{"+action.name+"}}{"+action.description+"}$" : action.name}}
             </div>
-            <button (click)="useAction(action.id, action.requireInput)" class="btn btn-outline-secondary d-flex p-0 mx-1 my-auto"><mat-icon>play_arrow</mat-icon></button>
+            <button (click)="useAction(action.id)" class="btn btn-outline-secondary d-flex p-0 mx-1 my-auto"><mat-icon>play_arrow</mat-icon></button>
+          </ng-container>
+  
+          
+          <div *ngIf="action.subactions" div class="dropdown">
+            <span class="text-nowrap hide-scroll action-name dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              {{action.description ? "$\\mathtip{\\text{"+action.name+"}}{"+action.description+"}$" : action.name}}
+            </span>
+            <ul class="dropdown-menu hide-scroll overflow-x-auto shadow">
+              <li *ngFor="let sub of subActions.get(action.id)" class="dd-item d-flex">
+                <span class="me-1">{{sub.description ? "$\\mathtip{\\text{"+sub.name+"}}{"+sub.description+"}$" : sub.name}}</span>
+                <button (click)="useAction(sub.id)" class="btn btn-outline-secondary d-inline-flex p-0 me-1 ms-auto my-auto"><mat-icon>play_arrow</mat-icon></button>
+              </li>
+            </ul>
+          </div>
         </div>
     </div>
   </div>

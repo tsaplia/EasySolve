@@ -18,6 +18,7 @@ export interface FormulaActionConfig {
     requireInput?: boolean
     simp?: Simplifications
     description?: string
+    subactions?: string[]
 }
 
 export interface Definition {
