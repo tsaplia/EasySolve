@@ -9,25 +9,25 @@
 
                 <div style="font-weight: bold;" class="ms-2">{{definition.title}}</div>
 
-                <div *ngIf="definition.type == 'constant'" (click)="copyValue(''+definition.value)">
+                <div *ngIf="definition.type == 'constant'" style="cursor: pointer;" (click)="copyValue(''+definition.value)">
                     {{definition.symbol}} = {{definition.value}}
                 </div>
 
-                <div *ngIf="definition.type == 'formula'" (click)="copyValue(definition.formula ?? '')">
+                <div *ngIf="definition.type == 'formula'" style="cursor: pointer;" (click)="copyValue(definition.formula ?? '')">
                     {{definition.formula}}
                 </div>
 
                 <div *ngIf="definition.type == 'table'">
                     <table class="d-flex flex-column">
                         <!-- <thead> -->
-                            <tr class="d-flex justify-content-between">
+                            <!-- <tr class="d-flex justify-content-between">
                                 <th>descriptions</th>
                                 <th>values</th>
-                            </tr>
+                            </tr> -->
                         <!-- </thead>
                         <tbody> -->
                             <ng-conteiner *ngFor="let desc of definition.descriptions ?? []; index as i">
-                                <tr class="d-flex justify-content-between" (click)="copyValue(definition.values ? ''+definition.values[i] : '')">
+                                <tr class="d-flex justify-content-between" style="cursor: pointer;" (click)="copyValue(definition.values ? ''+definition.values[i] : '')">
                                     <td>{{desc}}</td>
                                     <td>{{definition.values ? definition.values[i] : "-"}}</td>
                                 </tr>
