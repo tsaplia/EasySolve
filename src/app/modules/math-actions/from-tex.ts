@@ -11,6 +11,7 @@ import { Sqrt } from "../math-structures/sqrt";
 import { Template } from "../math-structures/template";
 import { TemplateVar } from "../math-structures/template-var";
 import { Term } from "../math-structures/term";
+import { Unit } from "../math-structures/unit";
 import { Variable } from "../math-structures/variable";
 import { toExpression, toMultiplier, toTerm } from "./general-actions";
 
@@ -97,12 +98,14 @@ function expressionFromTeX(itStr: IterStr, _wrapped = false): Expression {
 function multiplierFromTex(itStr: IterStr): Multiplier {
     if (!itStr.finished() && itStr.cur == " ") itStr.add();
     let newStruct: Multiplier;
-    if (itStr.startsWith("\\frac")) {
+    if (itStr.startsWith("\\frac{")) {
         newStruct = fracFromTeX(itStr);
     } else if (itStr.startsWith("\\sqrt")) {
         newStruct = sqrtFromTeX(itStr);
-    } else if (itStr.startsWith("\\vec")) {
+    } else if (itStr.startsWith("\\vec{")) {
         newStruct = vectorFromTex(itStr);
+    } else if (itStr.startsWith("\\text{")) {
+        newStruct = unitFromTeX(itStr);
     } else if (itStr.startsWith("\\left(")) {
         newStruct = expressionFromTeX(itStr, true);
     } else if (itStr.startsWith("\\")) {
@@ -229,10 +232,7 @@ function latinVariableFromTeX(itStr: IterStr): Variable {
     return newVar;
 }
 
-/**
- * @param {IterStr} itStr
- * @param {Variable} base
- */
+
 function indexFromTeX(itStr: IterStr, base: Variable) {
     if (!(base instanceof Variable)) throw new Error("Incorrect input string");
 
@@ -259,10 +259,21 @@ function primeFromTeX(itStr: IterStr, base: Variable) {
     base.primeCount = primeCount;
 }
 
+
 function numFromTeX(itStr: IterStr): Num {
     let start = itStr.it;
     while (!itStr.finished() && (!isNaN(Number(itStr.cur)) || itStr.cur == ".")) itStr.add();
     return new Num(itStr.str.slice(start, itStr.it));
+}
+
+function unitFromTeX(itStr: IterStr): Unit {
+    itStr.add(6);
+    let start = itStr.it;
+    while (!itStr.finished() && itStr.cur.match(/[A-Za-z]/i)) itStr.add();
+    let name = itStr.str.slice(start, itStr.it);
+    if (!name || !itStr.startsWith("}")) throw new Error("Incorrect input string");
+    itStr.add();
+    return new Unit(name);
 }
 
 function specialNameFromTeX(itStr: IterStr): Variable | Func {
@@ -304,7 +315,7 @@ function _endCheck(itStr: IterStr, pm: boolean = true): boolean {
 
 /* Removes all \operatorname and \text */
 function deleteExtraBlocks(str: string): string {
-    let regex = /(\\operatorname|\\text){([^\\]*)}/g;
+    let regex = /(\\operatorname){([^\\]*)}/g;
     for (let match of str.matchAll(regex)) {
         str = str.replace(match[0], "\\" + match[2]);
     }

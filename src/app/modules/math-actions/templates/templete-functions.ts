@@ -15,6 +15,7 @@ import { simplifications } from "../actions/simplifications";
 import { removeExtraGroups, toExpression, toMultiplier, toTerm } from "../general-actions";
 import { Num } from "../../math-structures/number";
 import { Func } from "../../math-structures/function";
+import { Unit } from "../../math-structures/unit";
 
 interface Substitution { varName: string, mult: Multiplier }
 
@@ -61,7 +62,7 @@ function match(template: MathStruct, struct: MathStruct): MatchResult | null {
         return struct instanceof Multiplier ? new MatchResult({ [template.name]: toMultiplier(struct) }) : null;
     }
     if (template.constructor != struct.constructor) return null;
-    if ((template instanceof Variable || template instanceof Num)) {
+    if ((template instanceof Variable || template instanceof Num || template instanceof Unit)) {
         return template.isEqual(struct) ? new MatchResult() : null;
     }
     if (template instanceof Func && struct instanceof Func && template.name != struct.name) return null;
