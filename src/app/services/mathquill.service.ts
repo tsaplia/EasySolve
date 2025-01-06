@@ -20,12 +20,13 @@ export class MathQuillService {
 
   createMathField(elem: HTMLSpanElement) {
     let mathField = this.MQ.MathField(elem, this.mqConfigs);
-    this._setPaste(elem);
-    return mathField
+    let input = elem.querySelector('textarea') as HTMLTextAreaElement;
+    input.inputMode = 'none';
+    this._setPaste(input);
+    return mathField;
   }
 
-  private _setPaste(elem: HTMLSpanElement) {
-    let input = elem.querySelector('textarea');
+  private _setPaste(input: HTMLTextAreaElement) {
     input?.addEventListener('input', async ()=>{
       if(!input?.value.match(formulaTemplate)) return;
       input.value = input.value.slice(1, -1);

@@ -1,5 +1,4 @@
 import { type FormulaActionConfig } from "src/app/models/types";
-import { Exponent } from "../../math-structures/exponent";
 import { Expression } from "../../math-structures/expression";
 import { Formula } from "../../math-structures/formula";
 import { Frac } from "../../math-structures/fraction";
@@ -14,7 +13,7 @@ import { fracToTerm, multTerms, reverseTerm, collectLikeTerms, simplifyFrac, ter
 import { replace, tryFormulaTemplate, tryTemplete } from "../templates/templete-functions";
 import { templates } from "src/assets/actionConfigs";
 import { simplifications } from "./simplifications";
-import { toMultiplier, toTerm, removeExtraGroups, changeTermSign, toExpression } from "../general-actions";
+import { toMultiplier, toTerm, removeExtraGroups, toExpression } from "../general-actions";
 
 export let availibleActions = new Map<string, (input?: Expression) => Formula[] | null>();
 
@@ -78,22 +77,23 @@ function _moveOutOfFrac(direction: "l" | "r", data: StructureData): Formula[] | 
     if (!(data.structure.parent instanceof Term && data.structure.parent.parent instanceof Frac)) return null;
 
     let frac = data.structure.parent.parent;
-    let numChildren = data.structure.parent.parent.numerator.children;
-    let denChildren = data.structure.parent.parent.denomerator.children;
+    let numChildren = [...frac.numerator.content];
+    let denChildren = [...frac.denomerator.content];
     let newMult: Multiplier;
-    if (data.structure.parent.parent.numerator == data.structure.parent) {
+    if (frac.numerator == data.structure.parent) {
         numChildren.splice(numChildren.indexOf(data.structure), 1);
         newMult = toMultiplier(data.structure);
     } else {
         denChildren.splice(denChildren.indexOf(data.structure), 1);
         newMult = new Frac(new Term([new Num(1)]), toTerm(data.structure));
     }
-    let newFrac = new Frac(new Term(numChildren.map(c => toTerm(c))), new Term(denChildren.map(c => toTerm(c))));
+    let newFrac = new Frac(new Term(numChildren.map(c => c.copy()), frac.numerator.sign),
+        new Term(denChildren.map(c => c.copy()), frac.denomerator.sign));
 
     let newChildren = direction == "l" ? [newMult, newFrac] : [newFrac, newMult];
     let children = (frac.parent as Term).children;
     children.splice(children.indexOf(frac), 1, ...newChildren);
-    let newStruct = removeExtraGroups(new Term(children));
+    let newStruct = removeExtraGroups(new Term(children.map(c => c.copy()), (frac.parent as Term).sign));
     return [new Formula([
         replace(data.formula.equalityParts[data.partIndex], frac.parent as Term, newStruct)
     ])];
@@ -124,6 +124,7 @@ availibleActions.set("move-r", () => {
     return move("r");
 });
 
+/*
 availibleActions.set("change-part", () => {
     if (selected.type != "structure") return null;
     let structures = selected.structures as Term[];
@@ -148,6 +149,7 @@ availibleActions.set("change-part", () => {
 
     return [new Formula([new Expression(leftChildren), new Expression(rightChildren)])];
 });
+*/
 
 availibleActions.set("like-terms", () => {
     if (selected.type != "structure") return null;
@@ -269,6 +271,8 @@ availibleActions.set("separate", () => {
     ];
 });
 
+
+/*
 availibleActions.set("toCDen", () => {
     if (selected.type != "structure") return null;
     let data = selected.getStructureData();
@@ -302,6 +306,7 @@ availibleActions.set("toCDen", () => {
         new Formula([replace(data.formula.equalityParts[data.partIndex], data.structure, newStruct)])
     ];
 });
+*/
 
 availibleActions.set("calc", () => {
     if (selected.type != "structure") return null;

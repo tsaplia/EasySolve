@@ -65,16 +65,6 @@
       }
     },
     {
-      "id": "change-part",
-      "key": " ",
-      "ctrl": false,
-      "alt": false,
-      "shift": true,
-      "options": {
-        "mode": "newLine"
-      }
-    },
-    {
       "id": "calc",
       "key": "c",
       "ctrl": false,

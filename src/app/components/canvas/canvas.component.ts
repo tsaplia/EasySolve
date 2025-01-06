@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 /* eslint-disable angular/document-service */
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { ChangeDetectorRef, Component, HostListener, type OnInit } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, type OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ClipboardService } from "ngx-clipboard";
 import { checkFormula } from "src/app/modules/math-actions/from-tex";
@@ -14,24 +14,28 @@ import { AddingModalTextComponent } from "../adding-modals/adding-modal-t.compon
 import { formulaTemplate } from "src/app/configs/config";
 import hotkeys from "src/assets/hotkeys.json";
 import { StatusService } from "src/app/services/status.service";
+import { clearSelected } from "src/app/modules/math-actions/selection/selected";
 
 @Component({
     selector: "app-math-canvas",
     templateUrl: "canvas.component.html",
     styleUrls: ["canvas.component.scss"]
 })
-export class MathCanvasComponent implements OnInit {
+export class MathCanvasComponent implements OnInit, AfterViewInit {
     title: string = "";
     dictionary: boolean = false;
     interaction: boolean = false;
+    movingClick: boolean = false;
 
     hotkeys = hotkeys.canvas;
+
 
     get lines(): CanvasLine[] {
         return this.storage.lines;
     }
 
     constructor(private readonly dialog: MatDialog,
+              private readonly elementRef: ElementRef,
               private readonly cdRef: ChangeDetectorRef,
               private readonly clipboardService: ClipboardService,
               private readonly toast: ToastrService,
@@ -40,6 +44,10 @@ export class MathCanvasComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+    }
+
+    ngAfterViewInit(): void {
+        this.addMovingListener();
     }
 
     // #region buttons' functionality
@@ -144,5 +152,20 @@ export class MathCanvasComponent implements OnInit {
                 }
             }
         });
+    }
+
+    addMovingListener(): void {
+        let canvas = this.elementRef.nativeElement.querySelector(".canvas-body");
+        canvas.addEventListener("mousemove", (event: MouseEvent)=>{
+            if (!(event.target as HTMLElement)?.classList.contains("cdk-drag") && event.buttons == 1) {
+                this.movingClick = true;
+            }
+        }, true)
+    }
+    
+
+    clearSelected(): void {
+        if(!this.movingClick) clearSelected();
+        this.movingClick = false;
     }
 }

@@ -13,7 +13,6 @@ export let templates: FormulaActionConfig[] = [
             "[a]^2-2[a][b]+[b]^2=>\\left([a]-[b]\\right)^2"
         ],
         name: "$\\left(a\\pm b\\right)^2=a^2\\pm 2ab+b^2$"
-        // "\\sum_{n=0}^\\infty {\\mathtip{x}{\\text{converges for }|x|\\lt 1 }}^n = \\frac{1}{1-x}" // example
     },
     {
         id: "algebra-2",
@@ -45,6 +44,15 @@ export let templates: FormulaActionConfig[] = [
         description: "\\text{Eg: } a=b;c=d\\ \\Rightarrow\\ a-c=b-d"
     },
     {
+        id: "formula-5",
+        categoryId: 3,
+        template: true,
+        type: "formula",
+        body: ["[a]=[b];[c]=[d]=>\\frac{[a]}{[c]}=\\frac{[b]}{[d]}"],
+        name: "Devide equations",
+        description: "\\text{Eg: } a=b;c=d\\ \\Rightarrow\\ \\frac{a}{c}=\\frac{b}{d}"
+    },
+    {
         id: "formula-3",
         categoryId: 3,
         template: true,
@@ -54,6 +62,16 @@ export let templates: FormulaActionConfig[] = [
         requireInput: true,
         simp: { "a": "distribute", "b": "distribute" },
         description: "\\text{Eg: } x+y=5;\\text{ input:}2\\ \\Rightarrow\\ 2x+2y=10"
+    },
+    {
+        id: "formula-4",
+        categoryId: 3,
+        template: true,
+        type: "formula",
+        body: ["[a]=[b]=>[a]+[_in]=[b]+[_in]"],
+        name: "Add k",
+        requireInput: true,
+        description: "\\text{Eg: } y+x=5;\\text{ input:}-x\\ \\Rightarrow\\ y+x-x=10-x"
     },
     {
         id: "sub-1",
@@ -106,7 +124,7 @@ export let templates: FormulaActionConfig[] = [
         categoryId: 6,
         template: false,
         type: "expression",
-        name: "Collect like terms",
+        name: "Combine like terms",
         description: "\\text{Eg: }2x+3y-x-2y\\Rightarrow x+y"
     },
     {
@@ -116,6 +134,31 @@ export let templates: FormulaActionConfig[] = [
         type: "expression",
         name: "Flip fraction",
         description: "\\text{Removes fraction inside other fraction}"
+    },
+    {
+        id: "frac1",
+        categoryId: 6,
+        template: true,
+        type: "expression",
+        name: "Expand the fraction",
+        requireInput: true,
+        body: [
+            "\\frac{[a]}{[b]}=>\\frac{[a][_in]}{[b][_in]}",
+            "\\frac{-[a]}{[b]}=>\\frac{-[a][_in]}{[b][_in]}",
+            "\\frac{[a]}{-[b]}=>\\frac{[a][_in]}{-[b][_in]}",
+            "\\frac{-[a]}{-[b]}=>\\frac{-[a][_in]}{-[b][_in]}"
+        ],
+        description: "\\text{Eg: } \\frac{a}{b};\\text{ input:}c\\ \\Rightarrow\\ \\frac{ac}{bc}"
+    },
+    {
+        id: "frac2",
+        categoryId: 6,
+        template: true,
+        type: "expression",
+        name: "common",
+        body: [
+            "\\frac{[a]}{[b]}+\\frac{[c]}{[b]}=>\\frac{[a]+[c]}{[b]}"
+        ]
     },
     {
         id: "simp-term",
@@ -129,7 +172,7 @@ export let templates: FormulaActionConfig[] = [
         categoryId: 1,
         template: false,
         type: "expression",
-        name: "Open brackets",
+        name: "Expand brackets",
         description: "\\text{Eg: }y\\left(x+5\\right)\\Rightarrow xy+5y"
     },
     {
@@ -137,7 +180,7 @@ export let templates: FormulaActionConfig[] = [
         categoryId: 1,
         template: false,
         type: "expression",
-        name: "Move out of breacket",
+        name: "Factor out of breackets",
         requireInput: true,
         description: "\\text{Eg: } xy+5x;\\text{ input:}y\\ \\Rightarrow\\ y\\left(x+5\\right)"
     },
@@ -149,14 +192,14 @@ export let templates: FormulaActionConfig[] = [
         name: "Separate multiplier",
         description: "\\text{Eg: } \\frac{5x}{y}=z \\Rightarrow x=\\frac{yz}{5}"
     },
-    {
-        id: "toCDen",
-        categoryId: 1,
-        template: false,
-        type: "expression",
-        name: "To common denominator",
-        description: "\\text{Eg: } \\frac{1}{2x}+\\frac{1}{4y} \\Rightarrow \\frac{2y+x}{4xy}"
-    },
+    // {
+    //     id: "toCDen",
+    //     categoryId: 1,
+    //     template: false,
+    //     type: "expression",
+    //     name: "To common denominator",
+    //     description: "\\text{Eg: } \\frac{1}{2x}+\\frac{1}{4y} \\Rightarrow \\frac{2y+x}{4xy}"
+    // },
     {
         id: "calc",
         categoryId: 1,
@@ -250,7 +293,7 @@ export let templates: FormulaActionConfig[] = [
         template: true,
         body: [
             "[x]^0=>1",
-            "[x]^1=>[x]",
+            "[x]^1=>[x]"
         ],
         type: "expression",
         name: "$x^0=1$; $x^1=x$"

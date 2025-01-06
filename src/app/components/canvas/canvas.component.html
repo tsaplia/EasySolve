@@ -12,7 +12,7 @@
     </div>
   </div>
 
-  <div class="canvas-body scrollbar">
+  <div class="canvas-body scrollbar" (click)="clearSelected()">
     <div class="d-flex justify-content-between" style="margin-top: -10px; margin-right: -10px;">
       <div class="w-100 pe-1">
         <input type="text" placeholder="Title" class="title-input"  [(ngModel)]="title">

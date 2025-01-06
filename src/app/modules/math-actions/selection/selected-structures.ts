@@ -46,7 +46,7 @@ export class SelectedStructures extends Set<MathStruct> {
         if (values.every(struct => struct instanceof Formula && struct.equalityParts.length >= 2)) {
             return "formula";
         }
-        let parent: MathStruct | null = this.values().next().value.parent;
+        let parent: MathStruct | null = this.values().next().value!.parent;
         if (!parent || (parent instanceof Formula)) return this.size == 1 ? "structure" : null;
         // if selected elements have common parent
         if (values.every(struct => struct.parent == parent)) return "structure";
@@ -70,7 +70,7 @@ export class SelectedStructures extends Set<MathStruct> {
 
     get structuresParent(): { formula: Formula, partIndex: number } | null {
         if (this.type != "structure") return null;
-        let selStruct: MathStruct = this.values().next().value;
+        let selStruct: MathStruct = this.values().next().value as MathStruct;
         let parents = [selStruct, ...getParents(selStruct)];
         let formula = parents.at(-1);
         if (!(formula instanceof Formula)) throw new Error("Formula not found");
